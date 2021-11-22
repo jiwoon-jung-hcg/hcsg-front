@@ -1,11 +1,8 @@
 import * as React from 'react';
+import SignInPage from './pages/SignInPage/SignInPage';
 
-const App: React.FC = () => {
-  return (
-    <div>
-      <h2>hello, world!</h2>
-    </div>
-  );
+const App = () => {
+  return <SignInPage />;
 };
 
 export default App;
