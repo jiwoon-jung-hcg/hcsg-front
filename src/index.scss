@@ -1,8 +1,8 @@
-@use './styles/base';
+@use './stylesheets/variable';
 
 body {
 	margin: 0;
-	font-family: base.$main-font sans-serif;
+	font-family: variable.$main-font sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from 'react';
+import * as React from 'react';
+import { useState, useCallback } from 'react';
+
+// MUI
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { emailNullCheck, passwordNullCheck, checkEmail, checkInfo } from './validation/singInValidation';
 
 /** validation 함수 */
-
-/** type */
+import { checkInfo } from './validation/singInValidation';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		height: '100vh',
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center',
+		marginTop: '5vw',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -36,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
+		backgroundColor: '#5ea0a2',
+		color: 'white',
+	},
+	mainImage: {
+		width: '100%',
+	},
+	text: {
+		color: '#63A0BA',
 	},
 }));
 
@@ -68,7 +76,12 @@ export default function SignInPage() {
 	const handleFormSubmit = useCallback(
 		(event: React.FormEvent<HTMLFormElement>) => {
 			event.preventDefault();
-			const { email, password } = event.currentTarget;
+			// const { email, password } = event.currentTarget;
+
+			const { email, password } = ((): { email: HTMLInputElement; password: HTMLInputElement } => {
+				const { eamil, password } = event.currentTarget;
+				return { email, password };
+			})();
 
 			if (
 				checkInfo(
@@ -84,6 +97,7 @@ export default function SignInPage() {
 					email: email.value,
 					password: password.value,
 				};
+				console.log(loginInfo);
 			}
 		},
 		[email, password],
@@ -95,7 +109,7 @@ export default function SignInPage() {
 				<CssBaseline />
 				<div className={classes.paper}>
 					<Typography component="h1" variant="h5">
-						<img src="images/logo2.png" alt="logo" className="" />
+						<img src="images/login.jpg" alt="logo" className={classes.mainImage} />
 					</Typography>
 					<form className={classes.form} onSubmit={handleFormSubmit} noValidate>
 						<TextField
@@ -129,23 +143,17 @@ export default function SignInPage() {
 							onChange={handleInputPassword}
 						/>
 						<span>{passwordCheckFeedBack}</span>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							className={classes.submit}
-							style={{ backgroundColor: '#5ea0a2', color: 'white' }}
-						>
+						<Button type="submit" fullWidth variant="contained" className={classes.submit}>
 							로그인
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2" style={{ color: '#63A0BA' }}>
+								<Link href="#" variant="body2" className={classes.text}>
 									패스워드 찾기
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link href="#" variant="body2" style={{ color: '#63A0BA' }}>
+								<Link href="#" variant="body2" className={classes.text}>
 									회원가입
 								</Link>
 							</Grid>
