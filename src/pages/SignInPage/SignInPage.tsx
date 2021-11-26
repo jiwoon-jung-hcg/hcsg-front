@@ -1,24 +1,37 @@
 import * as React from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useLayoutEffect, useEffect } from 'react';
 
-// MUI
+/** mui */
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+/** type */
+import { logInResponse } from '../../types/signInType';
+
 /** validation 함수 */
-import { checkInfo } from './validation/singInValidation';
+import { isNullCheck, checkLoginInfo, checkLoginResponse } from '../../utils/validation';
+
+/** component */
+import Loading from '../../components/Loading/Loading';
+import { userLogin } from '../../apis/signIn/signIn';
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
+
+/** image */
+import coverImage from '../../images/signin.jpg';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		display: 'flex',
 		justifyContent: 'center',
 		marginTop: '5vw',
+		backgroundColor: '#fff',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -41,14 +54,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mainImage: {
 		width: '100%',
+		borderRadius: '10%',
 	},
 	text: {
-		color: '#63A0BA',
+		color: '#a3a3a3',
+		textDecoration: 'none',
+	},
+	errorText: {
+		color: '#ff6666',
 	},
 }));
 
 export default function SignInPage() {
 	const classes = useStyles();
+	const navigate = useNavigate();
+	const [isError, setIsError] = useState(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [emailCheck, setEmailCheck] = useState<boolean>(true);
@@ -75,33 +95,50 @@ export default function SignInPage() {
 	/** 로그인 */
 	const handleFormSubmit = useCallback(
 		(event: React.FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
-			// const { email, password } = event.currentTarget;
-
-			const { email, password } = ((): { email: HTMLInputElement; password: HTMLInputElement } => {
-				const { eamil, password } = event.currentTarget;
-				return { email, password };
-			})();
-
-			if (
-				checkInfo(
-					email.value,
-					password.value,
-					setEmailCheck,
-					setPasswordCheck,
-					setEmailCheckFeedBack,
-					setpasswordCheckFeedBack,
-				)
-			) {
-				const loginInfo = {
-					email: email.value,
-					password: password.value,
-				};
-				console.log(loginInfo);
+			try {
+				event.preventDefault();
+				const { email, password } = event.currentTarget;
+				if (
+					checkLoginInfo(
+						email.value,
+						password.value,
+						setEmailCheck,
+						setPasswordCheck,
+						setEmailCheckFeedBack,
+						setpasswordCheckFeedBack,
+					)
+				) {
+					const loginInfo = {
+						email: email.value,
+						password: password.value,
+					};
+					userLogin(loginInfo)
+						.then((res: logInResponse) => {
+							checkLoginResponse(
+								res,
+								setEmailCheck,
+								setPasswordCheck,
+								setEmailCheckFeedBack,
+								setpasswordCheckFeedBack,
+								navigate,
+							);
+						})
+						.catch((err) => {
+							console.error(err);
+							setIsError(true);
+						});
+				}
+			} catch (err) {
+				console.error(err);
+				setIsError(true);
 			}
 		},
 		[email, password],
 	);
+
+	if (isError) {
+		return <ErrorPage />;
+	}
 
 	return (
 		<div className={classes.container}>
@@ -109,7 +146,7 @@ export default function SignInPage() {
 				<CssBaseline />
 				<div className={classes.paper}>
 					<Typography component="h1" variant="h5">
-						<img src="images/login.jpg" alt="logo" className={classes.mainImage} />
+						<img src={coverImage} alt="logo" className={classes.mainImage} />
 					</Typography>
 					<form className={classes.form} onSubmit={handleFormSubmit} noValidate>
 						<TextField
@@ -127,7 +164,7 @@ export default function SignInPage() {
 							autoFocus
 							onChange={handleInputEmail}
 						/>
-						<span>{emailCheckFeedBack}</span>
+						<span className={classes.errorText}>{emailCheckFeedBack}</span>
 						<TextField
 							error={!passwordCheck}
 							variant="outlined"
@@ -142,18 +179,24 @@ export default function SignInPage() {
 							autoComplete="current-password"
 							onChange={handleInputPassword}
 						/>
-						<span>{passwordCheckFeedBack}</span>
-						<Button type="submit" fullWidth variant="contained" className={classes.submit}>
+						<span className={classes.errorText}>{passwordCheckFeedBack}</span>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							className={classes.submit}
+							disabled={isNullCheck(email) || isNullCheck(password)}
+						>
 							로그인
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2" className={classes.text}>
+								<Link to="#" className={classes.text}>
 									패스워드 찾기
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link href="#" variant="body2" className={classes.text}>
+								<Link to="/signup" className={classes.text}>
 									회원가입
 								</Link>
 							</Grid>
