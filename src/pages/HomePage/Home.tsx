@@ -4,7 +4,6 @@ import {
 	AppBar,
 	Button,
 	Card,
-	CardActions,
 	CardContent,
 	CardMedia,
 	CssBaseline,
@@ -13,6 +12,9 @@ import {
 	Container,
 } from '@material-ui/core';
 import useStyles from '../../stylesheets/home/styles';
+import mainLogo from '../../images/Logo.png';
+import { Link } from 'react-router-dom';
+import stack from '../../utils/imageE';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -21,19 +23,29 @@ const Home = () => {
 	return (
 		<>
 			<CssBaseline />
-			<AppBar position="relative" className={classes.nav}>
-				<Toolbar>
-					{/* <img src={Logo} className={classes.logo} /> */}
-					<Typography variant="h3" className={classes.title}>
-						HCSG
-					</Typography>
-					<Typography variant="h6">HCG - Study</Typography>
-				</Toolbar>
-			</AppBar>
+			<div className={classes.navRoot}>
+				<AppBar position="relative" className={classes.nav}>
+					<Toolbar>
+						<div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+							<img src={mainLogo} alt="main logo" style={{ marginRight: '8px' }} />
+							<Typography variant="h3" className={classes.title}>
+								HCSG
+							</Typography>
+						</div>
+						{/* auth 체크 */}
+						<Typography variant="h5" color="textPrimary" className={classes.menu}>
+							<Link to="/signin" style={{ textDecoration: 'none', color: '#303f9f', fontWeight: '900' }}>
+								로그인
+							</Link>
+						</Typography>
+					</Toolbar>
+				</AppBar>
+			</div>
+
 			<main>
 				<div className={classes.container}>
 					<Container maxWidth="sm">
-						<Typography variant="h2" align="center" color="textPrimary" gutterBottom>
+						<Typography variant="h2" align="center" className={classes.mainTItle} gutterBottom>
 							휴먼 컨설팅 스터디
 						</Typography>
 						<Typography variant="h5" align="center" color="textSecondary" paragraph>
@@ -44,7 +56,7 @@ const Home = () => {
 						<div className={classes.button}>
 							<Grid container spacing={2} justifyContent="center">
 								<Grid item>
-									<Button variant="contained" color="primary">
+									<Button variant="contained" color="primary" size="large">
 										팀원 모집하기
 									</Button>
 								</Grid>
@@ -52,10 +64,21 @@ const Home = () => {
 						</div>
 					</Container>
 				</div>
+				<nav>
+					<div className={classes.stackContainer}>
+						<Grid container spacing={2} justifyContent="center" alignItems="center">
+							{stack.map((item) => (
+								<Grid key={item.title} item>
+									<img src={item.url} alt={item.title} className={classes.stack} />
+								</Grid>
+							))}
+						</Grid>
+					</div>
+				</nav>
 				<Container className={classes.cardGrid} maxWidth="md">
 					<Grid container spacing={4}>
 						{cards.map((card) => (
-							<Grid item key={card} xs={12} sm={6} md={3}>
+							<Grid item key={card} xs={12} sm={6} md={4}>
 								<Card className={classes.card}>
 									<CardMedia
 										className={classes.cardMedia}
