@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import {
 	Typography,
 	AppBar,
@@ -12,14 +13,39 @@ import {
 	Container,
 } from '@material-ui/core';
 import useStyles from '../../stylesheets/home/styles';
-import mainLogo from '../../images/Logo.png';
+import mainLogo from '../../images/mainLogo.png';
 import { Link } from 'react-router-dom';
 import stack from '../../utils/imageE';
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8];
+import { Post } from '../../types/Home';
+import { getPosts } from '../../apis/home/home';
+import Loading from '../../components/Loading/Loading';
+// import VisibilityIcon from '@material-ui/icons/Visibility';
+// import produce from 'immer';
 
 const Home = () => {
 	const classes = useStyles();
+	const [posts, setPosts] = useState<Post[] | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [isError, setIsError] = useState(false);
+
+	useLayoutEffect(() => {
+		try {
+			getPosts().then((response) => {
+				console.log(response);
+				setPosts([...response]);
+				setIsLoading(false);
+			});
+		} catch (error) {
+			console.dir(error);
+			console.log(error);
+			setIsError(true);
+		}
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<CssBaseline />
@@ -27,10 +53,7 @@ const Home = () => {
 				<AppBar position="relative" className={classes.nav}>
 					<Toolbar>
 						<div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-							<img src={mainLogo} alt="main logo" style={{ marginRight: '8px' }} />
-							<Typography variant="h3" className={classes.title}>
-								HCSG
-							</Typography>
+							<img src={mainLogo} alt="main logo" style={{ marginRight: '8px', width: 100 }} />
 						</div>
 						{/* auth 체크 */}
 						<Typography variant="h5" color="textPrimary" className={classes.menu}>
@@ -77,24 +100,42 @@ const Home = () => {
 				</nav>
 				<Container className={classes.cardGrid} maxWidth="md">
 					<Grid container spacing={4}>
-						{cards.map((card) => (
-							<Grid item key={card} xs={12} sm={6} md={4}>
-								<Card className={classes.card}>
-									<CardMedia
-										className={classes.cardMedia}
-										image="https://source.unsplash.com/random"
-										title="Image title"
-									/>
-									<CardContent className={classes.cardContent}>
-										<Typography variant="h5" gutterBottom>
-											모집글 제목
-										</Typography>
-										<Typography>여기는 기술 스택 이미지 들어갈거임</Typography>
-										<Typography>조회수 댓글수 좋아요수</Typography>
-									</CardContent>
-								</Card>
-							</Grid>
-						))}
+						{posts ? (
+							posts.map((post) => (
+								<Grid item key={post.id} xs={12} sm={6} md={4}>
+									<Card className={classes.card}>
+										<CardContent className={classes.cardContent}>
+											<Typography variant="h5" align="center" gutterBottom className={classes.cardTitle}>
+												{post.title.slice(0, 15)}
+											</Typography>
+											<ul className={classes.postStack}>
+												{post.stacks.map((keyword) => (
+													<li key={keyword}>
+														<img
+															src={stack.find((stack) => stack.title === keyword)?.url}
+															alt={keyword}
+															className={classes.postStackImage}
+														></img>
+													</li>
+												))}
+											</ul>
+											<Container>
+												<div style={{ flexGrow: 1 }}></div>
+												<Typography
+													align="center"
+													style={{ border: '1px solid  black', display: 'flex', justifyContent: 'center' }}
+												>
+													{<VisibilityIcon />}
+													{post.hit}
+												</Typography>
+											</Container>
+										</CardContent>
+									</Card>
+								</Grid>
+							))
+						) : (
+							<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
+						)}
 					</Grid>
 				</Container>
 			</main>

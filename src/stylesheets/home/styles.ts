@@ -42,10 +42,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 	icon: {
 		marginRight: 20,
 	},
+	postStack: {
+		padding: 0,
+		listStyle: 'none',
+		display: 'flex',
+		justifyContent: 'center',
+	},
 	mainTItle: {
 		fontSize: 62,
 		fontWeight: 'bold',
 		color: '#212121',
+	},
+	postStackImage: {
+		width: 55,
+		margin: '0px 5px',
 	},
 	button: {
 		marginTop: 40,
@@ -60,7 +70,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 	card: {
 		height: '100%',
 		display: 'flex',
+		padding: '12.5% 0',
 		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
 		boxShadow: '0 5px 25px rgb(0 0 0 / 15%)',
 		borderRadius: '16px',
 		cursor: 'pointer',
@@ -69,10 +82,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 			transform: 'scale(1.01)',
 		},
 	},
+	cardTitle: {
+		fontSize: 22,
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+	},
 	cardMedia: {
 		paddingTop: '56.25%',
 	},
 	cardContent: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
 		flexGrow: 1,
 	},
 	footer: {
