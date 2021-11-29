@@ -21,8 +21,7 @@ import stack from '../../utils/imageE';
 import { Post } from '../../types/Home';
 import { getPosts } from '../../apis/home/home';
 import Loading from '../../components/Loading/Loading';
-// import VisibilityIcon from '@material-ui/icons/Visibility';
-// import produce from 'immer';
+import { CookieSingleton } from '../../utils/cookie';
 
 const Home = () => {
 	const classes = useStyles();
@@ -47,7 +46,7 @@ const Home = () => {
 	if (isLoading) {
 		return <Loading />;
 	}
-
+	console.log(typeof Loading);
 	return (
 		<>
 			<CssBaseline />
