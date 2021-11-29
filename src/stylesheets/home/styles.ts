@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		height: '100%',
 		display: 'flex',
 		padding: '12.5% 0',
+		position: 'relative',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',

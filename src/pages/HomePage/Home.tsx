@@ -1,5 +1,7 @@
 import React, { useState, useLayoutEffect } from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import SmsIcon from '@material-ui/icons/Sms';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import {
 	Typography,
 	AppBar,
@@ -109,7 +111,7 @@ const Home = () => {
 												{post.title.slice(0, 15)}
 											</Typography>
 											<ul className={classes.postStack}>
-												{post.stacks.map((keyword) => (
+												{post.stacks.slice(0, 3).map((keyword) => (
 													<li key={keyword}>
 														<img
 															src={stack.find((stack) => stack.title === keyword)?.url}
@@ -119,16 +121,29 @@ const Home = () => {
 													</li>
 												))}
 											</ul>
-											<Container>
-												<div style={{ flexGrow: 1 }}></div>
-												<Typography
-													align="center"
-													style={{ border: '1px solid  black', display: 'flex', justifyContent: 'center' }}
-												>
-													{<VisibilityIcon />}
+											<ul
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													listStyle: 'none',
+													position: 'absolute',
+													right: 50,
+													bottom: 5,
+												}}
+											>
+												<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
+													<VisibilityIcon style={{ marginRight: 5 }} />
 													{post.hit}
-												</Typography>
-											</Container>
+												</li>
+												<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
+													<SmsIcon style={{ marginRight: 5 }} />
+													{0}
+												</li>
+												<li style={{ display: 'flex', alignItems: 'center', marginRight: 10 }}>
+													<FavoriteIcon style={{ marginRight: 5, color: '#EE4343' }} />
+													{0}
+												</li>
+											</ul>
 										</CardContent>
 									</Card>
 								</Grid>
@@ -137,6 +152,11 @@ const Home = () => {
 							<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
 						)}
 					</Grid>
+					<div style={{ textAlign: 'center', marginTop: 20 }}>
+						<Button variant="contained" color="default">
+							더 보기
+						</Button>
+					</div>
 				</Container>
 			</main>
 			<footer className={classes.footer}>
