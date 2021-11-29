@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import loadable from '@loadable/component';
+import { Routes, Route } from 'react-router-dom';
+const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
+const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
+const Home = loadable(() => import('./pages/HomePage/Home'));
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	return (
+		<Routes>
+			<Route path="/signin" element={<SignInPage />} />
+			<Route path="/signup" element={<SignUpPage />} />
+			<Route path="/" element={<Home />} />
+		</Routes>
+	);
+};
 
 export default App;

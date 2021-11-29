@@ -1,0 +1,16 @@
+@use './stylesheets/variable';
+
+body {
+	margin: 0;
+	font-family: variable.$main-font sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: 'Roboto', Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+html {
+	background-color: #fff;
+}
