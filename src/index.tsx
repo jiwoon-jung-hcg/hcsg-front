@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './index.scss';
+// import { enableMapSet } from 'immer';
+// enableMapSet();
 
 ReactDOM.render(
 	<React.StrictMode>
