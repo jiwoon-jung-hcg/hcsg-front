@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SmsIcon from '@material-ui/icons/Sms';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -13,6 +13,7 @@ import {
 	Grid,
 	Toolbar,
 	Container,
+	CircularProgress,
 } from '@material-ui/core';
 import useStyles from '../../stylesheets/home/styles';
 import mainLogo from '../../images/mainLogo.png';
@@ -22,31 +23,51 @@ import { Post } from '../../types/Home';
 import { getPosts } from '../../apis/home/home';
 import Loading from '../../components/Loading/Loading';
 import { CookieSingleton } from '../../utils/cookie';
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
 
 const Home = () => {
 	const classes = useStyles();
 	const [posts, setPosts] = useState<Post[] | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [postLoading, setPostLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
-
+	const [page, setPage] = useState(1);
+	const [isLastPost, setIsLastPost] = useState(false);
+	const [selectStacks, setStacks] = useState<string[]>([]);
 	useLayoutEffect(() => {
-		try {
-			getPosts().then((response) => {
+		getPosts(selectStacks, page)
+			.then((response) => {
 				console.log(response);
-				setPosts([...response]);
+				setPosts((posts) => {
+					if (posts) {
+						return [...posts, ...response];
+					} else {
+						return [...response];
+					}
+				});
+			})
+			.catch(() => {
+				setIsError(true);
+			})
+			.finally(() => {
 				setIsLoading(false);
+				setPostLoading(false);
 			});
-		} catch (error) {
-			console.dir(error);
-			console.log(error);
-			setIsError(true);
-		}
+	}, [page]);
+
+	const handleMoreButtonClieck = useCallback(() => {
+		setPage((page) => ++page);
+		setPostLoading(true);
 	}, []);
 
 	if (isLoading) {
 		return <Loading />;
 	}
-	console.log(typeof Loading);
+
+	if (isError) {
+		return <ErrorPage />;
+	}
+
 	return (
 		<>
 			<CssBaseline />
@@ -151,21 +172,27 @@ const Home = () => {
 							<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
 						)}
 					</Grid>
-					<div style={{ textAlign: 'center', marginTop: 20 }}>
-						<Button variant="contained" color="default">
-							더 보기
-						</Button>
+					<div className={classes.loadingContainer}>
+						{postLoading ? (
+							<CircularProgress />
+						) : (
+							!isLastPost && (
+								<Button color="primary" variant="outlined" onClick={handleMoreButtonClieck}>
+									더 보기
+								</Button>
+							)
+						)}
 					</div>
 				</Container>
 			</main>
-			<footer className={classes.footer}>
+			{/* <footer className={classes.footer}>
 				<Typography variant="h6" align="center" gutterBottom>
 					푸터 넣을까 말까 고민중
 				</Typography>
 				<Typography variant="subtitle1" align="center" color="textSecondary">
 					뭐라도 넣어봐야지 않겠어? ㅋ
 				</Typography>
-			</footer>
+			</footer> */}
 		</>
 	);
 };

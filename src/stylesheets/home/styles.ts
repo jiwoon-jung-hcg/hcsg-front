@@ -102,6 +102,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		padding: '50px 0',
 	},
+	loadingContainer: {
+		textAlign: 'center',
+		margin: '50px 0',
+	},
 }));
 
 export default useStyles;
