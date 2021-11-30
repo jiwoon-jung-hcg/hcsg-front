@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { signupUserInfo } from '../../types/signupType';
+import { logger } from '../../utils/logger';
 
 /** 이메일 중복 확인 */
 export async function checkUsingEmail(email: string): Promise<boolean> {
@@ -9,6 +10,7 @@ export async function checkUsingEmail(email: string): Promise<boolean> {
 		});
 		return response.data;
 	} catch (error) {
+		logger(error);
 		throw new Error(typeof error == 'string' ? error : 'Exception error');
 	}
 }
@@ -21,6 +23,7 @@ export async function checkUsingNickname(nickname: string): Promise<boolean> {
 		});
 		return response.data;
 	} catch (error) {
+		logger(error);
 		throw new Error(typeof error == 'string' ? error : 'Exception error');
 	}
 }
@@ -36,6 +39,7 @@ export async function userSignup({ email, nickname, password, password_check }: 
 		});
 		return respose.data;
 	} catch (error) {
+		logger(error);
 		throw new Error(typeof error === 'string' ? error : 'Exception new Error..');
 	}
 }

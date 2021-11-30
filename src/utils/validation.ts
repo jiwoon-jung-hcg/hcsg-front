@@ -65,7 +65,7 @@ export function checkLoginResponse(
 	navigate: NavigateFunction,
 ): void {
 	if (res.success) {
-		navigate('/home');
+		navigate('/');
 	} else if (res.keyword === 'email') {
 		setEmailCheck(false);
 		setPasswordCheck(true);

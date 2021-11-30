@@ -25,6 +25,7 @@ import ErrorPage from '../../components/ErrorPage/ErrorPage';
 import coverImage from '../../images/signin.jpg';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { logger } from '../../utils/logger';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -32,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		marginTop: '5vw',
 		backgroundColor: '#fff',
+	},
+	title: {
+		fontSize: '3.5em',
+		fontWeight: 'bold',
+		color: '#5ea0a2',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -124,12 +130,12 @@ export default function SignInPage() {
 							);
 						})
 						.catch((err) => {
-							console.error(err);
+							logger(err);
 							setIsError(true);
 						});
 				}
 			} catch (err) {
-				console.error(err);
+				logger(err);
 				setIsError(true);
 			}
 		},
@@ -145,6 +151,9 @@ export default function SignInPage() {
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div className={classes.paper}>
+					<Typography variant="h1" component="h1" className={classes.title}>
+						Login
+					</Typography>
 					<Typography component="h1" variant="h5">
 						<img src={coverImage} alt="logo" className={classes.mainImage} />
 					</Typography>

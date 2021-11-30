@@ -1,7 +1,10 @@
-import React, { useState, useLayoutEffect, useCallback } from 'react';
+// module
+import React, { useState, useCallback, useEffect } from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SmsIcon from '@material-ui/icons/Sms';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { DefaultRootState, RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
 	Typography,
 	AppBar,
@@ -15,38 +18,58 @@ import {
 	Container,
 	CircularProgress,
 } from '@material-ui/core';
+
+// component
+import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import Loading from '../../components/Loading/Loading';
+
+// style
 import useStyles from '../../stylesheets/home/styles';
 import mainLogo from '../../images/mainLogo.png';
-import { Link } from 'react-router-dom';
 import stack from '../../utils/imageE';
-import { Post } from '../../types/Home';
-import { getPosts } from '../../apis/home/home';
-import Loading from '../../components/Loading/Loading';
+
+// type
+import { Post, ResponseGetPosts, Sort } from '../../types/Home';
+
+// action
+
+// reducer
+import { UserState } from '../../_reducers/userReducer';
+
+// utils
 import { CookieSingleton } from '../../utils/cookie';
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import { logger } from '../../utils/logger';
+import { getPosts } from '../../apis/home/home';
+import Stack from './Stack';
 
 const Home = () => {
 	const classes = useStyles();
+	// const { isAuth, loginSuccess, data } = useSelector<RootStateOrAny, UserState>((state) => state.user);
+	// const storePost = useSelector<RootStateOrAny, Post[]>((state) => state.post);
+	const dispatch = useDispatch();
 	const [posts, setPosts] = useState<Post[] | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [postLoading, setPostLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
+	const [sort, setSort] = useState<Sort>('descending');
 	const [page, setPage] = useState(1);
 	const [isLastPost, setIsLastPost] = useState(false);
-	const [selectStacks, setStacks] = useState<string[]>([]);
-	useLayoutEffect(() => {
+	const [selectStacks, setSelectStacks] = useState<string[]>([]);
+	useEffect(() => {
 		getPosts(selectStacks, page)
 			.then((response) => {
-				console.log(response);
-				setPosts((posts) => {
-					if (posts) {
-						return [...posts, ...response];
+				const { posts, last_page }: ResponseGetPosts = response;
+				last_page ? setIsLastPost(true) : setIsLastPost(false);
+				setPosts((prevPosts) => {
+					if (prevPosts) {
+						return [...prevPosts, ...posts];
 					} else {
-						return [...response];
+						return [...posts];
 					}
 				});
 			})
-			.catch(() => {
+			.catch((error) => {
+				logger(error);
 				setIsError(true);
 			})
 			.finally(() => {
@@ -55,9 +78,19 @@ const Home = () => {
 			});
 	}, [page]);
 
-	const handleMoreButtonClieck = useCallback(() => {
+	/** 더보기 버튼 클릭 */
+	const handleMoreButtonClick = useCallback(() => {
 		setPage((page) => ++page);
 		setPostLoading(true);
+	}, [page]);
+
+	/** 스택 필터링 */
+	const updateStack = useCallback((stack) => {
+		setPage(1);
+		setSelectStacks((prevStaks) => {
+			const findStack = prevStaks.find((el) => el === stack);
+			return findStack ? prevStaks.filter((el) => el !== findStack) : [...prevStaks, stack];
+		});
 	}, []);
 
 	if (isLoading) {
@@ -113,9 +146,7 @@ const Home = () => {
 					<div className={classes.stackContainer}>
 						<Grid container spacing={2} justifyContent="center" alignItems="center">
 							{stack.map((item) => (
-								<Grid key={item.title} item>
-									<img src={item.url} alt={item.title} className={classes.stack} />
-								</Grid>
+								<Stack key={item.title} item={item} updateStack={updateStack} />
 							))}
 						</Grid>
 					</div>
@@ -177,7 +208,7 @@ const Home = () => {
 							<CircularProgress />
 						) : (
 							!isLastPost && (
-								<Button color="primary" variant="outlined" onClick={handleMoreButtonClieck}>
+								<Button color="primary" variant="outlined" onClick={handleMoreButtonClick}>
 									더 보기
 								</Button>
 							)
@@ -185,14 +216,6 @@ const Home = () => {
 					</div>
 				</Container>
 			</main>
-			{/* <footer className={classes.footer}>
-				<Typography variant="h6" align="center" gutterBottom>
-					푸터 넣을까 말까 고민중
-				</Typography>
-				<Typography variant="subtitle1" align="center" color="textSecondary">
-					뭐라도 넣어봐야지 않겠어? ㅋ
-				</Typography>
-			</footer> */}
 		</>
 	);
 };
