@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import GeneratePostPage from './pages/GeneratePostPage/GeneratePostPage';
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
-const Home = loadable(() => import('./pages/HomePage/Home'));
+const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
 
 const App = () => {
 	return (
@@ -12,7 +12,7 @@ const App = () => {
 			<Route path="/signin" element={<SignInPage />} />
 			<Route path="/signup" element={<SignUpPage />} />
 			<Route path="/create-post" element={<GeneratePostPage />} />
-			<Route path="/" element={<Home />} />
+			<Route path="/" element={<HomePage />} />
 		</Routes>
 	);
 };

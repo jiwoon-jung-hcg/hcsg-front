@@ -151,13 +151,13 @@ const Home = () => {
 			<nav>
 				<MainNave />
 			</nav>
-			<main>
+			<main style={{ width: '100%', backgroundColor: 'white' }}>
 				<header>
 					<HeaderComponent />
 				</header>
 				<StackNavComponent stackRef={stackRef} updateStack={updateStack} feedbackFilter={feedbackFilter} />
 				<Container className={classes.cardGrid} maxWidth="md">
-					<Grid container spacing={4}>
+					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw' }}>
 						{renderPosts()}
 					</Grid>
 					<div className={classes.loadingContainer}>{returnComponentThatisLoadingToClickButton()}</div>

@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: 'white',
 		padding: theme.spacing(8, 0, 6),
 	},
 	navRoot: {
@@ -57,9 +57,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 	stackContainer: {
 		marginTop: 8,
 		boxShadow: '0 0 15px rgb(0 0 0 / 15%)',
+		backgroundColor: theme.palette.background.paper,
 	},
 	cardGrid: {
 		padding: '20px 0',
+		backgroundColor: 'white',
 	},
 	card: {
 		height: '100%',
@@ -100,6 +102,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 	loadingContainer: {
 		textAlign: 'center',
 		margin: '50px 0',
+	},
+	stackHelpMessage: {
+		fontSize: '20px',
+		fontWeight: 'bold',
+		textAlign: 'center',
+		color: theme.palette.background.paper,
+		backgroundColor: '#ffe579',
+		zIndex: -1,
+		borderTopLeftRadius: '90%',
+		borderTopRightRadius: '90%',
+		padding: '5px 25px',
+		boxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
+		webkitBoxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
 	},
 }));
 
