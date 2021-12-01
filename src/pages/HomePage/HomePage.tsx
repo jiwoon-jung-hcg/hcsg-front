@@ -40,14 +40,19 @@ const Home = () => {
 	const [page, setPage] = useState(1);
 	const [isLastPost, setIsLastPost] = useState(false);
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
+	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
 	useEffect(() => {
+		if (skip) {
+			setSkip(false);
+			return;
+		}
 		getPosts(selectStacks, page)
 			.then((response) => {
 				const { posts, last_page }: ResponseGetPosts = response;
 				last_page ? setIsLastPost(true) : setIsLastPost(false);
 				setPosts((prevPosts) => {
-					if (prevPosts) {
+					if (prevPosts?.length) {
 						return [...prevPosts, ...posts];
 					} else {
 						return [...posts];
@@ -62,7 +67,7 @@ const Home = () => {
 				setIsLoading(false);
 				setPostLoading(false);
 			});
-	}, [page]);
+	}, [skip]);
 
 	useEffect(() => {
 		getPosts(selectStacks, page)
@@ -84,6 +89,7 @@ const Home = () => {
 	/** 더보기 버튼 클릭 */
 	const handleMoreButtonClick = useCallback(() => {
 		setPage((page) => ++page);
+		setSkip((prev) => !prev);
 		setPostLoading(true);
 	}, [page]);
 
