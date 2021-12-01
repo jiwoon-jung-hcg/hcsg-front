@@ -21,6 +21,7 @@ import coverImage from '../../images/signup.jpg';
 import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/signUp/signUp';
 import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation';
 import { CookieSingleton } from '../../utils/cookie';
+import { logger } from '../../utils/logger';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -166,10 +167,10 @@ export default function SignUpPage() {
 					});
 					const cookie = CookieSingleton.getCookie();
 					cookie.set('refresh_token', token);
-					navigator('/home');
+					navigator('/');
 				}
 			} catch (error) {
-				console.error(error);
+				logger(error);
 				setIsError(true);
 			}
 		},

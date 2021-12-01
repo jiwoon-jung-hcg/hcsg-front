@@ -3,6 +3,7 @@ import { CookieSingleton } from '../../utils/cookie';
 
 //type
 import { loginInfo, logInResponse } from '../../types/signInType';
+import { logger } from '../../utils/logger';
 const cookie = CookieSingleton.getCookie();
 
 /** 로그인 요청 */
@@ -24,6 +25,7 @@ export async function userLogin({ email, password }: loginInfo): Promise<logInRe
 			throw new Error('not exist token...');
 		}
 	} catch (err: any) {
+		logger(err);
 		const { error, keyword } = err.response.data;
 		return {
 			success: false,

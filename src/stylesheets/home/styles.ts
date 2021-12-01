@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: 'white',
 		padding: theme.spacing(8, 0, 6),
 	},
 	navRoot: {
@@ -13,10 +13,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		boxShadow: 'none',
 	},
 	title: {
+		position: 'relative',
 		fontSize: 28,
 		color: 'black',
 		fontWeight: 'bold',
 		flexGrow: 1,
+		zIndex: -1,
 	},
 	menu: {
 		fontSize: 24,
@@ -30,20 +32,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		width: '55px',
 		height: 'auto',
 	},
-	stack: {
-		width: 65,
-		// height: 65,
-		cursor: 'pointer',
-		transition: 'transform 0.1s linear',
-		'&:hover': {
-			transform: 'scale(1.1)',
-		},
-	},
 	icon: {
 		marginRight: 20,
 	},
 	postStack: {
 		padding: 0,
+		marginTop: '20%',
 		listStyle: 'none',
 		display: 'flex',
 		justifyContent: 'center',
@@ -54,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		color: '#212121',
 	},
 	postStackImage: {
-		width: 55,
+		width: 35,
 		margin: '0px 5px',
 	},
 	button: {
@@ -63,14 +57,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 	stackContainer: {
 		marginTop: 8,
 		boxShadow: '0 0 15px rgb(0 0 0 / 15%)',
+		backgroundColor: theme.palette.background.paper,
 	},
 	cardGrid: {
 		padding: '20px 0',
+		backgroundColor: 'white',
 	},
 	card: {
 		height: '100%',
 		display: 'flex',
-		padding: '12.5% 0',
+		padding: '12.5% 0 0 0',
 		position: 'relative',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -97,10 +93,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		flexGrow: 1,
+		padding: 0,
 	},
 	footer: {
 		backgroundColor: theme.palette.background.paper,
 		padding: '50px 0',
+	},
+	loadingContainer: {
+		textAlign: 'center',
+		margin: '50px 0',
+	},
+	stackHelpMessage: {
+		fontSize: '20px',
+		fontWeight: 'bold',
+		textAlign: 'center',
+		color: theme.palette.background.paper,
+		backgroundColor: '#ffe579',
+		zIndex: -1,
+		borderTopLeftRadius: '90%',
+		borderTopRightRadius: '90%',
+		padding: '5px 25px',
+		boxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
+		webkitBoxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
 	},
 }));
 
