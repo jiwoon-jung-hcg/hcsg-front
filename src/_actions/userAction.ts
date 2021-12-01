@@ -21,10 +21,6 @@ export interface LoginFailureAction {
 	error: Error;
 }
 
-export const logIn = (data: loginInfo) => {
-	console.log('aa');
-};
-
 /** Logout */
 export interface LogOutAction {
 	type: typeof LOG_OUT_REQUEST;

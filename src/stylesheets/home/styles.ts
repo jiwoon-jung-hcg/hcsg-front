@@ -13,10 +13,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		boxShadow: 'none',
 	},
 	title: {
+		position: 'relative',
 		fontSize: 28,
 		color: 'black',
 		fontWeight: 'bold',
 		flexGrow: 1,
+		zIndex: -1,
 	},
 	menu: {
 		fontSize: 24,
@@ -30,20 +32,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		width: '55px',
 		height: 'auto',
 	},
-	stack: {
-		width: 65,
-		// height: 65,
-		cursor: 'pointer',
-		transition: 'transform 0.1s linear',
-		'&:hover': {
-			transform: 'scale(1.1)',
-		},
-	},
 	icon: {
 		marginRight: 20,
 	},
 	postStack: {
 		padding: 0,
+		marginTop: '20%',
 		listStyle: 'none',
 		display: 'flex',
 		justifyContent: 'center',
@@ -54,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		color: '#212121',
 	},
 	postStackImage: {
-		width: 55,
+		width: 35,
 		margin: '0px 5px',
 	},
 	button: {
@@ -70,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	card: {
 		height: '100%',
 		display: 'flex',
-		padding: '12.5% 0',
+		padding: '12.5% 0 0 0',
 		position: 'relative',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -97,6 +91,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		flexGrow: 1,
+		padding: 0,
 	},
 	footer: {
 		backgroundColor: theme.palette.background.paper,

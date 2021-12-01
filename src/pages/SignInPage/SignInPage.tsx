@@ -26,6 +26,7 @@ import coverImage from '../../images/signin.jpg';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logger } from '../../utils/logger';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -74,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInPage() {
 	const classes = useStyles();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isError, setIsError] = useState(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
