@@ -6,13 +6,15 @@ import TextEditorComponent from './components/TextEditorComponent/TextEditorComp
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
+const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostPage'));
 
 const App = () => {
 	return (
 		<Routes>
 			<Route path="/signin" element={<SignInPage />} />
 			<Route path="/signup" element={<SignUpPage />} />
-			<Route path="/create-post" element={<GeneratePostPage />} />
+			<Route path="/post/:id" element={<DetailPostPage />} />
+			<Route path="/post/new" element={<GeneratePostPage />} />
 			<Route path="/" element={<HomePage />} />
 		</Routes>
 	);
