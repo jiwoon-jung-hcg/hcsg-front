@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Typography } from '@material-ui/core';
 import { Router, Link } from 'react-router-dom';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/LoadingComponent/Loading';
 
 import coverImage from '../../images/signup.jpg';
 

@@ -17,9 +17,9 @@ import { logInResponse } from '../../types/signInType';
 import { isNullCheck, checkLoginInfo, checkLoginResponse } from '../../utils/validation';
 
 /** component */
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/LoadingComponent/Loading';
 import { userLogin } from '../../apis/signIn/signIn';
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
 /** image */
 import coverImage from '../../images/signin.jpg';

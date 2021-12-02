@@ -4,10 +4,10 @@ import React, { useState, useCallback, useEffect, useRef, RefObject } from 'reac
 import { Typography, Button, CssBaseline, Grid, Container, CircularProgress } from '@material-ui/core';
 
 // component
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
-import Loading from '../../components/Loading/Loading';
-import MainNave from '../../components/Nav/MainNav';
-import PostComponent from '../../components/Post/PostComponent';
+import ErrorPage from '../../components/ErrorComponent/ErrorPage';
+import Loading from '../../components/LoadingComponent/Loading';
+import MainNave from '../../components/NavComponent/MainNav';
+import PostComponent from '../../components/PostComponent/PostComponent';
 
 // style
 import useStyles from '../../stylesheets/home/styles';

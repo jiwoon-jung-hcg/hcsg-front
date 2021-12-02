@@ -2,6 +2,7 @@ import * as React from 'react';
 import loadable from '@loadable/component';
 import { Routes, Route } from 'react-router-dom';
 import GeneratePostPage from './pages/GeneratePostPage/GeneratePostPage';
+import TextEditorComponent from './components/TextEditorComponent/TextEditorComponent';
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
