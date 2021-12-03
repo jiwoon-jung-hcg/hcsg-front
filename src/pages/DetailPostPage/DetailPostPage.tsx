@@ -62,7 +62,7 @@ export default function DetailPostPage() {
 
 	useEffect(() => {
 		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}/comments`, headerConfig)
+			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}/comments`, headerConfig())
 			.then((response) => {
 				const comments: Comment[] = response?.data;
 				setcomments([...comments]);
@@ -75,7 +75,7 @@ export default function DetailPostPage() {
 
 	useEffect(() => {
 		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}`, headerConfig)
+			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}`, headerConfig())
 			.then((response) => {
 				const detailPost: DetailPost = response?.data;
 				console.log(detailPost);

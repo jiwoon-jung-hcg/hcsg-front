@@ -16,7 +16,7 @@ export async function userLogin({ email, password }: loginInfo): Promise<logInRe
 				email,
 				password,
 			},
-			headerConfig,
+			headerConfig(),
 		);
 		if (response.data.token) {
 			// 토큰값 쿠키에 저장
