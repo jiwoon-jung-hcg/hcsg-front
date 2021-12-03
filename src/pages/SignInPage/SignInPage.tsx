@@ -102,7 +102,7 @@ export default function SignInPage() {
 
 	/** 로그인 */
 	const handleFormSubmit = useCallback(
-		(event: React.FormEvent<HTMLFormElement>) => {
+		async (event: React.FormEvent<HTMLFormElement>) => {
 			try {
 				event.preventDefault();
 				const { email, password } = event.currentTarget;
@@ -120,21 +120,16 @@ export default function SignInPage() {
 						email: email.value,
 						password: password.value,
 					};
-					userLogin(loginInfo)
-						.then((res: logInResponse) => {
-							checkLoginResponse(
-								res,
-								setEmailCheck,
-								setPasswordCheck,
-								setEmailCheckFeedBack,
-								setpasswordCheckFeedBack,
-								navigate,
-							);
-						})
-						.catch((err) => {
-							logger(err);
-							setIsError(true);
-						});
+
+					const axiosResponse = await userLogin(loginInfo);
+					const validResponse = checkLoginResponse(
+						axiosResponse,
+						setEmailCheck,
+						setPasswordCheck,
+						setEmailCheckFeedBack,
+						setpasswordCheckFeedBack,
+					);
+					validResponse && navigate('/');
 				}
 			} catch (err) {
 				logger(err);

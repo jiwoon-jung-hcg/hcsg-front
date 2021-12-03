@@ -21,7 +21,7 @@ export async function getPosts(
 	try {
 		const response: AxiosResponse<ResponseGetPosts> = await axios.get(
 			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts?${qsSort + qsLimit + qsOffset + qsStacks}`,
-			headerConfig,
+			headerConfig(),
 		);
 		return response.data;
 	} catch (err: any) {

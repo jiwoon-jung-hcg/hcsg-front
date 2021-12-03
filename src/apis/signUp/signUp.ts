@@ -2,11 +2,15 @@ import axios from 'axios';
 import { signupUserInfo } from '../../types/signupType';
 import { CookieSingleton } from '../../utils/cookie';
 import { logger } from '../../utils/logger';
+import Cookies from 'universal-cookie';
 
-export const headerConfig = {
-	headers: {
-		token: CookieSingleton.getCookie().get('refresh_token'),
-	},
+export const headerConfig = () => {
+	const cookie = new Cookies();
+	return {
+		headers: {
+			token: cookie.get('refresh_token'),
+		},
+	};
 };
 
 /** 이메일 중복 확인 */
@@ -17,7 +21,7 @@ export async function checkUsingEmail(email: string): Promise<boolean> {
 			{
 				email,
 			},
-			headerConfig,
+			headerConfig(),
 		);
 		return response.data;
 	} catch (error) {
@@ -34,7 +38,7 @@ export async function checkUsingNickname(nickname: string): Promise<boolean> {
 			{
 				nickname,
 			},
-			headerConfig,
+			headerConfig(),
 		);
 		return response.data;
 	} catch (error) {
@@ -54,7 +58,7 @@ export async function userSignup({ email, nickname, password, password_check }: 
 				password,
 				password_check,
 			},
-			headerConfig,
+			headerConfig(),
 		);
 		return respose.data;
 	} catch (error) {
