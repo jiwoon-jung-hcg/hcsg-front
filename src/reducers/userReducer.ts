@@ -7,7 +7,7 @@ import {
 	LoginSuccessAction,
 	LoginFailureAction,
 	LogOutAction,
-} from '../_actions/userAction';
+} from '../actions/userAction';
 
 export interface UserState {
 	isAuth: boolean;

@@ -6,11 +6,12 @@ import Cookies from 'universal-cookie';
 
 export const headerConfig = () => {
 	const cookie = new Cookies();
-	return {
+	const config = cookie.get('referesh_token') && {
 		headers: {
 			token: cookie.get('refresh_token'),
 		},
 	};
+	return config;
 };
 
 /** 이메일 중복 확인 */

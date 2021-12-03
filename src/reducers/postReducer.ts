@@ -1,5 +1,5 @@
 import { Post } from '../types/Home';
-import { ADD_POST, AddPostAction } from '../_actions/postAction';
+import { ADD_POST, AddPostAction } from '../actions/postAction';
 
 const initialState: Post[] = [];
 

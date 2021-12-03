@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { headerConfig } from '../apis/signUp/signUp';
-import { logger } from '../utils/logger';
+import { headerConfig } from '../../apis/signUp/signUp';
+import { logger } from '../../utils/logger';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LoadableComponent } from '@loadable/component';
-import Loading from '../components/LoadingComponent/Loading';
+import Loading from '../LoadingComponent/Loading';
 
 /** Autorization 체크 */
 /** 1. 로그인 유지 */

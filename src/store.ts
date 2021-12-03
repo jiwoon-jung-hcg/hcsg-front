@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import Reducer from './_reducers/index';
+import Reducer from './reducers/index';
 
 const initialState = {
 	user: {
