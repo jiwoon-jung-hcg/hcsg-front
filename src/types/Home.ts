@@ -2,9 +2,10 @@
 export interface Post {
 	id: number;
 	title: string;
-	content: string;
-	hit: number;
 	stacks: string[];
+	hit: number;
+	commentsCount: number;
+	likesCount: number;
 }
 
 export interface ResponseGetPosts {

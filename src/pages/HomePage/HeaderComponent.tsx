@@ -20,7 +20,7 @@ export default function HeaderComponent() {
 				<div className={classes.button}>
 					<Grid container spacing={2} justifyContent="center">
 						<Grid item>
-							<Button variant="contained" color="primary" size="large" onClick={() => navigate('/create-post')}>
+							<Button variant="contained" color="primary" size="large" onClick={() => navigate('/post/new')}>
 								팀원 모집하기
 							</Button>
 						</Grid>

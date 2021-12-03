@@ -4,10 +4,10 @@ import React, { useState, useCallback, useEffect, useRef, RefObject } from 'reac
 import { Typography, Button, CssBaseline, Grid, Container, CircularProgress } from '@material-ui/core';
 
 // component
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
-import Loading from '../../components/Loading/Loading';
-import MainNave from '../../components/Nav/MainNav';
-import PostComponent from '../../components/Post/PostComponent';
+import ErrorPage from '../../components/ErrorComponent/ErrorPage';
+import Loading from '../../components/LoadingComponent/Loading';
+import MainNave from '../../components/NavComponent/MainNav';
+import PostComponent from '../../components/PostComponent/PostComponent';
 
 // style
 import useStyles from '../../stylesheets/home/styles';
@@ -40,14 +40,20 @@ const Home = () => {
 	const [page, setPage] = useState(1);
 	const [isLastPost, setIsLastPost] = useState(false);
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
+	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
+	/** 더보기 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
+		if (skip) {
+			setSkip(false);
+			return;
+		}
 		getPosts(selectStacks, page)
 			.then((response) => {
 				const { posts, last_page }: ResponseGetPosts = response;
 				last_page ? setIsLastPost(true) : setIsLastPost(false);
 				setPosts((prevPosts) => {
-					if (prevPosts) {
+					if (prevPosts?.length) {
 						return [...prevPosts, ...posts];
 					} else {
 						return [...posts];
@@ -62,8 +68,9 @@ const Home = () => {
 				setIsLoading(false);
 				setPostLoading(false);
 			});
-	}, [page]);
+	}, [skip]);
 
+	/** 스택 필터 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
 		getPosts(selectStacks, page)
 			.then((response) => {
@@ -81,9 +88,10 @@ const Home = () => {
 			});
 	}, [selectStacks]);
 
-	/** 더보기 버튼 클릭 */
+	/** 핸들러: 더보기 버튼 클릭 */
 	const handleMoreButtonClick = useCallback(() => {
 		setPage((page) => ++page);
+		setSkip((prev) => !prev);
 		setPostLoading(true);
 	}, [page]);
 
@@ -113,6 +121,7 @@ const Home = () => {
 		}
 	}, []);
 
+	/** 게시글 리스트 리턴 함수 */
 	const renderPosts = useCallback(() => {
 		return posts ? (
 			posts.map((post) => <PostComponent key={post.id} post={post} />)

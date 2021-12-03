@@ -7,7 +7,7 @@ const initialState = {
 		loginSuccess: false,
 		data: null,
 	},
-	posts: [],
+	// posts: [],
 };
 
 const store = createStore(Reducer, initialState);
