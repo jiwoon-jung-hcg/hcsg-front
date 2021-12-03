@@ -1,6 +1,5 @@
 import { Avatar, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -12,6 +11,12 @@ import MainNav from '../../components/NavComponent/MainNav';
 import useStyles from '../../stylesheets/detailPost/styles';
 
 import profile from '../../images/defaultProfile.png';
+import DetailHeader from './DetailHeader';
+import DetailStackContainer from './DetailStackContainer';
+import DetailContent from './DetailContent';
+import DetailCountView from './DetailCountView';
+import CommentForm from './CommentForm';
+import CommentList from './CommentList';
 
 export interface DetailPost {
 	id: number;
@@ -101,82 +106,14 @@ export default function DetailPostPage() {
 					</Typography>
 				</nav>
 				<main>
-					<Typography variant="h3" color="textPrimary" className={classes.title}>
-						{post.title}
-					</Typography>
-					<Grid container justifyContent="space-between" alignItems="center" className={classes.subtitle}>
-						<Grid item className={classes.profile}>
-							<Avatar alt="author profile" src={profile} className={classes.profileImage} />
-							<Typography variant="h5">{post.authorNickname}</Typography>
-						</Grid>
-						<Grid item>
-							<Typography variant="h5" color="inherit" className={classes.date}>
-								{post.createdAt}
-							</Typography>
-						</Grid>
-					</Grid>
-					<section className={classes.stackContainer}>
-						<Typography variant="h6" style={{ width: 100 }}>
-							사용언어:{' '}
-						</Typography>
-						<Grid container className={classes.stackList}>
-							{post.stacks.map((stack) => (
-								<Grid item key={stack} className={classes.stackItem}>
-									{stack}
-								</Grid>
-							))}
-						</Grid>
-					</section>
-					<section
-						className={classes.content}
-						ref={content}
-						dangerouslySetInnerHTML={{ __html: post.content }}
-					></section>
-					<Grid container>
-						<Grid item style={{ flexGrow: 1 }}></Grid>
-						<Grid item className={classes.count}>
-							<FavoriteIcon />
-							<Typography variant="caption" component="span">
-								{post.likesCount}
-							</Typography>
-						</Grid>
-						<Grid item className={classes.count}>
-							<VisibilityIcon />
-							<Typography variant="caption" component="span">
-								{post.hit}
-							</Typography>
-						</Grid>
-					</Grid>
-					<form>
-						<Typography variant="h4" className={classes.commentCount}>
-							{post.commentsCount}개의 댓글이 있습니다.
-						</Typography>
-						<TextField
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							placeholder="댓글을 입력하세요."
-							className={classes.commentBox}
-						/>
-					</form>
+					<DetailHeader post={post} />
+					<DetailStackContainer post={post} />
+					<DetailContent post={post} content={content} />
+					<DetailCountView post={post} />
+					<CommentForm post={post} />
 				</main>
 				<footer>
-					<Grid container direction="column">
-						{comments.map((comment) => (
-							<Grid key={comment.id} item className={classes.commentContainer}>
-								<div className={classes.commentHeader}>
-									<Avatar alt="author profile" src={profile} />
-									<div>
-										<Typography variant="h5">{comment.commenterNickname}</Typography>
-										<Typography variant="h6">{comment.updatedAt}</Typography>
-									</div>
-								</div>
-								<Typography className={classes.commentContent} variant="body1">
-									{comment.content}
-								</Typography>
-							</Grid>
-						))}
-					</Grid>
+					<CommentList comments={comments} />
 				</footer>
 			</Container>
 		</div>

@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	stackContainer: {
 		display: 'flex',
 		alignItems: 'center',
+		paddingBottom: '12px',
 		borderBottom: '2px solid #dce2f0',
 	},
 	stackList: {
@@ -59,6 +60,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	content: {
 		margin: '40px 0',
+		height: '500px',
+		overflowY: 'scroll',
 	},
 	count: {
 		display: 'flex',
