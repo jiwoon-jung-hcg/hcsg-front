@@ -1,0 +1,36 @@
+.stack {
+	display: block;
+	width: 40px;
+	transition: transform 0.1s;
+	&:hover {
+		transform: scale(1.1);
+	}
+}
+.box {
+	position: relative;
+}
+.box:after {
+	position: absolute;
+	width: 64%;
+	height: 10%;
+	// left: 18%;
+	border-radius: 50%;
+	// bottom: 45%;
+	content: '';
+	box-shadow: 0 30px 12px rgba(48, 63, 159, 0.5);
+	z-index: 1;
+	transform: translate(12%, -400%);
+}
+
+.active-image {
+	position: relative;
+	transform: translate(0, -15%);
+	&:hover {
+		transform: translate(0, -15%) scale(1.05);
+	}
+	-webkit-filter: grayscale((0%));
+}
+
+.un-active-image {
+	-webkit-filter: grayscale((100%));
+}

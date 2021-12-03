@@ -17,14 +17,16 @@ import { logInResponse } from '../../types/signInType';
 import { isNullCheck, checkLoginInfo, checkLoginResponse } from '../../utils/validation';
 
 /** component */
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/LoadingComponent/Loading';
 import { userLogin } from '../../apis/signIn/signIn';
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
 /** image */
 import coverImage from '../../images/signin.jpg';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { logger } from '../../utils/logger';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -32,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		marginTop: '5vw',
 		backgroundColor: '#fff',
+	},
+	title: {
+		fontSize: '3.5em',
+		fontWeight: 'bold',
+		color: '#5ea0a2',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -68,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInPage() {
 	const classes = useStyles();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isError, setIsError] = useState(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -94,7 +102,7 @@ export default function SignInPage() {
 
 	/** 로그인 */
 	const handleFormSubmit = useCallback(
-		(event: React.FormEvent<HTMLFormElement>) => {
+		async (event: React.FormEvent<HTMLFormElement>) => {
 			try {
 				event.preventDefault();
 				const { email, password } = event.currentTarget;
@@ -112,24 +120,19 @@ export default function SignInPage() {
 						email: email.value,
 						password: password.value,
 					};
-					userLogin(loginInfo)
-						.then((res: logInResponse) => {
-							checkLoginResponse(
-								res,
-								setEmailCheck,
-								setPasswordCheck,
-								setEmailCheckFeedBack,
-								setpasswordCheckFeedBack,
-								navigate,
-							);
-						})
-						.catch((err) => {
-							console.error(err);
-							setIsError(true);
-						});
+
+					const axiosResponse = await userLogin(loginInfo);
+					const validResponse = checkLoginResponse(
+						axiosResponse,
+						setEmailCheck,
+						setPasswordCheck,
+						setEmailCheckFeedBack,
+						setpasswordCheckFeedBack,
+					);
+					validResponse && navigate('/');
 				}
 			} catch (err) {
-				console.error(err);
+				logger(err);
 				setIsError(true);
 			}
 		},
@@ -145,6 +148,9 @@ export default function SignInPage() {
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div className={classes.paper}>
+					<Typography variant="h1" component="h1" className={classes.title}>
+						Login
+					</Typography>
 					<Typography component="h1" variant="h5">
 						<img src={coverImage} alt="logo" className={classes.mainImage} />
 					</Typography>

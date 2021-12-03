@@ -62,11 +62,8 @@ export function checkLoginResponse(
 	setPasswordCheck: isCheckAfterValid,
 	setEmailCheckFeedBack: feedbackAfterValid,
 	setPasswordCheckFeedBack: feedbackAfterValid,
-	navigate: NavigateFunction,
-): void {
-	if (res.success) {
-		navigate('/home');
-	} else if (res.keyword === 'email') {
+): boolean {
+	if (res.keyword === 'email') {
 		setEmailCheck(false);
 		setPasswordCheck(true);
 		setEmailCheckFeedBack('존재하지 않는 이메일 입니다');
@@ -75,6 +72,7 @@ export function checkLoginResponse(
 		setPasswordCheck(false);
 		setPasswordCheckFeedBack('비밀번호가 틀렸습니다');
 	}
+	return res.success;
 }
 
 // SignUp
