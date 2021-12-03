@@ -42,6 +42,7 @@ const Home = () => {
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
+	/** 더보기 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
 		if (skip) {
 			setSkip(false);
@@ -69,6 +70,7 @@ const Home = () => {
 			});
 	}, [skip]);
 
+	/** 스택 필터 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
 		getPosts(selectStacks, page)
 			.then((response) => {
@@ -86,7 +88,7 @@ const Home = () => {
 			});
 	}, [selectStacks]);
 
-	/** 더보기 버튼 클릭 */
+	/** 핸들러: 더보기 버튼 클릭 */
 	const handleMoreButtonClick = useCallback(() => {
 		setPage((page) => ++page);
 		setSkip((prev) => !prev);
@@ -119,6 +121,7 @@ const Home = () => {
 		}
 	}, []);
 
+	/** 게시글 리스트 리턴 함수 */
 	const renderPosts = useCallback(() => {
 		return posts ? (
 			posts.map((post) => <PostComponent key={post.id} post={post} />)

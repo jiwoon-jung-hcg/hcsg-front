@@ -52,11 +52,11 @@ export default function PostComponent(props: Iprops) {
 						</li>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
 							<SmsIcon style={{ marginRight: 5 }} />
-							{0}
+							{post.commentsCount}
 						</li>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10 }}>
 							<FavoriteIcon style={{ marginRight: 5, color: '#EE4343' }} />
-							{0}
+							{post.likesCount}
 						</li>
 					</ul>
 				</CardContent>

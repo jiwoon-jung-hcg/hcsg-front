@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useFormik } from 'formik';
 import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
 import useStyles from '../../stylesheets/generatePost/styles';
@@ -9,6 +10,7 @@ import GridChipComponent from '../../components/GridChipComponent/GridChipCompon
 import axios from 'axios';
 import { CookieSingleton } from '../../utils/cookie';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
+import MainNav from '../../components/NavComponent/MainNav';
 /** API 호출로 리팩토링 */
 export const STACK_NAMES = [
 	'C',
@@ -81,19 +83,20 @@ export default function GeneratePostPage() {
 	if (isError) return <ErrorPage />;
 
 	return (
-		<>
+		<div style={{ background: 'white' }}>
 			<CssBaseline />
+			<MainNav />
 			<Container component="main" maxWidth="md" className={classes.container}>
 				<form className={classes.form} onSubmit={formik.handleSubmit}>
-					<Grid container justifyContent="flex-end" spacing={2}>
+					<Grid container justifyContent="space-between">
 						<Grid item>
-							<Button color="primary" type="submit">
-								작성
+							<Button color="inherit" onClick={handleCancelClick} size="large" style={{ fontWeight: 'bold' }}>
+								<ArrowBackIcon fontSize="large" />
 							</Button>
 						</Grid>
 						<Grid item>
-							<Button color="secondary" onClick={handleCancelClick}>
-								취소
+							<Button variant="outlined" color="primary" type="submit" size="large" style={{ fontWeight: 'bold' }}>
+								작성
 							</Button>
 						</Grid>
 					</Grid>
@@ -121,6 +124,6 @@ export default function GeneratePostPage() {
 					<TextEditorComponent value={content} onChange={handleChangeContent} />
 				</form>
 			</Container>
-		</>
+		</div>
 	);
 }

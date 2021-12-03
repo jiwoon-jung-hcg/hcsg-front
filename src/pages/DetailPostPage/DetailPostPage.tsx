@@ -31,7 +31,7 @@ export interface Comment {
 	commenterId: number;
 	commenterNickname: string;
 	content: string;
-	updated_at: string;
+	updatedAt: string;
 }
 
 export default function DetailPostPage() {
@@ -116,14 +116,16 @@ export default function DetailPostPage() {
 						</Grid>
 					</Grid>
 					<section className={classes.stackContainer}>
-						<Typography variant="h5">사용 언어: </Typography>
-						<ul className={classes.stackList}>
+						<Typography variant="h6" style={{ width: 100 }}>
+							사용언어:{' '}
+						</Typography>
+						<Grid container className={classes.stackList}>
 							{post.stacks.map((stack) => (
-								<li key={stack} className={classes.stackItem}>
+								<Grid item key={stack} className={classes.stackItem}>
 									{stack}
-								</li>
+								</Grid>
 							))}
-						</ul>
+						</Grid>
 					</section>
 					<section
 						className={classes.content}
@@ -166,7 +168,7 @@ export default function DetailPostPage() {
 									<Avatar alt="author profile" src={profile} />
 									<div>
 										<Typography variant="h5">{comment.commenterNickname}</Typography>
-										<Typography variant="h6">{comment.updated_at}</Typography>
+										<Typography variant="h6">{comment.updatedAt}</Typography>
 									</div>
 								</div>
 								<Typography className={classes.commentContent} variant="body1">
