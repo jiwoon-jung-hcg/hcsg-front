@@ -4,7 +4,6 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { headerConfig } from '../../apis/signUp/signUp';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import Loading from '../../components/LoadingComponent/Loading';
 import MainNav from '../../components/NavComponent/MainNav';
@@ -17,6 +16,7 @@ import DetailContent from './DetailContent';
 import DetailCountView from './DetailCountView';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
+import { headerConfig } from '../../apis/user/user';
 
 export interface DetailPost {
 	id: number;
@@ -78,7 +78,6 @@ export default function DetailPostPage() {
 			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}`, headerConfig())
 			.then((response) => {
 				const detailPost: DetailPost = response?.data;
-				console.log(detailPost);
 				setPost({ ...detailPost });
 			})
 			.catch((err) => {

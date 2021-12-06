@@ -106,13 +106,16 @@ const Home = () => {
 
 	/** 필터 처리 로직 */
 	const feedbackFilter = useCallback(() => {
+		// 필터 스택 컨테이너 밑에있는 요소들을 다 가져온다.
 		const target = stackRef.current && stackRef.current.children;
 		if (target) {
+			// HTML 컬렉션을 배열로 변환
 			const children = Array.from(target);
+			// 스택요소들을 순환
 			children.forEach((el) => {
+				// 만약 요소의 클래스에 'active-image'가 아니라면(선택이 안되어있다면), 비활성화 클래스할당
 				el.firstElementChild?.classList[1] !== 'active-image' && el.firstElementChild?.classList.add('un-active-image');
 			});
-			console.log(children.findIndex((el) => el.firstElementChild?.classList[1] === 'active-image'));
 			if (children.findIndex((el) => el.firstElementChild?.classList[1] === 'active-image') === -1) {
 				children.forEach((el) => {
 					el.firstElementChild?.classList.remove('un-active-image');
@@ -130,6 +133,7 @@ const Home = () => {
 		);
 	}, [posts]);
 
+	/** 더보기 버튼 */
 	const returnComponentThatisLoadingToClickButton = useCallback(() => {
 		{
 			return postLoading ? (

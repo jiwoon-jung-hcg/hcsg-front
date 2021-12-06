@@ -1,7 +1,7 @@
-import { NavigateFunction, useNavigate } from 'react-router';
-import { isCheckAfterValid, feedbackAfterValid, logInResponse } from '../types/signInType';
-
 // COMMON
+
+import { FeedbackAfterValid, IsCheckAfterValid } from '../types/signInType';
+
 /** 빈값 체크 */
 export function isNullCheck(email: string): boolean {
 	return email.length === 0;
@@ -32,10 +32,10 @@ export function checkPassword(password: string): { success: boolean; message?: s
 export function checkLoginInfo(
 	email: string,
 	password: string,
-	setEmailCheck: isCheckAfterValid,
-	setPasswordCheck: isCheckAfterValid,
-	setEmailCheckFeedBack: feedbackAfterValid,
-	setPasswordCheckFeedBack: feedbackAfterValid,
+	setEmailCheck: IsCheckAfterValid,
+	setPasswordCheck: IsCheckAfterValid,
+	setEmailCheckFeedBack: FeedbackAfterValid,
+	setPasswordCheckFeedBack: FeedbackAfterValid,
 ): boolean {
 	if (isNullCheck(email) || !checkEmail(email)) {
 		setEmailCheckFeedBack('유효한 이메일을 입력해주세요');
@@ -55,25 +55,25 @@ export function checkLoginInfo(
 	setEmailCheck(true);
 	return true;
 }
-/** 로그인 요청 응답 체크 */
-export function checkLoginResponse(
-	res: logInResponse,
-	setEmailCheck: isCheckAfterValid,
-	setPasswordCheck: isCheckAfterValid,
-	setEmailCheckFeedBack: feedbackAfterValid,
-	setPasswordCheckFeedBack: feedbackAfterValid,
-): boolean {
-	if (res.keyword === 'email') {
-		setEmailCheck(false);
-		setPasswordCheck(true);
-		setEmailCheckFeedBack('존재하지 않는 이메일 입니다');
-	} else if (res.keyword === 'password') {
-		setEmailCheck(true);
-		setPasswordCheck(false);
-		setPasswordCheckFeedBack('비밀번호가 틀렸습니다');
-	}
-	return res.success;
-}
+// /** 로그인 요청 응답 체크 */
+// export function checkLoginResponse(
+// 	res: LogInSuccessResponse,
+// 	setEmailCheck: isCheckAfterValid,
+// 	setPasswordCheck: isCheckAfterValid,
+// 	setEmailCheckFeedBack: feedbackAfterValid,
+// 	setPasswordCheckFeedBack: feedbackAfterValid,
+// ): boolean {
+// 	if (res.keyword === 'email') {
+// 		setEmailCheck(false);
+// 		setPasswordCheck(true);
+// 		setEmailCheckFeedBack('존재하지 않는 이메일 입니다');
+// 	} else if (res.keyword === 'password') {
+// 		setEmailCheck(true);
+// 		setPasswordCheck(false);
+// 		setPasswordCheckFeedBack('비밀번호가 틀렸습니다');
+// 	}
+// 	return res.success;
+// }
 
 // SignUp
 /** 이메일 체크 */

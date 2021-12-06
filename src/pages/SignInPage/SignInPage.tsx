@@ -11,14 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 /** type */
-import { logInResponse } from '../../types/signInType';
+import { LogInSuccessResponse } from '../../types/signInType';
 
 /** validation 함수 */
-import { isNullCheck, checkLoginInfo, checkLoginResponse } from '../../utils/validation';
+import { isNullCheck, checkLoginInfo } from '../../utils/validation';
 
 /** component */
 import Loading from '../../components/LoadingComponent/Loading';
-import { userLogin } from '../../apis/signIn/signIn';
+import { userLogin } from '../../apis/user/user';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
 /** image */
@@ -26,7 +26,9 @@ import coverImage from '../../images/signin.jpg';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logger } from '../../utils/logger';
-import { useDispatch } from 'react-redux';
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
+import { getLogin, userInitialState } from '../../modules/user';
+import { RootState } from '../../modules';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -76,6 +78,7 @@ export default function SignInPage() {
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const user = useSelector((state: RootState) => state.user);
 	const [isError, setIsError] = useState(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -83,6 +86,10 @@ export default function SignInPage() {
 	const [passwordCheck, setPasswordCheck] = useState<boolean>(true);
 	const [emailCheckFeedBack, setEmailCheckFeedBack] = useState<string>('');
 	const [passwordCheckFeedBack, setpasswordCheckFeedBack] = useState<string>('');
+
+	useEffect(() => {
+		user.loginSuccess && navigate('/');
+	}, [user]);
 
 	/** 이메일 입력 */
 	const handleInputEmail = useCallback(
@@ -106,30 +113,8 @@ export default function SignInPage() {
 			try {
 				event.preventDefault();
 				const { email, password } = event.currentTarget;
-				if (
-					checkLoginInfo(
-						email.value,
-						password.value,
-						setEmailCheck,
-						setPasswordCheck,
-						setEmailCheckFeedBack,
-						setpasswordCheckFeedBack,
-					)
-				) {
-					const loginInfo = {
-						email: email.value,
-						password: password.value,
-					};
-
-					const axiosResponse = await userLogin(loginInfo);
-					const validResponse = checkLoginResponse(
-						axiosResponse,
-						setEmailCheck,
-						setPasswordCheck,
-						setEmailCheckFeedBack,
-						setpasswordCheckFeedBack,
-					);
-					validResponse && navigate('/');
+				if (email && password) {
+					dispatch(getLogin({ email: email.value, password: password.value }));
 				}
 			} catch (err) {
 				logger(err);
@@ -156,7 +141,7 @@ export default function SignInPage() {
 					</Typography>
 					<form className={classes.form} onSubmit={handleFormSubmit} noValidate>
 						<TextField
-							error={!emailCheck}
+							error={user.failure.keyword === 'email'}
 							type="email"
 							variant="outlined"
 							margin="normal"
@@ -170,9 +155,11 @@ export default function SignInPage() {
 							autoFocus
 							onChange={handleInputEmail}
 						/>
-						<span className={classes.errorText}>{emailCheckFeedBack}</span>
+						<span className={classes.errorText}>
+							{user.failure.keyword === 'email' && '존재하지 않는 이메일입니다'}
+						</span>
 						<TextField
-							error={!passwordCheck}
+							error={user.failure.keyword === 'password'}
 							variant="outlined"
 							margin="normal"
 							required
@@ -185,7 +172,7 @@ export default function SignInPage() {
 							autoComplete="current-password"
 							onChange={handleInputPassword}
 						/>
-						<span className={classes.errorText}>{passwordCheckFeedBack}</span>
+						<span className={classes.errorText}>{user.failure.keyword === 'password' && '비밀번호가 틀립니다'}</span>
 						<Button
 							type="submit"
 							fullWidth

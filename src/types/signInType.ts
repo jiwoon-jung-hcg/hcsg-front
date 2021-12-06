@@ -1,7 +1,8 @@
 // validation
-export type isCheckAfterValid = (text: boolean) => void;
-export type feedbackAfterValid = (text: string) => void;
+export type IsCheckAfterValid = (text: boolean) => void;
+export type FeedbackAfterValid = (text: string) => void;
 
-// login Info
-export type loginInfo = { email: string; password: string };
-export type logInResponse = { success: boolean; keyword: string; message?: string; error?: string };
+export interface LogInSuccessResponse {
+	success: boolean;
+}
+export type SignUpSuccessResponse = LogInSuccessResponse;

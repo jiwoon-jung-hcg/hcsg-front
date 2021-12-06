@@ -18,10 +18,13 @@ import Loading from '../../components/LoadingComponent/Loading';
 
 import coverImage from '../../images/signup.jpg';
 
-import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/signUp/signUp';
+import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/user/user';
 import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation';
 import { CookieSingleton } from '../../utils/cookie';
 import { logger } from '../../utils/logger';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../modules/user';
+import { RootState } from '../../modules';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -70,7 +73,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpPage() {
 	const classes = useStyles();
-	const navigator = useNavigate();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const auth = useSelector((state: RootState) => state.auth);
 	const [isError, setIsError] = useState(true);
 	const [email, setEmail] = useState<string>('');
 	const [emailCheck, setEmailCheck] = useState(true);
@@ -84,6 +89,10 @@ export default function SignUpPage() {
 	const [confirmPassword, setConfirmPassword] = useState<string>('');
 	const [confirmPasswordCheck, setConfirmPasswordCheck] = useState(true);
 	const [confirmPasswordCheckFeedback, setConfirmPasswordCheckFeedback] = useState('');
+
+	React.useEffect(() => {
+		auth.isAuth && navigate('/');
+	}, [auth]);
 
 	const handleChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(event.currentTarget.value);
@@ -155,24 +164,9 @@ export default function SignUpPage() {
 	}, [password, confirmPassword]);
 
 	const handleSignupSubmit = useCallback(
-		async (event) => {
+		(event) => {
 			event.preventDefault();
-			try {
-				if (emailCheck && passwordCheck && nicknameCheck && confirmPasswordCheck) {
-					const { token }: { token: string } = await userSignup({
-						email,
-						nickname,
-						password,
-						password_check: confirmPassword,
-					});
-					const cookie = CookieSingleton.getCookie();
-					cookie.set('refresh_token', token);
-					navigator('/');
-				}
-			} catch (error) {
-				logger(error);
-				setIsError(true);
-			}
+			dispatch(signup({ email, password, nickname, passwordCheck: confirmPassword }));
 		},
 		[email, emailCheck, password, passwordCheck, nickname, nicknameCheck, confirmPassword, confirmPasswordCheck],
 	);

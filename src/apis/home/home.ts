@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Post, ResponseGetPosts, Sort } from '../../types/Home';
 import { CookieSingleton } from '../../utils/cookie';
 import { logger } from '../../utils/logger';
-import { headerConfig } from '../signUp/signUp';
+import { headerConfig } from '../user/user';
 
 export async function getPosts(
 	stacks: string[],
