@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import { Comment } from './DetailPostPage';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 import CommentItem from './CommentItem';
 
 interface Iprops {

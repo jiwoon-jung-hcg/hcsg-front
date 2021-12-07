@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './index.scss';
+import './styles/scss/index.scss';
 import axios from 'axios';
 import createSagaMiddleware from '@redux-saga/core';
 import logger from 'redux-logger';

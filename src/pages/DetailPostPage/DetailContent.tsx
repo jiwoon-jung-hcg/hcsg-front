@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import { DetailPost } from './DetailPostPage';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 
 interface Iprops {
 	post: DetailPost;

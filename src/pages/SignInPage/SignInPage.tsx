@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 /** type */
-import { LogInSuccessResponse } from '../../types/signInType';
+import { LogInSuccessResponse } from '../../types/UserType';
 
 /** validation 함수 */
 import { isNullCheck, checkLoginInfo } from '../../utils/validation';

@@ -2,7 +2,7 @@ import { Container, Grid, Typography } from '@material-ui/core';
 import React, { RefObject } from 'react';
 import stack from '../../utils/imageE';
 import StackCompoenet from './StackCompoent';
-import useStyles from '../../stylesheets/home/styles';
+import useStyles from '../../styles/mui/home/styles';
 
 interface Iprops {
 	stackRef: RefObject<HTMLDivElement>;

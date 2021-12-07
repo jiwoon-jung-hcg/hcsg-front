@@ -7,7 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import Loading from '../../components/LoadingComponent/Loading';
 import MainNav from '../../components/NavComponent/MainNav';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 
 import profile from '../../images/defaultProfile.png';
 import DetailHeader from './DetailHeader';

@@ -1,6 +1,6 @@
 // COMMON
 
-import { FeedbackAfterValid, IsCheckAfterValid } from '../types/signInType';
+import { FeedbackAfterValid, IsCheckAfterValid } from '../types/UserType';
 
 /** 빈값 체크 */
 export function isNullCheck(email: string): boolean {

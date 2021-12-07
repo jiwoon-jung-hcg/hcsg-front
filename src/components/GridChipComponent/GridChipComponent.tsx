@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
-import useStyles from '../../stylesheets/generatePost/styles';
+import useStyles from '../../styles/mui/generatePost/styles';
 
 interface Iprops {
 	value: string;

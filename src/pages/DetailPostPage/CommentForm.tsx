@@ -1,6 +1,6 @@
 import { TextField, Typography } from '@material-ui/core';
 import React from 'react';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 import { DetailPost } from './DetailPostPage';
 
 interface Iprops {

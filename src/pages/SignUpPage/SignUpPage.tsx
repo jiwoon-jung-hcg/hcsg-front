@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // css
-import '../../sass/_signup.scss';
+import '../../styles/scss/signup.scss';
 
 // MUI
 import Button from '@material-ui/core/Button';

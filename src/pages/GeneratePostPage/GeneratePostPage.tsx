@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useFormik } from 'formik';
 import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
-import useStyles from '../../stylesheets/generatePost/styles';
+import useStyles from '../../styles/mui/generatePost/styles';
 
 import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
 import { useNavigate } from 'react-router';

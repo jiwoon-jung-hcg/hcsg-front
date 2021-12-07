@@ -2,7 +2,7 @@ import { Avatar, Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import { Comment } from './DetailPostPage';
 import profile from '../../images/defaultProfile.png';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 interface Iprops {
 	comment: Comment;
 }
