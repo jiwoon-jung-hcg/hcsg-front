@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useFormik } from 'formik';
 import { Button, Container, CssBaseline, Grid, TextField } from '@material-ui/core';
@@ -11,6 +11,9 @@ import axios from 'axios';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import MainNav from '../../components/NavComponent/MainNav';
 import { headerConfig } from '../../apis/user/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { newPost, REFRESH_CREATE_POST_CHECK } from '../../modules/post';
+import { RootState } from '../../modules';
 /** API 호출로 리팩토링 */
 export const STACK_NAMES = [
 	'C',
@@ -32,6 +35,8 @@ export const STACK_NAMES = [
 export default function GeneratePostPage() {
 	const navigate = useNavigate();
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const isSucessCreate = useSelector((state: RootState) => state.post.successfullyCreated);
 	const [isError, setIsError] = useState(false);
 	const [content, setContent] = useState('');
 	const [stacks, setStacks] = useState<string[]>([]);
@@ -42,19 +47,19 @@ export default function GeneratePostPage() {
 		onSubmit: async (values) => {
 			const { title } = values;
 			const inputPost = { title, content, stacks };
-			try {
-				const response = await axios.post(
-					`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`,
-					inputPost,
-					headerConfig(),
-				);
-				navigate('/');
-			} catch (error) {
-				console.dir(error);
-				setIsError(true);
-			}
+			dispatch(newPost(inputPost));
 		},
 	});
+
+	useEffect(() => {
+		isSucessCreate && navigate('/');
+	}, [isSucessCreate]);
+
+	useEffect(() => {
+		return () => {
+			dispatch({ type: REFRESH_CREATE_POST_CHECK });
+		};
+	}, []);
 
 	/** 상태에서 입력받은 스택 찾기 */
 	const findStack = (stack: string) => {
@@ -95,7 +100,14 @@ export default function GeneratePostPage() {
 							</Button>
 						</Grid>
 						<Grid item>
-							<Button variant="outlined" color="primary" type="submit" size="large" style={{ fontWeight: 'bold' }}>
+							<Button
+								variant="outlined"
+								color="primary"
+								type="submit"
+								size="large"
+								disabled={!formik.values.title || !stacks.length || !content}
+								style={{ fontWeight: 'bold' }}
+							>
 								작성
 							</Button>
 						</Grid>

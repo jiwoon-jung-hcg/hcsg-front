@@ -17,6 +17,8 @@ export interface SignupUserInfo extends LoginInfo {
 
 export const headerConfig = () => {
 	const cookie = new Cookies();
+	console.log('ToKen :::::::::::::::');
+	console.log(cookie.get('refresh_token'));
 	const config = cookie.get('referesh_token') && {
 		headers: {
 			token: cookie.get('refresh_token'),

@@ -7,7 +7,7 @@ const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
 const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostPage'));
 const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/GeneratePostPage'));
-const AuthCheck = loadable(() => import('./components/hoc/AuthCheck'));
+const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
 import { enableMapSet } from 'immer';
 
 enableMapSet();

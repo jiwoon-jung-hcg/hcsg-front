@@ -67,6 +67,10 @@ export const GET_DETAIL_POST_FAILURE = 'post/GET_DETAIL_POST_FAILURE';
 export const GET_FILTER_POSTS_REQUEST = 'post/GET_FILTER_POSTS_REQUEST';
 export const GET_FILTER_POSTS_SUCCESS = 'post/GET_FILTER_POSTS_SUCCESS';
 export const GET_FILTER_POSTS_FAILURE = 'post/GET_FILTER_POSTS_FAILURE';
+export const REFRESH_LIST = 'post/REFRESH_LIST';
+export const REFRESH_CREATE_POST_CHECK = 'post/REFRESH_CREATE_POST_CHECK';
+export const REFRESH_UPDATE_POST_CHECK = 'post/REFRESH_UPDATE_POST_CHECK';
+export const REFRESH_DELETE_POST_CHECK = 'post/REFRESH_DELETE_POST_CHECK';
 
 //============================================================//
 /** 0️⃣ Create Action Function */
@@ -163,6 +167,14 @@ export default function postReducers(state = postInitialState, action: Action) {
 		case GET_DETAIL_POST_FAILURE:
 			return produce(state, (draftState) => {
 				draftState.selectedPost = null;
+			});
+		case REFRESH_LIST:
+			return produce(state, (draftState) => {
+				draftState.posts = [];
+			});
+		case REFRESH_CREATE_POST_CHECK:
+			return produce(state, (draftState) => {
+				draftState.successfullyCreated = false;
 			});
 		default:
 			return state;

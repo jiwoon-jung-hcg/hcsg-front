@@ -10,7 +10,7 @@ import { logger } from '../../utils/logger';
 import HeaderComponent from './HeaderComponent';
 import StackNavComponent from './StackNavComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilterPosts, getPosts } from '../../modules/post';
+import { getFilterPosts, getPosts, REFRESH_LIST } from '../../modules/post';
 import { RootState } from '../../modules';
 
 const Home = () => {
@@ -26,6 +26,11 @@ const Home = () => {
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
+	/** 최초 호출시 */
+	useEffect(() => {
+		dispatch({ type: REFRESH_LIST });
+	}, []);
+
 	/** 더보기 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
 		dispatch(getPosts({ sort, limit, offset: page, stacks: selectStacks }));
