@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { LoginInfo, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
-import { LogInSuccessResponse, SignUpSuccessResponse } from '../types/UserType';
 
 export interface Action<T = any> {
 	type: string;
@@ -43,7 +42,7 @@ export const userDelete = (userId: number) => ({ type: DELETE_USER, payload: { u
 //============================================================//
 function* userLoginSaga(action: Action) {
 	try {
-		const response: LogInSuccessResponse = yield call(userLogin, action.payload);
+		yield call(userLogin, action.payload);
 		yield put({
 			type: LOGIN_SUCCESS,
 			payload: {
@@ -62,7 +61,7 @@ function* userLoginSaga(action: Action) {
 }
 function* userSignupSaga(action: Action) {
 	try {
-		const response: SignUpSuccessResponse = yield call(userSignup, action.payload);
+		yield call(userSignup, action.payload);
 		yield put({
 			type: SIGNUP_SUCCESS,
 			payload: {

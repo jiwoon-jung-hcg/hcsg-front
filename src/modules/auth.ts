@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from '@redux-saga/core/effects';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { isAuthCheck } from '../apis/Common/auth';
 import { Action } from './user';
 

@@ -1,16 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useFormik } from 'formik';
-import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, Container, CssBaseline, Grid, TextField } from '@material-ui/core';
 import useStyles from '../../styles/mui/generatePost/styles';
 
 import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
 import { useNavigate } from 'react-router';
 import GridChipComponent from '../../components/GridChipComponent/GridChipComponent';
 import axios from 'axios';
-import { CookieSingleton } from '../../utils/cookie';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import MainNav from '../../components/NavComponent/MainNav';
+import { headerConfig } from '../../apis/user/user';
 /** API 호출로 리팩토링 */
 export const STACK_NAMES = [
 	'C',
@@ -43,11 +43,11 @@ export default function GeneratePostPage() {
 			const { title } = values;
 			const inputPost = { title, content, stacks };
 			try {
-				const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`, inputPost, {
-					headers: {
-						token: CookieSingleton.getCookie().get('refresh_token'),
-					},
-				});
+				const response = await axios.post(
+					`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`,
+					inputPost,
+					headerConfig(),
+				);
 				navigate('/');
 			} catch (error) {
 				console.dir(error);

@@ -1,5 +1,5 @@
 import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from '../../styles/mui/home/styles';
 import mainLogo from '../../images/mainLogo.png';

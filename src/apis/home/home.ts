@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { GetPostsPayload } from '../../modules/post';
-import { Post, ResponseGetPosts, Sort } from '../../types/Home';
+import { Post, ResponseGetPosts } from '../../types/Home';
+import { GeneratePost } from '../../types/Post';
 import { logger } from '../../utils/logger';
 import { headerConfig } from '../user/user';
 
@@ -26,7 +27,7 @@ export async function getPostsRequest(postInfo: GetPostsPayload): Promise<Respon
 		} else {
 			throw new Error('No Posts');
 		}
-	} catch (err: any) {
+	} catch (err) {
 		logger(err);
 		throw { posts: [], last_page: true };
 	}
@@ -41,5 +42,16 @@ export async function getDetailPostRequest(postId: number): Promise<Post> {
 	} catch (err: any) {
 		logger(err);
 		throw null;
+	}
+}
+
+/** Generator Post */
+export async function createPostRequest(postInfo: GeneratePost) {
+	try {
+		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`, postInfo, headerConfig());
+		return { successfullyCreated: response.data };
+	} catch (error) {
+		logger(error);
+		throw { successfullyCreated: false };
 	}
 }

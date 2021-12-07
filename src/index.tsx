@@ -7,7 +7,7 @@ import axios from 'axios';
 import createSagaMiddleware from '@redux-saga/core';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootSaga, { RootReducer } from './modules';
 

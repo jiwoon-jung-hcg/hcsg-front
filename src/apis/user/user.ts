@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { CookieSingleton } from '../../utils/cookie';
 
 //type
 import { logger } from '../../utils/logger';

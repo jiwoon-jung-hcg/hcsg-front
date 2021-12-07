@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { logger } from '../../utils/logger';
-import { headerConfig } from '../user/user';
 
 export async function isAuthCheck() {
 	try {

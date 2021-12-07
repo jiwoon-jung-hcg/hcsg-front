@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import { Comment } from './DetailPostPage';
-import useStyles from '../../styles/mui/detailPost/styles';
 import CommentItem from './CommentItem';
 
 interface Iprops {
@@ -9,7 +8,6 @@ interface Iprops {
 }
 
 export default function CommentList(props: Iprops) {
-	const classes = useStyles();
 	const { comments } = props;
 	return (
 		<Grid container direction="column">

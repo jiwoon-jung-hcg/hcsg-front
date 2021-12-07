@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { logger } from '../../utils/logger';
-import { useNavigate, useParams } from 'react-router-dom';
-import { LoadableComponent } from '@loadable/component';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../LoadingComponent/Loading';
-import { headerConfig } from '../../apis/user/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from '../../modules/auth';
 import { RootState } from '../../modules';
@@ -35,26 +31,6 @@ export default function AuthCheck(props: iProps) {
 	useEffect(() => {
 		setIsLoading(true);
 		dispatch(getAuth());
-		// axios(`${process.env.REACT_APP_SERVER_URL}/api/v1/auth_check`, headerConfig())
-		// 	.then((response) => {
-		// 		const { isAuth, nickname }: { isAuth: boolean; nickname: string } = response.data;
-		// 		// 토큰이 정상인증이 되었지만 로그인 안한 유저만 접근이가능할 떄 => 홈페이지로 리다이렉팅
-		// 		if (isAuth && option === -1) {
-		// 			return navigate('/');
-		// 		}
-		// 		// 토큰이 정상적이지 않지만 로그인된 유저만 들어가야될때 => 로그인페이지로 리다이렉팅
-		// 		else if (!isAuth && option === 1) {
-		// 			return navigate('/signin');
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		logger(error);
-		// 		console.dir(error);
-		// 		navigate('/');
-		// 	})
-		// 	.finally(() => {
-		// 		setIsLoading(false);
-		// 	});
 	}, [SpecificComponent, user]);
 
 	useEffect(() => {

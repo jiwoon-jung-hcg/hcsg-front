@@ -20,7 +20,6 @@ import coverImage from '../../images/signup.jpg';
 
 import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/user/user';
 import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation';
-import { CookieSingleton } from '../../utils/cookie';
 import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../modules/user';
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		marginTop: '5vw',
-		backgroundColor: '#fff',
+		bakgroundColor: '#fff',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
