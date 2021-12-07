@@ -1,10 +1,10 @@
-import { call, put, take, takeLatest } from '@redux-saga/core/effects';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { LoginInfo, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
-import { LogInSuccessResponse, SignUpSuccessResponse } from '../types/signInType';
+import { LogInSuccessResponse, SignUpSuccessResponse } from '../types/UserType';
 
-export interface Action {
+export interface Action<T = any> {
 	type: string;
-	payload?: any;
+	payload: T;
 }
 //============================================================//
 /** initial state */

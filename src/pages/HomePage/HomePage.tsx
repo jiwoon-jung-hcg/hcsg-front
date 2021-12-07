@@ -1,91 +1,43 @@
-// module
 import React, { useState, useCallback, useEffect, useRef, RefObject } from 'react';
-// import { DefaultRootState, RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Typography, Button, CssBaseline, Grid, Container, CircularProgress } from '@material-ui/core';
-
-// component
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import Loading from '../../components/LoadingComponent/Loading';
 import MainNave from '../../components/NavComponent/MainNav';
 import PostComponent from '../../components/PostComponent/PostComponent';
-
-// style
-import useStyles from '../../stylesheets/home/styles';
-
-// type
-import { Post, ResponseGetPosts } from '../../types/Home';
-
-// action
-
-// reducer
-// import { UserState } from '../../_reducers/userReducer';
-
-// utils
-// import { CookieSingleton } from '../../utils/cookie';
+import useStyles from '../../styles/mui/home/styles';
+import { Post, ResponseGetPosts, Sort } from '../../types/Home';
 import { logger } from '../../utils/logger';
-import { getPosts } from '../../apis/home/home';
 import HeaderComponent from './HeaderComponent';
 import StackNavComponent from './StackNavComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilterPosts, getPosts } from '../../modules/post';
+import { RootState } from '../../modules';
 
 const Home = () => {
 	const classes = useStyles();
-	// const { isAuth, loginSuccess, data } = useSelector<RootStateOrAny, UserState>((state) => state.user);
-	// const storePost = useSelector<RootStateOrAny, Post[]>((state) => state.post);
-	// const dispatch = useDispatch();
-	const [posts, setPosts] = useState<Post[] | null>(null);
+	const dispatch = useDispatch();
+	const post = useSelector((state: RootState) => state.post);
 	const [isLoading, setIsLoading] = useState(true);
 	const [postLoading, setPostLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
-	// const [sort, setSort] = useState<Sort>('descending');
+	const [sort, setSort] = useState<Sort>('descending');
 	const [page, setPage] = useState(1);
-	const [isLastPost, setIsLastPost] = useState(false);
+	const [limit, setLimit] = useState(6);
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
 	/** 더보기 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
-		if (skip) {
-			setSkip(false);
-			return;
-		}
-		getPosts(selectStacks, page)
-			.then((response) => {
-				const { posts, last_page }: ResponseGetPosts = response;
-				last_page ? setIsLastPost(true) : setIsLastPost(false);
-				setPosts((prevPosts) => {
-					if (prevPosts?.length) {
-						return [...prevPosts, ...posts];
-					} else {
-						return [...posts];
-					}
-				});
-			})
-			.catch((error) => {
-				logger(error);
-				setIsError(true);
-			})
-			.finally(() => {
-				setIsLoading(false);
-				setPostLoading(false);
-			});
+		dispatch(getPosts({ sort, limit, offset: page, stacks: selectStacks }));
+		setIsLoading(false);
+		setPostLoading(false);
 	}, [skip]);
 
 	/** 스택 필터 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
-		getPosts(selectStacks, page)
-			.then((response) => {
-				const { posts, last_page }: ResponseGetPosts = response;
-				last_page ? setIsLastPost(true) : setIsLastPost(false);
-				setPosts([...posts]);
-			})
-			.catch((error) => {
-				logger(error);
-				setIsError(true);
-			})
-			.finally(() => {
-				setIsLoading(false);
-				setPostLoading(false);
-			});
+		dispatch(getFilterPosts({ sort, limit, offset: page, stacks: selectStacks }));
+		setIsLoading(false);
+		setPostLoading(false);
 	}, [selectStacks]);
 
 	/** 핸들러: 더보기 버튼 클릭 */
@@ -126,12 +78,13 @@ const Home = () => {
 
 	/** 게시글 리스트 리턴 함수 */
 	const renderPosts = useCallback(() => {
-		return posts ? (
-			posts.map((post) => <PostComponent key={post.id} post={post} />)
+		const data = post?.posts;
+		return Array.isArray(data) && data.length ? (
+			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
 		) : (
 			<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
 		);
-	}, [posts]);
+	}, [post]);
 
 	/** 더보기 버튼 */
 	const returnComponentThatisLoadingToClickButton = useCallback(() => {
@@ -139,14 +92,14 @@ const Home = () => {
 			return postLoading ? (
 				<CircularProgress />
 			) : (
-				!isLastPost && (
+				!post.lastPage && (
 					<Button color="primary" variant="outlined" onClick={handleMoreButtonClick}>
 						더 보기
 					</Button>
 				)
 			);
 		}
-	}, [postLoading, isLastPost]);
+	}, [postLoading, post]);
 
 	/** 로딩페이지 */
 	if (isLoading) {

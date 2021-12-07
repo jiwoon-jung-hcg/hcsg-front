@@ -9,6 +9,9 @@ const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
 const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostPage'));
 const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/GeneratePostPage'));
 const AuthCheck = loadable(() => import('./components/hoc/AuthCheck'));
+import { enableMapSet } from 'immer';
+
+enableMapSet();
 
 const App = () => {
 	const element = useRoutes([
