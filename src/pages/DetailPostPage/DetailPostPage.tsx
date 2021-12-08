@@ -1,4 +1,4 @@
-import { Container, CssBaseline, Typography } from '@material-ui/core';
+import { Container, CssBaseline, Grid, Typography } from '@material-ui/core';
 
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import axios from 'axios';
@@ -16,7 +16,7 @@ import DetailCountView from './DetailCountView';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDetailPost } from '../../modules/post';
+import { deletePost, getDetailPost, REFRESH_DELETE_POST_CHECK } from '../../modules/post';
 import { RootState } from '../../modules';
 import { headerConfig } from '../../utils/axiosHeader';
 
@@ -46,7 +46,8 @@ export default function DetailPostPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { selectedPost } = useSelector((state: RootState) => state.post);
+	const { selectedPost, successfullyDeleted } = useSelector((state: RootState) => state.post);
+	const { nickname } = useSelector((state: RootState) => state.auth);
 	const content = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
@@ -70,7 +71,19 @@ export default function DetailPostPage() {
 		setIsLoading(false);
 	}, []);
 
+	useEffect(() => {
+		successfullyDeleted && navigate('/');
+	}, [successfullyDeleted]);
+
+	useEffect(() => {
+		return () => {
+			dispatch({ type: REFRESH_DELETE_POST_CHECK });
+		};
+	}, []);
+
 	const handleBackClick = useCallback(() => navigate('/'), []);
+	const handleUpdateClick = useCallback(() => navigate('/post/update'), []);
+	const handleDeleteClick = useCallback(() => selectedPost && dispatch(deletePost(selectedPost.id)), [selectedPost]);
 
 	if (isLoading) return <Loading />;
 	if (isError) return <ErrorPage />;
@@ -82,9 +95,39 @@ export default function DetailPostPage() {
 				<MainNav />
 				<Container maxWidth="md" className={classes.main}>
 					<nav>
-						<Typography variant="h4">
-							<KeyboardBackspaceIcon className={classes.back} onClick={handleBackClick} />
-						</Typography>
+						<Grid container justifyContent="space-between" alignItems="center">
+							<Grid item>
+								<Typography variant="h4">
+									<KeyboardBackspaceIcon className={classes.back} onClick={handleBackClick} />
+								</Typography>
+							</Grid>
+							{selectedPost.authorNickname === nickname && (
+								<Grid>
+									<Grid container alignItems="center" spacing={4}>
+										<Grid item>
+											<Typography
+												variant="h5"
+												color="textSecondary"
+												className={classes.textButton}
+												onClick={handleUpdateClick}
+											>
+												수정
+											</Typography>
+										</Grid>
+										<Grid item>
+											<Typography
+												variant="h5"
+												color="secondary"
+												className={classes.textButton}
+												onClick={handleDeleteClick}
+											>
+												삭제
+											</Typography>
+										</Grid>
+									</Grid>
+								</Grid>
+							)}
+						</Grid>
 					</nav>
 					<main>
 						<DetailHeader post={selectedPost} />
