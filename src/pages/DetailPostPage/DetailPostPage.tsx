@@ -25,12 +25,13 @@ export interface DetailPost {
 	title: string;
 	stacks: string[];
 	content: string;
-	createdAt: string;
-	updatedAt: string;
+	created_at: string;
+	updated_at: string;
 	hit: number;
-	likesCount: number;
-	commentsCount: number;
-	authorNickname: string;
+	likes_count: number;
+	comments_count: number;
+	author_nickname: string;
+	liked: boolean;
 }
 
 export interface Comment {
@@ -101,7 +102,7 @@ export default function DetailPostPage() {
 									<KeyboardBackspaceIcon className={classes.back} onClick={handleBackClick} />
 								</Typography>
 							</Grid>
-							{selectedPost.authorNickname === nickname && (
+							{selectedPost.author_nickname === nickname && (
 								<Grid>
 									<Grid container alignItems="center" spacing={4}>
 										<Grid item>

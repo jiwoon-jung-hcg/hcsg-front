@@ -13,7 +13,7 @@ export default function CommentForm(props: Iprops) {
 	return (
 		<form>
 			<Typography variant="h4" className={classes.commentCount}>
-				{post.commentsCount}개의 댓글이 있습니다.
+				{post.comments_count}개의 댓글이 있습니다.
 			</Typography>
 			<TextField
 				variant="outlined"

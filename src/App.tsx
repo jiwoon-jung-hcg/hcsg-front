@@ -32,15 +32,3 @@ const App = () => {
 };
 
 export default App;
-
-const arr: JSX.Element[] = [];
-
-function makeCompoenent() {
-	return <h1>hello</h1>;
-}
-
-arr.push(makeCompoenent());
-arr.push(makeCompoenent());
-arr.push(makeCompoenent());
-
-console.dir(arr[0]);
