@@ -51,17 +51,17 @@ export default function GeneratePostPage() {
 		},
 	});
 
-	/** 성공 유무에 따른 페이지 리다이렉팅 */
-	useEffect(() => {
-		successfullyCreated ? navigate(`/post/${id}`) : setFeedbackMessage('게시글 생성에 실패했습니다');
-	}, [successfullyCreated, id]);
-
 	/** unMount */
 	useEffect(() => {
 		return () => {
 			dispatch({ type: REFRESH_CREATE_POST_CHECK });
 		};
 	}, []);
+
+	/** 성공 유무에 따른 페이지 리다이렉팅 */
+	useEffect(() => {
+		successfullyCreated ? navigate(`/post/${id}`) : setFeedbackMessage('게시글 생성에 실패했습니다');
+	}, [successfullyCreated, id]);
 
 	/** 상태에서 입력받은 스택 찾기 */
 	const findStack = (stack: string) => {
@@ -103,7 +103,7 @@ export default function GeneratePostPage() {
 						</Grid>
 						<Grid item>
 							<Typography variant="h6" color="secondary">
-								{feedbackMessage}
+								{/* {successfullyCreated === false && feedbackMessage} */}
 							</Typography>
 						</Grid>
 						<Grid item>

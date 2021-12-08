@@ -171,6 +171,16 @@ export default function postReducers(state = postInitialState, action: Action) {
 			return produce(state, (draftState) => {
 				draftState.selectedPost = null;
 			});
+		case NEW_POST_SUCCESS:
+			return produce(state, (draftState) => {
+				draftState.successfullyCreated = true;
+				draftState.id = action.payload.postId;
+			});
+		case NEW_POST_FAILURE:
+			return produce(state, (draftState) => {
+				draftState.successfullyCreated = false;
+				draftState.id = null;
+			});
 		case REFRESH_LIST:
 			return produce(state, (draftState) => {
 				draftState.posts = [];
