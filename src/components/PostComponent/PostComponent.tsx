@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import stack from '../../utils/imageE';
-import useStyles from '../../stylesheets/home/styles';
+import useStyles from '../../styles/mui/home/styles';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SmsIcon from '@material-ui/icons/Sms';

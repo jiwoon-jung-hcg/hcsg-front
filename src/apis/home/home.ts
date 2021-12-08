@@ -1,15 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
-import { Post, ResponseGetPosts, Sort } from '../../types/Home';
-import { CookieSingleton } from '../../utils/cookie';
+import { GetNewPostsResponse, GetPostsPayload } from '../../modules/post';
+import { Post, ResponseGetPosts } from '../../types/Home';
+import { GeneratePost } from '../../types/Post';
+import { headerConfig } from '../../utils/axiosHeader';
 import { logger } from '../../utils/logger';
-import { headerConfig } from '../signUp/signUp';
 
-export async function getPosts(
-	stacks: string[],
-	offset = 1,
-	sort: Sort = 'descending',
-	limit = 6,
-): Promise<ResponseGetPosts> {
+/** Get Lists */
+export async function getPostsRequest(postInfo: GetPostsPayload): Promise<ResponseGetPosts> {
+	const { sort, limit, offset, stacks } = postInfo;
 	const qsSort = `sort=${sort}`;
 	const qsLimit = `&limit=${limit}`;
 	const qsOffset = `&offset=${offset}`;
@@ -23,10 +21,37 @@ export async function getPosts(
 			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts?${qsSort + qsLimit + qsOffset + qsStacks}`,
 			headerConfig(),
 		);
-		return response.data;
+		const postResponseData = response.data;
+		if (postResponseData.posts.length) {
+			return postResponseData;
+		} else {
+			throw new Error('No Posts');
+		}
+	} catch (err) {
+		logger(err);
+		throw { posts: [], last_page: true };
+	}
+}
+
+/** Get List only one ~ */
+export async function getDetailPostRequest(postId: number): Promise<Post> {
+	try {
+		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
+		const postResponseData = response.data;
+		return postResponseData;
 	} catch (err: any) {
 		logger(err);
-		console.dir(err);
-		throw new Error('invalid Request');
+		throw null;
+	}
+}
+
+/** Generator Post */
+export async function createPostRequest(postInfo: GeneratePost): Promise<GetNewPostsResponse> {
+	try {
+		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`, postInfo, headerConfig());
+		return { successfullyCreated: true, postId: response.data.id };
+	} catch (error) {
+		logger(error);
+		throw { successfullyCreated: false, postId: null };
 	}
 }

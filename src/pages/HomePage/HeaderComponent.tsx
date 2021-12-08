@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
-import useStyles from '../../stylesheets/home/styles';
+import useStyles from '../../styles/mui/home/styles';
 import { useNavigate } from 'react-router';
 
 export default function HeaderComponent() {

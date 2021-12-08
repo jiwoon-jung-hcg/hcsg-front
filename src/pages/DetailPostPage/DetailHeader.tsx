@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
-import useStyles from '../../stylesheets/detailPost/styles';
+import useStyles from '../../styles/mui/detailPost/styles';
 import profile from '../../images/defaultProfile.png';
 import { DetailPost } from './DetailPostPage';
 

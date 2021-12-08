@@ -1,14 +1,16 @@
 import * as React from 'react';
-import loadable, { LoadableComponent } from '@loadable/component';
+import loadable from '@loadable/component';
 import { useRoutes } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
 import Loading from './components/LoadingComponent/Loading';
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
 const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostPage'));
 const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/GeneratePostPage'));
-const AuthCheck = loadable(() => import('./hoc/authCheck'));
+const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
+import { enableMapSet } from 'immer';
+
+enableMapSet();
 
 const App = () => {
 	const element = useRoutes([
@@ -28,3 +30,15 @@ const App = () => {
 };
 
 export default App;
+
+const arr: JSX.Element[] = [];
+
+function makeCompoenent() {
+	return <h1>hello</h1>;
+}
+
+arr.push(makeCompoenent());
+arr.push(makeCompoenent());
+arr.push(makeCompoenent());
+
+console.dir(arr[0]);

@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
-import useStyles from '../../stylesheets/home/styles';
+import useStyles from '../../styles/mui/home/styles';
 import React, { useCallback } from 'react';
-import '../../stylesheets/stack.scss';
+import '../../styles/scss/stack.scss';
 
 export interface iProps {
 	item: { title: string; url: string };
