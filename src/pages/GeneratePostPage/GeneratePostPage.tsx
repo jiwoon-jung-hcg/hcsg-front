@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useFormik } from 'formik';
-import { Button, Container, CssBaseline, Grid, TextField } from '@material-ui/core';
+import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
 import useStyles from '../../styles/mui/generatePost/styles';
 
 import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
@@ -10,7 +10,6 @@ import GridChipComponent from '../../components/GridChipComponent/GridChipCompon
 import axios from 'axios';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import MainNav from '../../components/NavComponent/MainNav';
-import { headerConfig } from '../../apis/user/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { newPost, REFRESH_CREATE_POST_CHECK } from '../../modules/post';
 import { RootState } from '../../modules';
@@ -36,10 +35,11 @@ export default function GeneratePostPage() {
 	const navigate = useNavigate();
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const isSucessCreate = useSelector((state: RootState) => state.post.successfullyCreated);
+	const { successfullyCreated, id } = useSelector((state: RootState) => state.post);
 	const [isError, setIsError] = useState(false);
 	const [content, setContent] = useState('');
 	const [stacks, setStacks] = useState<string[]>([]);
+	const [feedbackMessage, setFeedbackMessage] = useState('');
 	const formik = useFormik({
 		initialValues: {
 			title: '',
@@ -51,10 +51,12 @@ export default function GeneratePostPage() {
 		},
 	});
 
+	/** 성공 유무에 따른 페이지 리다이렉팅 */
 	useEffect(() => {
-		isSucessCreate && navigate('/');
-	}, [isSucessCreate]);
+		successfullyCreated ? navigate(`/post/${id}`) : setFeedbackMessage('게시글 생성에 실패했습니다');
+	}, [successfullyCreated, id]);
 
+	/** unMount */
 	useEffect(() => {
 		return () => {
 			dispatch({ type: REFRESH_CREATE_POST_CHECK });
@@ -98,6 +100,11 @@ export default function GeneratePostPage() {
 							<Button color="inherit" onClick={handleCancelClick} size="large" style={{ fontWeight: 'bold' }}>
 								<ArrowBackIcon fontSize="large" />
 							</Button>
+						</Grid>
+						<Grid item>
+							<Typography variant="h6" color="secondary">
+								{feedbackMessage}
+							</Typography>
 						</Grid>
 						<Grid item>
 							<Button

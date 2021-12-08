@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { GetPostsPayload } from '../../modules/post';
+import { GetNewPostsResponse, GetPostsPayload } from '../../modules/post';
 import { Post, ResponseGetPosts } from '../../types/Home';
 import { GeneratePost } from '../../types/Post';
+import { headerConfig } from '../../utils/axiosHeader';
 import { logger } from '../../utils/logger';
-import { headerConfig } from '../user/user';
 
 /** Get Lists */
 export async function getPostsRequest(postInfo: GetPostsPayload): Promise<ResponseGetPosts> {
@@ -46,12 +46,12 @@ export async function getDetailPostRequest(postId: number): Promise<Post> {
 }
 
 /** Generator Post */
-export async function createPostRequest(postInfo: GeneratePost) {
+export async function createPostRequest(postInfo: GeneratePost): Promise<GetNewPostsResponse> {
 	try {
 		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts`, postInfo, headerConfig());
-		return { successfullyCreated: response.data };
+		return { successfullyCreated: true, postId: response.data.id };
 	} catch (error) {
 		logger(error);
-		throw { successfullyCreated: false };
+		throw { successfullyCreated: false, postId: null };
 	}
 }

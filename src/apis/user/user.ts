@@ -1,8 +1,9 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+import { headerConfig } from '../../utils/axiosHeader';
 
 //type
 import { logger } from '../../utils/logger';
-import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 
 export interface LoginInfo {
@@ -14,18 +15,6 @@ export interface SignupUserInfo extends LoginInfo {
 	nickname: string;
 	passwordCheck: string;
 }
-
-export const headerConfig = () => {
-	const cookie = new Cookies();
-	console.log('ToKen :::::::::::::::');
-	console.log(cookie.get('refresh_token'));
-	const config = cookie.get('referesh_token') && {
-		headers: {
-			token: cookie.get('refresh_token'),
-		},
-	};
-	return config;
-};
 
 /** 로그인 요청 */
 export async function userLogin({ email, password }: LoginInfo) {

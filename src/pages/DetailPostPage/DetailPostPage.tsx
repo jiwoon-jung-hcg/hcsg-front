@@ -15,10 +15,10 @@ import DetailContent from './DetailContent';
 import DetailCountView from './DetailCountView';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
-import { headerConfig } from '../../apis/user/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailPost } from '../../modules/post';
 import { RootState } from '../../modules';
+import { headerConfig } from '../../utils/axiosHeader';
 
 export interface DetailPost {
 	id: number;

@@ -13,6 +13,7 @@ export interface PostInitialState {
 	posts: Post[];
 	selectedPost: DetailPost | null;
 	lastPage: boolean;
+	id: number | null; // PostId
 	successfullyCreated: boolean;
 	successfullyUpdated: boolean;
 	successfullyDeleted: boolean;
@@ -28,10 +29,11 @@ export interface GetPostsResponse {
 	last_page: boolean;
 }
 export interface GetNewPostsResponse {
-	successfullyCreate: boolean;
+	postId: number;
+	successfullyCreated: boolean;
 }
 export interface CustomError extends Error {
-	successfullyCreate: boolean;
+	successfullyCreated: boolean;
 }
 
 //============================================================//
@@ -41,6 +43,7 @@ export const postInitialState: PostInitialState = {
 	posts: [],
 	selectedPost: null,
 	lastPage: false,
+	id: null,
 	successfullyCreated: false,
 	successfullyUpdated: false,
 	successfullyDeleted: false,
