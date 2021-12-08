@@ -7,6 +7,7 @@ const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
 const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostPage'));
 const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/GeneratePostPage'));
+const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
 import { enableMapSet } from 'immer';
 
@@ -22,6 +23,7 @@ const App = () => {
 			children: [
 				{ path: ':id', element: <AuthCheck SpecificComponent={DetailPostPage} option={0} /> },
 				{ path: 'new', element: <AuthCheck SpecificComponent={GeneratePostPage} option={1} /> },
+				{ path: 'update', element: <AuthCheck SpecificComponent={UpdatePostPage} option={1} /> },
 			],
 		},
 		{ path: '/loadingTest', element: <AuthCheck SpecificComponent={Loading} option={0} /> },

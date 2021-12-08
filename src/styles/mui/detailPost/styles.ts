@@ -111,6 +111,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 		fontSize: ' 1.8em',
 		fontWeight: 'normal',
 	},
+	textButton: {
+		fontWeight: 'bold',
+		cursor: 'pointer',
+	},
 }));
 
 export default useStyles;

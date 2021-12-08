@@ -22,7 +22,10 @@ export default function GridChipComponent(props: Iprops) {
 	);
 	return (
 		<Grid item>
-			<Typography className={`${classes.chip}`} onClick={handleOnClick}>
+			<Typography
+				className={classes.chip + ' ' + (stacks.find((el) => el === value.toLowerCase()) && classes.active)}
+				onClick={handleOnClick}
+			>
 				{value}
 			</Typography>
 		</Grid>

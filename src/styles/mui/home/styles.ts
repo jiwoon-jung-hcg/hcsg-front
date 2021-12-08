@@ -37,10 +37,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	postStack: {
 		padding: 0,
-		marginTop: '20%',
+		margin: '30px 0',
 		listStyle: 'none',
 		display: 'flex',
 		justifyContent: 'center',
+	},
+	iconCntainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		listStyle: 'none',
+		margin: '30px 0',
+		padding: 0,
 	},
 	mainTItle: {
 		fontSize: 62,
@@ -79,21 +87,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 			transform: 'scale(1.01)',
 		},
 	},
-	cardTitle: {
-		fontSize: 22,
-		whiteSpace: 'nowrap',
-		overflow: 'hidden',
-		textOverflow: 'ellipsis',
-	},
-	cardMedia: {
-		paddingTop: '56.25%',
-	},
 	cardContent: {
+		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		flexGrow: 1,
-		padding: 0,
+		padding: '0 15px 0 15px',
+	},
+	cardTitle: {
+		fontSize: 20,
+		width: '100%',
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		margin: 0,
 	},
 	footer: {
 		backgroundColor: theme.palette.background.paper,

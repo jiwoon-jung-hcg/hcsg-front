@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { GetNewPostsResponse, GetPostsPayload } from '../../modules/post';
 import { Post, ResponseGetPosts } from '../../types/Home';
-import { GeneratePost } from '../../types/Post';
+import { GeneratePost, UpdatePost } from '../../types/Post';
 import { headerConfig } from '../../utils/axiosHeader';
 import { logger } from '../../utils/logger';
 
@@ -53,5 +53,33 @@ export async function createPostRequest(postInfo: GeneratePost): Promise<GetNewP
 	} catch (error) {
 		logger(error);
 		throw { successfullyCreated: false, postId: null };
+	}
+}
+
+/** Update Post */
+export async function updatePostRequest(postInfo: UpdatePost) {
+	const { title, content, stacks } = postInfo;
+	try {
+		const response = await axios.put(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postInfo.postId}`,
+			{ title, content, stacks },
+			headerConfig(),
+		);
+		return { successfullyUpdated: true, postId: response.data.id };
+	} catch (error) {
+		logger(error);
+		throw { successfullyUpdated: false, postId: null };
+	}
+}
+
+/** Delete Post */
+export async function deletePostRequest(postId: number) {
+	try {
+		const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
+		console.log(response.data);
+		return { successfullyDeleted: true };
+	} catch (error) {
+		logger(error);
+		throw { successfullyDeleted: false };
 	}
 }
