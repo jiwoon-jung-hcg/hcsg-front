@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import stack from '../../utils/imageE';
-import useStyles from '../../stylesheets/home/styles';
+import useStyles from '../../styles/mui/home/styles';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SmsIcon from '@material-ui/icons/Sms';
@@ -22,7 +22,7 @@ export default function PostComponent(props: Iprops) {
 			<Card className={classes.card} onClick={handlePostClick}>
 				<CardContent className={classes.cardContent}>
 					<Typography variant="h5" align="center" gutterBottom className={classes.cardTitle}>
-						{post.title.slice(0, 15)}
+						{post.title}
 					</Typography>
 					<ul className={classes.postStack}>
 						{post.stacks.slice(0, 3).map((keyword) => (
@@ -35,17 +35,7 @@ export default function PostComponent(props: Iprops) {
 							</li>
 						))}
 					</ul>
-					<ul
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							listStyle: 'none',
-							margin: '25% 0 10% 0',
-							padding: 0,
-							// position: 'absolute',
-						}}
-					>
+					<ul className={classes.iconCntainer}>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
 							<VisibilityIcon style={{ marginRight: 5 }} />
 							{post.hit}

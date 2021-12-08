@@ -3,3 +3,7 @@ export interface GeneratePost {
 	content: string;
 	stacks: string[];
 }
+
+export interface UpdatePost extends GeneratePost {
+	postId: number;
+}

@@ -1,67 +1,47 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useFormik } from 'formik';
 import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
-import useStyles from '../../styles/mui/generatePost/styles';
-
-import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
-import { useNavigate } from 'react-router';
-import GridChipComponent from '../../components/GridChipComponent/GridChipComponent';
-import axios from 'axios';
-import ErrorPage from '../../components/ErrorComponent/ErrorPage';
-import MainNav from '../../components/NavComponent/MainNav';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { newPost, REFRESH_CREATE_POST_CHECK } from '../../modules/post';
+import MainNav from '../../components/NavComponent/MainNav';
 import { RootState } from '../../modules';
-/** API 호출로 리팩토링 */
-export const STACK_NAMES = [
-	'C',
-	'Java',
-	'JavaScript',
-	'TypeScript',
-	'Node',
-	'React',
-	'Vue',
-	'Python',
-	'Django',
-	'Docker',
-	'Swagger',
-	'Go',
-	'Ruby',
-	'AWS',
-];
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
+import useStyles from '../../styles/mui/generatePost/styles';
+import { useNavigate } from 'react-router';
+import { useFormik } from 'formik';
+import GridChipComponent from '../../components/GridChipComponent/GridChipComponent';
+import { STACK_NAMES } from '../GeneratePostPage/GeneratePostPage';
+import { REFRESH_UPDATE_POST_CHECK, updatePost } from '../../modules/post';
 
-export default function GeneratePostPage() {
+export default function UpdatePostPage() {
 	const navigate = useNavigate();
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const { successfullyCreated, id } = useSelector((state: RootState) => state.post);
-	const [isError, setIsError] = useState(false);
-	const [content, setContent] = useState('');
-	const [stacks, setStacks] = useState<string[]>([]);
-	const [feedbackMessage, setFeedbackMessage] = useState('');
+	const { selectedPost } = useSelector((state: RootState) => state.post);
+	const { successfullyUpdated, id } = useSelector((state: RootState) => state.post);
+	const [content, setContent] = useState(selectedPost?.content || '');
+	const [stacks, setStacks] = useState<string[]>(selectedPost?.stacks || []);
 	const formik = useFormik({
 		initialValues: {
-			title: '',
+			title: selectedPost?.title,
 		},
 		onSubmit: async (values) => {
-			const { title } = values;
-			const inputPost = { title, content, stacks };
-			dispatch(newPost(inputPost));
+			if (values.title && content && stacks.length && selectedPost) {
+				const { title } = values;
+				const { id } = selectedPost;
+				const inputPost = { title, content, stacks, postId: id };
+				dispatch(updatePost({ ...inputPost }));
+			}
 		},
 	});
 
-	/** unMount */
+	useEffect(() => {
+		successfullyUpdated && navigate(`/post/${id}`);
+	}, [successfullyUpdated, id]);
 	useEffect(() => {
 		return () => {
-			dispatch({ type: REFRESH_CREATE_POST_CHECK });
+			dispatch({ type: REFRESH_UPDATE_POST_CHECK });
 		};
-	}, []);
-
-	/** 성공 유무에 따른 페이지 리다이렉팅 */
-	useEffect(() => {
-		successfullyCreated ? navigate(`/post/${id}`) : setFeedbackMessage('게시글 생성에 실패했습니다');
-	}, [successfullyCreated, id]);
+	});
 
 	/** 상태에서 입력받은 스택 찾기 */
 	const findStack = (stack: string) => {
@@ -86,9 +66,6 @@ export default function GeneratePostPage() {
 			<GridChipComponent key={stack} value={stack} onClick={handleClickStack} stacks={stacks} />
 		));
 	};
-
-	if (isError) return <ErrorPage />;
-
 	return (
 		<div style={{ background: 'white' }}>
 			<CssBaseline />
@@ -115,7 +92,7 @@ export default function GeneratePostPage() {
 								disabled={!formik.values.title || !stacks.length || !content}
 								style={{ fontWeight: 'bold' }}
 							>
-								작성
+								수정
 							</Button>
 						</Grid>
 					</Grid>
