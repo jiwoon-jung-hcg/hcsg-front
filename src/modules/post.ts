@@ -8,7 +8,7 @@ import {
 	getDetailPostRequest,
 	getPostsRequest,
 	updatePostRequest,
-} from '../apis/home/home';
+} from '../apis/post/post';
 import produce from 'immer';
 import { DetailPost } from '../pages/DetailPostPage/DetailPostPage';
 

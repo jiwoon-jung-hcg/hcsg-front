@@ -22,7 +22,7 @@ export default function MainNav() {
 	const renderUserLogin = useCallback(() => {
 		return (
 			<Grid>
-				{auth.isAuth ? (
+				{auth.is_atuh ? (
 					<Typography
 						variant="h6"
 						style={{ color: 'black', cursor: 'pointer' }}

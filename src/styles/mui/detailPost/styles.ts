@@ -115,6 +115,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 		fontWeight: 'bold',
 		cursor: 'pointer',
 	},
+	headerContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+	},
+	buttonContainer: {},
 }));
 
 export default useStyles;

@@ -10,8 +10,8 @@ import { logger } from '../../utils/logger';
 import HeaderComponent from './HeaderComponent';
 import StackNavComponent from './StackNavComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilterPosts, getPosts, REFRESH_LIST } from '../../modules/post';
 import { RootState } from '../../modules';
+import { getFilterPosts, getPosts, REFRESH_LIST } from '../../modules/post';
 
 const Home = () => {
 	const classes = useStyles();

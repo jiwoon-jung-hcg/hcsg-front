@@ -76,7 +76,6 @@ export async function updatePostRequest(postInfo: UpdatePost) {
 export async function deletePostRequest(postId: number) {
 	try {
 		const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
-		console.log(response.data);
 		return { successfullyDeleted: true };
 	} catch (error) {
 		logger(error);
