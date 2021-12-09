@@ -14,7 +14,7 @@ export default function StackNavComponent(props: Iprops) {
 	const { stackRef, updateStack, feedbackFilter } = props;
 	const classes = useStyles();
 	return (
-		<nav style={{ position: 'relative', zIndex: '10' }}>
+		<nav style={{ position: 'relative', zIndex: '10', backgroundColor: 'rgba( 0, 0, 0,0)' }}>
 			<Typography className={classes.stackHelpMessage}>
 				아래의 이미지를 클릭해 원하는 언어로 필터링 해보세요!
 			</Typography>

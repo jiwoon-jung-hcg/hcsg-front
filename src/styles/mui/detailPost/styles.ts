@@ -108,8 +108,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	commentContent: {
 		marginTop: '20px',
-		fontSize: ' 1.8em',
-		fontWeight: 'normal',
+		fontSize: ' 1.5em',
+		fontWeight: 'lighter',
+		fontFamily: 'Jua',
 	},
 	textButton: {
 		fontWeight: 'bold',

@@ -101,7 +101,7 @@ export default function CommentItem(props: Iprops) {
 					<Avatar alt="author profile" src={profile} />
 					<div>
 						<Typography variant="h5">{comment.commenter_nickname}</Typography>
-						<div style={{ display: 'flex' }}>
+						<div style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
 							<Typography
 								variant="h6"
 								color="textPrimary"
@@ -109,7 +109,7 @@ export default function CommentItem(props: Iprops) {
 							>
 								{comment.created_at}
 							</Typography>
-							<Typography variant="h6" color="textSecondary">
+							<Typography variant="h6" color="textSecondary" style={{ fontSize: '.8em' }}>
 								{comment.updated_at && ` ${comment.updated_at} 수정됨`}
 							</Typography>
 						</div>
