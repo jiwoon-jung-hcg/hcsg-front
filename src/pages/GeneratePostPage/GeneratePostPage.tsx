@@ -60,8 +60,8 @@ export default function GeneratePostPage() {
 
 	/** 성공 유무에 따른 페이지 리다이렉팅 */
 	useEffect(() => {
-		successfullyCreated ? navigate(`/post/${id}`) : setFeedbackMessage('게시글 생성에 실패했습니다');
-	}, [successfullyCreated, id]);
+		successfullyCreated && navigate(`/post/${id}`);
+	}, [id]);
 
 	/** 상태에서 입력받은 스택 찾기 */
 	const findStack = (stack: string) => {

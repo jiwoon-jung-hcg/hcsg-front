@@ -128,6 +128,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 		boxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
 		webkitBoxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
 	},
+	filterIcon: {
+		display: 'flex',
+		alignItems: 'center',
+		cursor: 'pointer',
+		transition: 'transform .1s',
+		'& svg': {
+			marginRight: '5px',
+		},
+		'&:hover': {
+			transform: 'scale(1.1)',
+		},
+	},
 }));
 
 export default useStyles;

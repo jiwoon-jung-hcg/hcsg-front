@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, RefObject } from 'react';
 import { Typography, Button, CssBaseline, Grid, Container, CircularProgress } from '@material-ui/core';
+
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 import Loading from '../../components/LoadingComponent/Loading';
 import MainNave from '../../components/NavComponent/MainNav';
@@ -12,6 +13,7 @@ import StackNavComponent from './StackNavComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { getFilterPosts, getPosts, REFRESH_LIST } from '../../modules/post';
+import SortComponent from './SortComponent';
 
 const Home = () => {
 	const classes = useStyles();
@@ -26,9 +28,12 @@ const Home = () => {
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const [skip, setSkip] = useState(false);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
-	/** 최초 호출시 */
+
+	/** unMount */
 	useEffect(() => {
-		dispatch({ type: REFRESH_LIST });
+		return () => {
+			dispatch({ type: REFRESH_LIST });
+		};
 	}, []);
 
 	/** 더보기 버튼눌렀을때 포스트 추가호출 */
@@ -36,7 +41,7 @@ const Home = () => {
 		dispatch(getPosts({ sort, limit, offset: page, stacks: selectStacks }));
 		setIsLoading(false);
 		setPostLoading(false);
-	}, [skip]);
+	}, [skip, sort]);
 
 	/** 스택 필터 버튼눌렀을때 포스트 추가호출 */
 	useEffect(() => {
@@ -128,6 +133,7 @@ const Home = () => {
 				</header>
 				<StackNavComponent stackRef={stackRef} updateStack={updateStack} feedbackFilter={feedbackFilter} />
 				<Container className={classes.cardGrid} maxWidth="md">
+					<SortComponent />
 					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw' }}>
 						{renderPosts()}
 					</Grid>

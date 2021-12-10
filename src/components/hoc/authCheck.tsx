@@ -44,7 +44,7 @@ export default function AuthCheck(props: iProps) {
 			return navigate('/signin');
 		}
 		setIsLoading(false);
-	}, [auth]);
+	}, [auth, option]);
 
 	if (isLoading) {
 		return <Loading />;

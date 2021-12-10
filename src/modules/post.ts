@@ -246,6 +246,7 @@ export default function postReducers(state = postInitialState, action: Action) {
 		case REFRESH_DELETE_POST_CHECK:
 			return produce(state, (draftState) => {
 				draftState.successfullyDeleted = false;
+				draftState.id = null;
 			});
 		default:
 			return state;
