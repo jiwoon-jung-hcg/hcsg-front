@@ -20,6 +20,7 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const post = useSelector((state: RootState) => state.post);
 	const [isLoading, setIsLoading] = useState(true);
+	const [postListLoading, setPostListLoading] = useState(true);
 	const [postLoading, setPostLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [sort, setSort] = useState<Sort>('descending');
@@ -35,8 +36,9 @@ const Home = () => {
 			dispatch({ type: REFRESH_LIST });
 		};
 	}, []);
-	/** 더보기 버튼 포스트 추가호출 */
+	/** 더보기, 스택, 정렬 버튼 포스트 추가호출 */
 	useEffect(() => {
+		setPostListLoading(true);
 		dispatch(getPosts({ sort, limit, offset, stacks: selectStacks }));
 		setIsLoading(false);
 		setPostLoading(false);
@@ -81,16 +83,6 @@ const Home = () => {
 			}
 		}
 	}, []);
-	/** 게시글 리스트 리턴 함수 */
-	const renderPosts = useCallback(() => {
-		const data = post?.posts;
-		return Array.isArray(data) && data.length ? (
-			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
-		) : (
-			<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
-		);
-	}, [post]);
-
 	/** 더보기 버튼 */
 	const returnComponentThatisLoadingToClickButton = useCallback(() => {
 		{
@@ -107,6 +99,15 @@ const Home = () => {
 	}, [postLoading, post]);
 
 	/** Render */
+	/** 게시글 리스트 리턴 함수 */
+	const renderPosts = useCallback(() => {
+		const data = post?.posts;
+		return Array.isArray(data) && data.length ? (
+			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
+		) : (
+			<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
+		);
+	}, [post]);
 	/** 로딩페이지 */
 	if (isLoading) {
 		return <Loading />;
@@ -128,7 +129,7 @@ const Home = () => {
 				<StackNavComponent stackRef={stackRef} updateStack={updateStack} feedbackFilter={feedbackFilter} />
 				<Container className={classes.cardGrid} maxWidth="md">
 					<SortComponent handleChangeSort={handleChangeSort} />
-					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw' }}>
+					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw', minHeight: '600px' }}>
 						{renderPosts()}
 					</Grid>
 					<div className={classes.loadingContainer}>{returnComponentThatisLoadingToClickButton()}</div>
