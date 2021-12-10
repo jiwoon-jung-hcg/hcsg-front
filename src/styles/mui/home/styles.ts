@@ -138,6 +138,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 		},
 		'&:hover': {
 			transform: 'scale(1.1)',
+			'&:active': {
+				transform: 'scale(1.09)',
+			},
 		},
 	},
 }));

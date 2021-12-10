@@ -14,7 +14,7 @@ import rootSaga, { RootReducer } from './modules';
 axios.defaults.withCredentials = true;
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(RootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware /*, logger*/)));
+const store = createStore(RootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware, logger)));
 
 sagaMiddleware.run(rootSaga);
 
