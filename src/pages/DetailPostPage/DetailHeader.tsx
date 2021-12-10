@@ -19,11 +19,11 @@ export default function DetailHeader(props: Iprops) {
 			<Grid container justifyContent="space-between" alignItems="center" className={classes.subtitle}>
 				<Grid item className={classes.profile}>
 					<Avatar alt="author profile" src={profile} className={classes.profileImage} />
-					<Typography variant="h5">{post.authorNickname}</Typography>
+					<Typography variant="h5">{post.author_nickname}</Typography>
 				</Grid>
 				<Grid item>
 					<Typography variant="h5" color="inherit" className={classes.date}>
-						{post.createdAt}
+						{post.created_at}
 					</Typography>
 				</Grid>
 			</Grid>

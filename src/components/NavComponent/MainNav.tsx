@@ -1,36 +1,31 @@
 import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from '../../styles/mui/home/styles';
 import mainLogo from '../../images/mainLogo.png';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import Cookies from 'universal-cookie';
+import { logout, LOGOUT } from '../../modules/user';
 
 export default function MainNav() {
 	const cookie = new Cookies();
 	const classes = useStyles();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [, updateState] = useState({});
-	const auth = useSelector((state: RootState) => state.auth);
+	const { auth, user } = useSelector((state: RootState) => state);
 
-	const handleLogoClick = useCallback(() => {
-		navigate('/');
+	const handleLogout = useCallback(() => {
+		dispatch(logout());
 	}, []);
 
 	const renderUserLogin = useCallback(() => {
 		return (
 			<Grid>
-				{auth.isAuth ? (
-					<Typography
-						variant="h6"
-						style={{ color: 'black', cursor: 'pointer' }}
-						onClick={() => {
-							cookie.remove('refresh_token');
-							updateState({});
-						}}
-					>
+				{auth.nickname ? (
+					<Typography variant="h6" style={{ color: 'black', cursor: 'pointer' }} onClick={handleLogout}>
 						{auth.nickname}님 환영합니다!
 					</Typography>
 				) : (
@@ -40,7 +35,7 @@ export default function MainNav() {
 				)}
 			</Grid>
 		);
-	}, [auth]);
+	}, [auth, user.logoutSuccess]);
 
 	return (
 		<div className={classes.navRoot}>
@@ -48,12 +43,7 @@ export default function MainNav() {
 				<Toolbar>
 					<Grid container alignItems="center">
 						<Grid item style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-							<img
-								src={mainLogo}
-								alt="main logo"
-								style={{ marginRight: '8px', width: 100, cursor: 'pointer' }}
-								onClick={handleLogoClick}
-							/>
+							<img src={mainLogo} alt="main logo" style={{ marginRight: '8px', width: 100, cursor: 'pointer' }} />
 						</Grid>
 						<Grid style={{ marginRight: '20px' }}>
 							<Link to="/post/new" style={{ color: 'black', textDecoration: 'none', fontWeight: 'bold' }}>

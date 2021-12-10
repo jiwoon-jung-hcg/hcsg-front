@@ -10,7 +10,6 @@ const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/Generat
 const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
 import { enableMapSet } from 'immer';
-
 enableMapSet();
 
 const App = () => {
@@ -32,15 +31,3 @@ const App = () => {
 };
 
 export default App;
-
-const arr: JSX.Element[] = [];
-
-function makeCompoenent() {
-	return <h1>hello</h1>;
-}
-
-arr.push(makeCompoenent());
-arr.push(makeCompoenent());
-arr.push(makeCompoenent());
-
-console.dir(arr[0]);

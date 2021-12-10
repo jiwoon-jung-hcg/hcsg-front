@@ -14,7 +14,6 @@ class EditorComponent extends Component<Iprops> {
 
 	modules = {
 		toolbar: [
-			//[{ 'font': [] }],
 			[{ header: [1, 2, false] }],
 			['bold', 'italic', 'underline', 'strike', 'blockquote'],
 			[{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
@@ -25,7 +24,6 @@ class EditorComponent extends Component<Iprops> {
 	};
 
 	formats = [
-		//'font',
 		'header',
 		'bold',
 		'italic',

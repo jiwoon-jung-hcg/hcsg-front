@@ -1,4 +1,6 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
+import produce from 'immer';
+import Cookies from 'universal-cookie';
 import { LoginInfo, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
 
 export interface Action<T = any> {
@@ -9,8 +11,10 @@ export interface Action<T = any> {
 /** initial state */
 //============================================================//
 export const userInitialState = {
+	user: null,
 	loginSuccess: false,
 	signupSuccess: false,
+	logoutSuccess: false,
 	failure: {
 		keyword: null,
 		error: null,
@@ -33,7 +37,11 @@ export const DELETE_USER = 'user/DELETE_USER';
 /** 0️⃣ Create Action Function */
 //============================================================//
 export const getLogin = (userInfo: LoginInfo) => ({ type: LOGIN_REQUEST, payload: { ...userInfo } });
-export const logout = (userId: number) => ({ type: LOGOUT, payload: { userId } });
+export const logout = () => {
+	const cookie = new Cookies();
+	cookie.remove('refresh_token');
+	return { type: LOGOUT, payload: null };
+};
 export const signup = (userSignupInfo: SignupUserInfo) => ({ type: SIGNUP_REQUEST, payload: { ...userSignupInfo } });
 export const userDelete = (userId: number) => ({ type: DELETE_USER, payload: { userId } });
 
@@ -92,25 +100,20 @@ export function* watchUser() {
 export default function userReducers(state = userInitialState, action: Action) {
 	switch (action.type) {
 		case LOGIN_SUCCESS:
-			return {
-				...state,
-				user: {
-					userId: action.payload.userId,
-					nickname: action.payload.nickname,
-				},
-				loginSuccess: true,
-				failure: { keyword: null, error: null },
-			};
+			return produce(state, (draftState) => {
+				draftState.loginSuccess = true;
+				draftState.logoutSuccess = false;
+				draftState.failure = { keyword: null, error: null };
+			});
 		case LOGIN_FAILURE:
-			return {
-				...state,
-				user: { userId: null, nickname: null },
-				loginSuccess: false,
-				failure: {
-					keyword: action.payload.keyword,
-					error: action.payload.error,
-				},
-			};
+			return produce(state, (draftState) => {
+				draftState.loginSuccess = false;
+				draftState.failure = { keyword: action.payload.keyword, error: action.payload.error };
+			});
+		case LOGOUT:
+			return produce(state, (draftState) => {
+				draftState.logoutSuccess = true;
+			});
 		default:
 			return state;
 	}

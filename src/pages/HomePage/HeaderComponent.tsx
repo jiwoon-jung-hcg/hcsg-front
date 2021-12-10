@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import useStyles from '../../styles/mui/home/styles';
 import { useNavigate } from 'react-router';
+import headerBackground from '../../images/headerBackground.png';
 
 export default function HeaderComponent() {
 	const navigate = useNavigate();

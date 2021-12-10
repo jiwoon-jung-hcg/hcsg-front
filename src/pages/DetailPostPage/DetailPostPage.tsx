@@ -25,12 +25,13 @@ export interface DetailPost {
 	title: string;
 	stacks: string[];
 	content: string;
-	createdAt: string;
-	updatedAt: string;
+	created_at: string;
+	updated_at: string;
 	hit: number;
-	likesCount: number;
-	commentsCount: number;
-	authorNickname: string;
+	likes_count: number;
+	comments_count: number;
+	author_nickname: string;
+	liked: boolean;
 }
 
 export interface Comment {
@@ -47,24 +48,11 @@ export default function DetailPostPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { selectedPost, successfullyDeleted } = useSelector((state: RootState) => state.post);
-	const { nickname } = useSelector((state: RootState) => state.auth);
+	const { auth, post } = useSelector((state: RootState) => state);
 	const content = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
-	const [comments, setcomments] = useState<Comment[]>([]);
-
-	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${params.id}/comments`, headerConfig())
-			.then((response) => {
-				const comments: Comment[] = response?.data;
-				setcomments([...comments]);
-			})
-			.catch((err) => {
-				console.dir(err);
-				setIsError(true);
-			});
-	}, []);
+	const { nickname } = auth;
 
 	useEffect(() => {
 		dispatch(getDetailPost(params.id));
@@ -85,7 +73,7 @@ export default function DetailPostPage() {
 	const handleUpdateClick = useCallback(() => navigate('/post/update'), []);
 	const handleDeleteClick = useCallback(() => selectedPost && dispatch(deletePost(selectedPost.id)), [selectedPost]);
 
-	if (isLoading) return <Loading />;
+	if (isLoading) return <div>dfsjdfoijsdfiojsdfiojsodijfoisjdof</div>;
 	if (isError) return <ErrorPage />;
 
 	return (
@@ -101,7 +89,7 @@ export default function DetailPostPage() {
 									<KeyboardBackspaceIcon className={classes.back} onClick={handleBackClick} />
 								</Typography>
 							</Grid>
-							{selectedPost.authorNickname === nickname && (
+							{selectedPost.author_nickname === nickname && (
 								<Grid>
 									<Grid container alignItems="center" spacing={4}>
 										<Grid item>
@@ -134,10 +122,10 @@ export default function DetailPostPage() {
 						<DetailStackContainer post={selectedPost} />
 						<DetailContent post={selectedPost} content={content} />
 						<DetailCountView post={selectedPost} />
-						<CommentForm post={selectedPost} />
+						{auth.is_atuh && <CommentForm post={selectedPost} />}
 					</main>
 					<footer>
-						<CommentList comments={comments} />
+						<CommentList />
 					</footer>
 				</Container>
 			</div>

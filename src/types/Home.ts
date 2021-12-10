@@ -4,8 +4,8 @@ export interface Post {
 	title: string;
 	stacks: string[];
 	hit: number;
-	commentsCount: number;
-	likesCount: number;
+	comments_count: number;
+	likes_count: number;
 }
 
 export interface ResponseGetPosts {

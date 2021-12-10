@@ -18,7 +18,7 @@ export default function DetailCountView(props: Iprops) {
 			<Grid item className={classes.count}>
 				<FavoriteIcon />
 				<Typography variant="caption" component="span">
-					{post.likesCount}
+					{post.likes_count}
 				</Typography>
 			</Grid>
 			<Grid item className={classes.count}>

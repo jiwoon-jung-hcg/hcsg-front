@@ -38,15 +38,15 @@ export default function PostComponent(props: Iprops) {
 					<ul className={classes.iconCntainer}>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
 							<VisibilityIcon style={{ marginRight: 5 }} />
-							{post.hit}
+							{post.hit || 0}
 						</li>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10, color: '#888' }}>
 							<SmsIcon style={{ marginRight: 5 }} />
-							{post.commentsCount}
+							{post.comments_count || 0}
 						</li>
 						<li style={{ display: 'flex', alignItems: 'center', marginRight: 10 }}>
 							<FavoriteIcon style={{ marginRight: 5, color: '#EE4343' }} />
-							{post.likesCount}
+							{post.likes_count || 0}
 						</li>
 					</ul>
 				</CardContent>

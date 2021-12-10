@@ -1,15 +1,16 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { isAuthCheck } from '../apis/Common/auth';
+import produce from 'immer';
+import { isAuthCheck } from '../apis/common/auth';
 import { Action } from './user';
 
 export interface AuthResponse {
-	isAuth: boolean;
+	is_atuh: boolean;
 	userId?: number;
 	nickname?: string;
 }
 
 export const authInitialState = {
-	isAuth: false,
+	is_atuh: false,
 	nickname: null,
 	userId: null,
 };
@@ -28,9 +29,12 @@ export const getAuth = (): Action => {
 export function* authCheckSaga() {
 	try {
 		const response: AuthResponse = yield call(isAuthCheck);
-		yield put({ type: AUTH_SUSCCESS, payload: { isAuth: true, nickname: response.nickname, userId: response.userId } });
+		yield put({
+			type: AUTH_SUSCCESS,
+			payload: { is_atuh: true, nickname: response.nickname, userId: response.userId },
+		});
 	} catch (error: any) {
-		yield put({ type: AUTH_FAILURE, payload: { isAuth: false, nickname: null, userId: null } });
+		yield put({ type: AUTH_FAILURE, payload: { is_atuh: false, nickname: null, userId: null } });
 	}
 }
 
@@ -41,17 +45,17 @@ export function* watchAuth() {
 export default function authReducers(state = authInitialState, action: Action) {
 	switch (action.type) {
 		case AUTH_SUSCCESS:
-			return {
-				...state,
-				isAuth: true,
-				nickname: action.payload.nickname,
-			};
+			return produce(state, (prevState) => {
+				prevState.is_atuh = true;
+				prevState.nickname = action.payload.nickname;
+				prevState.userId = action.payload.userId;
+			});
 		case AUTH_FAILURE:
-			return {
-				...state,
-				isAuth: false,
-				nickname: null,
-			};
+			return produce(state, (prevState) => {
+				prevState.is_atuh = false;
+				prevState.nickname = null;
+				prevState.userId = null;
+			});
 		default:
 			return state;
 	}

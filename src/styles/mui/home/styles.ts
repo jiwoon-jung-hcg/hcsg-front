@@ -1,9 +1,13 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { url } from 'inspector';
+import Image from '../../../images/headerBackground.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		backgroundColor: 'white',
 		padding: theme.spacing(8, 0, 6),
+		// backgroundSize: '',
+		backgroundPosition: 'center',
 	},
 	navRoot: {
 		flexGrow: 1,
@@ -123,6 +127,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 		padding: '5px 25px',
 		boxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
 		webkitBoxShadow: '0px -9px 34px 4px rgba(0,0,0,0.1)',
+	},
+	filterIcon: {
+		color: '#9b9b9b',
+		display: 'flex',
+		alignItems: 'center',
+		cursor: 'pointer',
+		transition: 'transform .1s',
+		'& svg': {
+			marginRight: '5px',
+		},
+		'&:hover': {
+			transform: 'scale(1.1)',
+			'&:active': {
+				transform: 'scale(1.05)',
+			},
+		},
+	},
+	activeFilter: {
+		color: '#ea7979',
+		fontWeight: 'bold',
 	},
 }));
 
