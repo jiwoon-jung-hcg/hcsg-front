@@ -48,7 +48,7 @@ export default function DetailPostPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { selectedPost, successfullyDeleted } = useSelector((state: RootState) => state.post);
-	const { auth, comment } = useSelector((state: RootState) => state);
+	const { auth, post } = useSelector((state: RootState) => state);
 	const content = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
@@ -73,7 +73,7 @@ export default function DetailPostPage() {
 	const handleUpdateClick = useCallback(() => navigate('/post/update'), []);
 	const handleDeleteClick = useCallback(() => selectedPost && dispatch(deletePost(selectedPost.id)), [selectedPost]);
 
-	if (isLoading) return <Loading />;
+	if (isLoading) return <div>dfsjdfoijsdfiojsdfiojsodijfoisjdof</div>;
 	if (isError) return <ErrorPage />;
 
 	return (

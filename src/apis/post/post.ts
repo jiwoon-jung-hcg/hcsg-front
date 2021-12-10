@@ -9,8 +9,8 @@ import { logger } from '../../utils/logger';
 export async function getPostsRequest(postInfo: GetPostsPayload): Promise<ResponseGetPosts> {
 	const { sort, limit, offset, stacks } = postInfo;
 	const qsSort = `sort=${sort}`;
-	const qsLimit = `&limit=${limit}`;
-	const qsOffset = `&offset=${offset}`;
+	const qsLimit = `&limit=${limit * offset}`;
+	const qsOffset = `&offset=${1}`;
 	const qsStacks = (() => {
 		return stacks?.reduce((acc, cur) => {
 			return (acc += `&stacks[]=${cur}`);

@@ -177,7 +177,7 @@ export default function postReducers(state = postInitialState, action: Action) {
 	switch (action.type) {
 		case GET_POSTS_SUCCESS:
 			return produce(state, (draftState) => {
-				draftState.posts.push(...action.payload.posts);
+				draftState.posts = [...action.payload.posts];
 				draftState.lastPage = action.payload.last_page;
 			});
 		case GET_POSTS_FAILURE:
@@ -246,6 +246,7 @@ export default function postReducers(state = postInitialState, action: Action) {
 		case REFRESH_DELETE_POST_CHECK:
 			return produce(state, (draftState) => {
 				draftState.successfullyDeleted = false;
+				draftState.id = null;
 			});
 		default:
 			return state;

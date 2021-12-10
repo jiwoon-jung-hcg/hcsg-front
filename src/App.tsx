@@ -10,7 +10,6 @@ const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/Generat
 const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
 import { enableMapSet } from 'immer';
-
 enableMapSet();
 
 const App = () => {
