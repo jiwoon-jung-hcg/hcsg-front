@@ -39,7 +39,7 @@ export async function getDetailPostRequest(postId: number): Promise<Post> {
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
 		const postResponseData = response.data;
 		return postResponseData;
-	} catch (err: any) {
+	} catch (err) {
 		logger(err);
 		throw null;
 	}
@@ -80,5 +80,23 @@ export async function deletePostRequest(postId: number) {
 	} catch (error) {
 		logger(error);
 		throw { successfullyDeleted: false };
+	}
+}
+
+export async function likePostRequest(postId: number) {
+	try {
+		const response: AxiosResponse = await axios.post(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}/likes`,
+			null,
+			headerConfig(),
+		);
+		if (response.status === 201) {
+			return { liked: true };
+		} else {
+			throw { liked: false };
+		}
+	} catch (error) {
+		logger(error);
+		throw error;
 	}
 }

@@ -10,7 +10,7 @@ export async function createCommentRequest(commentInfo: CreateCommentInfo) {
 			headerConfig(),
 		);
 		return { successfullyCreated: true };
-	} catch (err) {
+	} catch (error) {
 		throw { successfullyCreated: false };
 	}
 }
@@ -22,7 +22,7 @@ export async function getCommentsRequest(post_id: number) {
 			headerConfig(),
 		);
 		return { comments: [...response.data] };
-	} catch (err) {
+	} catch (error) {
 		throw { comments: [] };
 	}
 }

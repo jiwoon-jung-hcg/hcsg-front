@@ -25,7 +25,6 @@ const App = () => {
 				{ path: 'update', element: <AuthCheck SpecificComponent={UpdatePostPage} option={1} /> },
 			],
 		},
-		{ path: '/loadingTest', element: <AuthCheck SpecificComponent={Loading} option={0} /> },
 	]);
 	return element;
 };

@@ -6,6 +6,7 @@ import { getAuth } from '../../modules/auth';
 import { RootState } from '../../modules';
 import HomePage from '../../pages/HomePage/HomePage';
 import { refreshList } from '../../utils/refreshList';
+import { LoadableComponent } from '@loadable/component';
 
 /** Autorization 체크 */
 /** 1. 로그인 유지 */
@@ -19,7 +20,7 @@ import { refreshList } from '../../utils/refreshList';
  *      -> -1 : 로그인된 유저는 갈 수없는 페이지
  * */
 interface iProps {
-	SpecificComponent: any;
+	SpecificComponent: LoadableComponent<unknown>;
 	option: 1 | 0 | -1;
 }
 

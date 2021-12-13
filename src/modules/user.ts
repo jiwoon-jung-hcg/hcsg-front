@@ -1,7 +1,8 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import produce from 'immer';
 import Cookies from 'universal-cookie';
-import { LoginInfo, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
+import { LoginInfo, SignInFailResponse, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
+import ErrorResponse from '../types/Error';
 
 export interface Action<T = any> {
 	type: string;
@@ -57,12 +58,12 @@ function* userLoginSaga(action: Action) {
 				loginSuccess: true,
 			},
 		});
-	} catch (error: any) {
+	} catch (error) {
 		yield put({
 			type: LOGIN_FAILURE,
 			payload: {
-				keyword: error.keyword,
-				error: error.error,
+				keyword: (error as SignInFailResponse).keyword,
+				error: (error as SignInFailResponse).errorMessage,
 			},
 		});
 	}
@@ -76,7 +77,7 @@ function* userSignupSaga(action: Action) {
 				loginSuccess: true,
 			},
 		});
-	} catch (error: any) {
+	} catch (error) {
 		yield put({
 			type: SIGNUP_FAILURE,
 			payload: {

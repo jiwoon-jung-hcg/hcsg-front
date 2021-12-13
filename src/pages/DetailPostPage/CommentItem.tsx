@@ -115,7 +115,7 @@ export default function CommentItem(props: Iprops) {
 						</div>
 					</div>
 				</div>
-				<div className={classes.buttonContainer}>{renderButton()}</div>
+				<div>{renderButton()}</div>
 			</div>
 			{renderContent()}
 		</Grid>

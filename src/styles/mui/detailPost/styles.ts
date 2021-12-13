@@ -120,7 +120,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 	},
-	buttonContainer: {},
+	likeButton: {
+		cursor: 'pointer',
+		transition: 'color 0.1s',
+		'&:hover': {
+			color: '#ee4444',
+			'&:active': {
+				transform: 'scale(0.92)',
+			},
+		},
+	},
+	likeActive: {
+		color: '#ee4343',
+	},
+	viewIcon: {
+		color: '#ee4444',
+	},
 }));
 
 export default useStyles;
