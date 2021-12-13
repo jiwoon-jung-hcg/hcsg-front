@@ -1,0 +1,138 @@
+$maxWidth: 50vw;
+
+@mixin flexMaker($direction, $justify: flex-start, $algin: flex-start) {
+	display: flex;
+	flex-direction: $direction;
+	justify-content: $justify;
+	align-items: $algin;
+}
+
+.profile__container {
+	@include flexMaker(row);
+	// display: flex;
+	// flex-direction: row;
+}
+
+.profile__main {
+	@include flexMaker(column, center, center);
+	width: 100%;
+	padding: 50px;
+}
+
+.profile__section {
+	width: $maxWidth;
+	padding: 30px;
+	margin: 10px 0;
+	border-radius: 20px;
+	border: 1px solid #338a3e;
+}
+
+.profile__picture {
+	display: flex;
+	position: relative;
+	.logout-button {
+		position: absolute;
+		font-weight: 700;
+		bottom: 30px;
+		right: 30px;
+		font-size: 1.2em;
+		color: #fff;
+		background-color: #f9b84f;
+		border-radius: 8px;
+		padding: 8px 16px;
+		border: none;
+	}
+	div:first-of-type {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			border: 1px solid #338a3e;
+		}
+		input {
+			display: none;
+		}
+		label {
+			text-align: center;
+			border: 1px solid #338a3e;
+			background-color: #338a3e;
+			color: white;
+			width: 100%;
+			padding: 5px;
+			margin-top: 15px;
+			border-radius: 8px;
+			transition: transform 0.15s;
+			cursor: pointer;
+			&:active {
+				transform: scale(0.97);
+			}
+		}
+	}
+	div:nth-of-type(2) {
+		padding: 20px;
+		width: 100%;
+		h2 {
+			font-size: 1.5em;
+		}
+		ul {
+			list-style: none;
+			display: flex;
+			margin-top: 30px;
+			li {
+				margin: 0 30px 0 10px;
+			}
+		}
+	}
+}
+
+.profile__info {
+	display: flex;
+}
+.profile__info > * {
+	flex-grow: 1;
+}
+.profile__info:nth-of-type(2) {
+	p {
+		font-size: 1.3em;
+		font-weight: 700;
+	}
+}
+.profile__info > div:last-of-type {
+	display: flex;
+	align-items: center;
+	flex-grow: 0;
+	button {
+		border: none;
+		background-color: transparent;
+	}
+}
+
+.profile__button-container {
+	width: $maxWidth;
+	margin-top: 20px;
+	text-align: right;
+	button {
+		font-size: 1.4em;
+		border-radius: 8px;
+		padding: 8px 16px;
+		margin-right: 10px;
+		color: white;
+		border: none;
+		cursor: pointer;
+		background-color: #ee4343;
+		transition: all 0.15s;
+		&:active {
+			transform: scale(0.95);
+		}
+	}
+}
+
+.active__item {
+	display: block;
+}
+.hidden__item {
+	display: none;
+}

@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		marginTop: '5vw',
 		backgroundColor: '#fff',
+		marginBottom: '10vh',
 	},
 	title: {
 		fontSize: '3.5em',
@@ -189,7 +190,7 @@ export default function SignInPage() {
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link to="/signup" className={classes.text}>
+								<Link to="/user/signup" className={classes.text}>
 									회원가입
 								</Link>
 							</Grid>

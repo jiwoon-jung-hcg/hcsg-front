@@ -90,7 +90,7 @@ export default function GeneratePostPage() {
 	if (isError) return <ErrorPage />;
 
 	return (
-		<div style={{ background: 'white' }}>
+		<div className={classes.container}>
 			<CssBaseline />
 			<MainNav />
 			<Container component="main" maxWidth="md" className={classes.container}>
