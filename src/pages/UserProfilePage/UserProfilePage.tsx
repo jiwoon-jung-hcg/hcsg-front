@@ -22,12 +22,12 @@ interface State {
 }
 
 class UserProfilePage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			image: '',
-		};
-	}
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		image: '',
+	// 	};
+	// }
 
 	render() {
 		return (
