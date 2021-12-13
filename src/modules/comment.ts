@@ -7,7 +7,7 @@ import {
 	updateCommentRequest,
 } from '../apis/comment/comment';
 import { Comment, CreateCommentInfo, DeleteCommentInfo, UpdateCommentInfo } from '../types/Comment';
-import ErrorReponse from '../types/Error';
+import ErrorResponse from '../types/Error';
 import { UpdatePostResponse } from './post';
 import { Action } from './user';
 
@@ -90,7 +90,7 @@ export function* createCommentSaga(action: Action) {
 		const response: CreateCommentResponse = yield call(createCommentRequest, { ...action.payload });
 		yield put({ type: NEW_COMMENT_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: NEW_COMMENT_FAILURE, payload: { ...(error as ErrorReponse<CreateCommentResponse>).error } });
+		yield put({ type: NEW_COMMENT_FAILURE, payload: { ...(error as ErrorResponse<CreateCommentResponse>).error } });
 	}
 }
 export function* getCommentsSaga(action: Action) {
@@ -98,7 +98,7 @@ export function* getCommentsSaga(action: Action) {
 		const response: GetCommentsResponse = yield call(getCommentsRequest, action.payload.postId);
 		yield put({ type: GET_COMMENTS_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: GET_COMMENTS_FAILURE, payload: { ...(error as ErrorReponse<GetCommentsResponse>).error } });
+		yield put({ type: GET_COMMENTS_FAILURE, payload: { ...(error as ErrorResponse<GetCommentsResponse>).error } });
 	}
 }
 export function* updateCommentSaga(action: Action) {
@@ -106,7 +106,7 @@ export function* updateCommentSaga(action: Action) {
 		const response: UpdateCommentResponse = yield call(updateCommentRequest, { ...action.payload });
 		yield put({ type: UPDATE_COMMENT_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: UPDATE_COMMENT_FAILURE, payload: { ...(error as ErrorReponse<UpdatePostResponse>).error } });
+		yield put({ type: UPDATE_COMMENT_FAILURE, payload: { ...(error as ErrorResponse<UpdatePostResponse>).error } });
 	}
 }
 export function* deleteCommentSaga(action: Action) {
@@ -114,7 +114,7 @@ export function* deleteCommentSaga(action: Action) {
 		const response: DeleteCommentResponse = yield call(deleteCommentRequest, { ...action.payload });
 		yield put({ type: DELETE_COMMENT_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: DELETE_COMMENT_FAILURE, payload: { ...(error as ErrorReponse<DeleteCommentResponse>).error } });
+		yield put({ type: DELETE_COMMENT_FAILURE, payload: { ...(error as ErrorResponse<DeleteCommentResponse>).error } });
 	}
 }
 

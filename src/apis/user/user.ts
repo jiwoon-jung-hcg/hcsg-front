@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import ErrorResponse from '../../types/Error';
 import { headerConfig } from '../../utils/axiosHeader';
-
 //type
 import { logger } from '../../utils/logger';
 const cookie = new Cookies();
@@ -10,10 +10,13 @@ export interface LoginInfo {
 	email: string;
 	password: string;
 }
-
 export interface SignupUserInfo extends LoginInfo {
 	nickname: string;
 	passwordCheck: string;
+}
+export interface SignInFailResponse {
+	keyword: string;
+	errorMessage: string;
 }
 
 /** 로그인 요청 */
@@ -29,9 +32,10 @@ export async function userLogin({ email, password }: LoginInfo) {
 		);
 		response.data.token && cookie.set('refresh_token', response.data.token);
 		return { userId: response.data.userId, nickname: response.data.nickname };
-	} catch (error: any) {
+	} catch (error) {
 		logger(error);
-		throw { keyword: error.response.data?.keyword, error: error.response.data?.error };
+		const { keyword, errorMessage } = (error as ErrorResponse<SignInFailResponse>).error;
+		throw { keyword: keyword, errorMessage: errorMessage };
 	}
 }
 
@@ -76,7 +80,7 @@ export async function userSignup({ email, nickname, password, passwordCheck }: S
 		return {
 			success: true,
 		};
-	} catch (error: any) {
+	} catch (error) {
 		logger(error);
 		throw { success: false };
 	}

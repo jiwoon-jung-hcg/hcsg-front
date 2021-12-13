@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { call, put, takeLatest, takeEvery } from '@redux-saga/core/effects';
 import { GeneratePost, UpdatePost } from '../types/Post';
 import { Post } from '../types/Home';
 import { Action } from './user';
@@ -7,10 +7,13 @@ import {
 	deletePostRequest,
 	getDetailPostRequest,
 	getPostsRequest,
+	likePostRequest,
 	updatePostRequest,
 } from '../apis/post/post';
 import produce from 'immer';
 import { DetailPost } from '../pages/DetailPostPage/DetailPostPage';
+import ErrorResponse from '../types/Error';
+import logger from 'redux-logger';
 
 //============================================================//
 /** Type */
@@ -45,9 +48,8 @@ export interface UpdatePostResponse {
 export interface DeleteResponse {
 	successfullyDeleted: boolean;
 }
-export interface CustomError extends Error {
-	postId: number;
-	successfullyCreated: boolean;
+export interface LikePostResponse {
+	liked: boolean;
 }
 
 //============================================================//
@@ -67,6 +69,9 @@ export const postInitialState: PostInitialState = {
 /** Action Type */
 //============================================================//
 export const REFRESH_LIST = 'post/REFRESH_LIST';
+export const LIKE_REQUEST = 'post/LIKE_REQUEST';
+export const LIKE_ACTIVE = 'post/LIKE_ACTIVE';
+export const LIKE_INACTIVE = 'post/LIKE_INACTIVE';
 export const NEW_POST_REQUEST = 'post/NEW_POST_REQUEST';
 export const NEW_POST_SUCCESS = 'post/NEW_POST_SUCCESS';
 export const NEW_POST_FAILURE = 'post/NEW_POST_FAILURE';
@@ -88,11 +93,15 @@ export const GET_FILTER_POSTS_FAILURE = 'post/GET_FILTER_POSTS_FAILURE';
 export const REFRESH_CREATE_POST_CHECK = 'post/REFRESH_CREATE_POST_CHECK';
 export const REFRESH_UPDATE_POST_CHECK = 'post/REFRESH_UPDATE_POST_CHECK';
 export const REFRESH_DELETE_POST_CHECK = 'post/REFRESH_DELETE_POST_CHECK';
+export const REFRESH_DETAIL_POST = 'post/REFRESH_DETAIL_POST';
 
 //============================================================//
 /** 0️⃣ Create Action Function */
 //============================================================//
-export const getPosts = (postInfo: GetPostsPayload) => ({ type: GET_POSTS_REQUEST, payload: { ...postInfo } });
+export const getPosts = (postInfo: GetPostsPayload) => ({
+	type: GET_POSTS_REQUEST,
+	payload: { ...postInfo },
+});
 export const getFilterPosts = (postInfo: GetPostsPayload) => ({
 	type: GET_FILTER_POSTS_REQUEST,
 	payload: { ...postInfo },
@@ -101,60 +110,85 @@ export const getDetailPost = (postId?: string) => ({
 	type: GET_DETAIL_POST_REQUEST,
 	payload: { postId: postId && parseInt(postId) },
 });
-export const newPost = (postInfo: GeneratePost) => ({ type: NEW_POST_REQUEST, payload: { ...postInfo } });
-export const updatePost = (postInfo: UpdatePost) => ({ type: UPDATE_POST_REQUEST, payload: { ...postInfo } });
-export const deletePost = (postId: number) => ({ type: DELETE_POST_REQUEST, payload: { postId } });
+export const newPost = (postInfo: GeneratePost) => ({
+	type: NEW_POST_REQUEST,
+	payload: { ...postInfo },
+});
+export const updatePost = (postInfo: UpdatePost) => ({
+	type: UPDATE_POST_REQUEST,
+	payload: { ...postInfo },
+});
+export const deletePost = (postId: number) => ({
+	type: DELETE_POST_REQUEST,
+	payload: { postId },
+});
+export const likePostAction = (postId: number) => ({ type: LIKE_REQUEST, payload: { postId } });
 
 //============================================================//
 /** 2️⃣ Saga function */
 //============================================================//
 export function* getPostsSaga(action: Action) {
 	try {
-		const response: GetPostsResponse = yield call(getPostsRequest, { ...action.payload });
+		const response: GetPostsResponse = yield call(getPostsRequest, {
+			...action.payload,
+		});
 		yield put({ type: GET_POSTS_SUCCESS, payload: { ...response } });
-	} catch (error: any) {
-		yield put({ type: GET_POSTS_FAILURE, payload: { ...error } });
+	} catch (error) {
+		yield put({ type: GET_POSTS_FAILURE, payload: { ...(error as ErrorResponse<GetPostsResponse>).error } });
 	}
 }
 export function* getFilterPostsSaga(action: Action) {
 	try {
-		const response: GetPostsResponse = yield call(getPostsRequest, { ...action.payload });
+		const response: GetPostsResponse = yield call(getPostsRequest, {
+			...action.payload,
+		});
 		yield put({ type: GET_FILTER_POSTS_SUCCESS, payload: { ...response } });
-	} catch (error: any) {
-		yield put({ type: GET_FILTER_POSTS_FAILURE, payload: { ...error } });
+	} catch (error) {
+		yield put({ type: GET_FILTER_POSTS_FAILURE, payload: { ...(error as ErrorResponse<GetPostsResponse>).error } });
 	}
 }
 export function* getDetailPostSaga(action: Action) {
 	try {
 		const response: DetailPost = yield call(getDetailPostRequest, action.payload.postId);
 		yield put({ type: GET_DETAIL_POST_SUCCESS, payload: { ...response } });
-	} catch (error: any) {
+	} catch (error) {
 		yield put({ type: GET_DETAIL_POST_FAILURE });
 	}
 }
 export function* newPostSaga(action: Action) {
 	try {
-		const response: GetNewPostsResponse = yield call(createPostRequest, { ...action.payload });
+		const response: GetNewPostsResponse = yield call(createPostRequest, {
+			...action.payload,
+		});
 		yield put({ type: NEW_POST_SUCCESS, payload: { ...response } });
-	} catch (err) {
-		const error: CustomError = err as CustomError;
-		yield put({ type: NEW_POST_FAILURE, payload: { ...error } });
+	} catch (error) {
+		yield put({ type: NEW_POST_FAILURE, payload: { ...(error as ErrorResponse<GetNewPostsResponse>).error } });
 	}
 }
 export function* updatePostSaga(action: Action) {
 	try {
-		const response: UpdatePostResponse = yield call(updatePostRequest, { ...action.payload });
+		const response: UpdatePostResponse = yield call(updatePostRequest, {
+			...action.payload,
+		});
 		yield put({ type: UPDATE_POST_SUCCESS, payload: { ...response } });
-	} catch (error: any) {
-		yield put({ type: UPDATE_POST_FAILURE, payload: { ...error } });
+	} catch (error) {
+		yield put({ type: UPDATE_POST_FAILURE, payload: { ...(error as ErrorResponse<UpdatePostResponse>).error } });
 	}
 }
 export function* deletePostSaga(action: Action) {
 	try {
 		const response: DeleteResponse = yield call(deletePostRequest, action.payload.postId);
 		yield put({ type: DELETE_POST_SUCCESS, payload: { ...response } });
-	} catch (error: any) {
-		yield put({ type: DELETE_POST_FAILURE, payload: { ...error } });
+	} catch (error) {
+		yield put({ type: DELETE_POST_FAILURE, payload: { ...(error as ErrorResponse<DeleteResponse>).error } });
+	}
+}
+export function* likePostSaga(action: Action) {
+	try {
+		const response: LikePostResponse = yield call(likePostRequest, action.payload.postId);
+		yield put({ type: LIKE_ACTIVE, payload: { ...response } });
+	} catch (error) {
+		yield put({ type: LIKE_INACTIVE, payload: { ...(error as ErrorResponse<LikePostResponse>).error } });
 	}
 }
 
@@ -168,6 +202,7 @@ export function* watchPost() {
 	yield takeLatest(NEW_POST_REQUEST, newPostSaga);
 	yield takeLatest(UPDATE_POST_REQUEST, updatePostSaga);
 	yield takeLatest(DELETE_POST_REQUEST, deletePostSaga);
+	yield takeEvery(LIKE_REQUEST, likePostSaga);
 }
 
 //============================================================//
@@ -247,6 +282,19 @@ export default function postReducers(state = postInitialState, action: Action) {
 			return produce(state, (draftState) => {
 				draftState.successfullyDeleted = false;
 				draftState.id = null;
+			});
+		case REFRESH_DETAIL_POST:
+			return produce(state, (draftState) => {
+				draftState.selectedPost = null;
+				draftState.successfullyDeleted = false;
+			});
+		case LIKE_ACTIVE:
+			return produce(state, (draftState) => {
+				draftState.selectedPost!.liked = true;
+			});
+		case LIKE_INACTIVE:
+			return produce(state, (draftState) => {
+				draftState.selectedPost!.liked = false;
 			});
 		default:
 			return state;

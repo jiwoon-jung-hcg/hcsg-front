@@ -33,7 +33,7 @@ export function* authCheckSaga() {
 			type: AUTH_SUSCCESS,
 			payload: { is_atuh: true, nickname: response.nickname, userId: response.userId },
 		});
-	} catch (error: any) {
+	} catch (error) {
 		yield put({ type: AUTH_FAILURE, payload: { is_atuh: false, nickname: null, userId: null } });
 	}
 }

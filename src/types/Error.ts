@@ -1,3 +1,3 @@
-export default interface ErrorReponse<T> extends Error {
+export default interface ErrorResponse<T> extends Error {
 	error: T;
 }
