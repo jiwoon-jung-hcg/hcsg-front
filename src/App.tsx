@@ -9,7 +9,7 @@ const DetailPostPage = loadable(() => import('./pages/DetailPostPage/DetailPostP
 const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/GeneratePostPage'));
 const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
-import { enableMapSet } from 'immer';
+import { enableMapSet } from 'immer'; // import와 const 코드가 섞여있어 어지러우니 import 코드끼리 모아두는것이 어떨까요? 적절한 줄바꿈도 함께...! 
 enableMapSet();
 
 const App = () => {

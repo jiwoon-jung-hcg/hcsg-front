@@ -79,7 +79,7 @@ export default function SignInPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.user);
-	const [isError, setIsError] = useState(false);
+	const [isError, setIsError] = useState(false); // 다른 useState 처럼 타입을 지정해주세요. 타입 정의는 이제 필수..
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [emailCheck, setEmailCheck] = useState<boolean>(true);

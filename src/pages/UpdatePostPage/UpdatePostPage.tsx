@@ -12,6 +12,10 @@ import GridChipComponent from '../../components/GridChipComponent/GridChipCompon
 import { STACK_NAMES } from '../GeneratePostPage/GeneratePostPage';
 import { REFRESH_UPDATE_POST_CHECK, updatePost } from '../../modules/post';
 
+// import 코드들은 모두 비슷한 카테고리별로 모아두는게 어떨까요? (global/local/scss...)
+// https://github.com/hcgtheplus/ppfront/wiki/Naming-conventions-for-files-and-folders-(writing)#import-code-%EC%88%9C%EC%84%9C-%EA%B7%9C%EC%B9%99
+// 이런 문서가 있는데 보셨을진 모르겠네요!
+
 export default function UpdatePostPage() {
 	const navigate = useNavigate();
 	const classes = useStyles();
@@ -37,6 +41,7 @@ export default function UpdatePostPage() {
 	useEffect(() => {
 		successfullyUpdated && navigate(`/post/${id}`);
 	}, [successfullyUpdated, id]);
+
 	useEffect(() => {
 		return () => {
 			dispatch({ type: REFRESH_UPDATE_POST_CHECK });

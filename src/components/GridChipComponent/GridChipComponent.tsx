@@ -24,6 +24,7 @@ export default function GridChipComponent(props: Iprops) {
 		<Grid item>
 			<Typography
 				className={classes.chip + ' ' + (stacks.find((el) => el === value.toLowerCase()) && classes.active)}
+				// className에 조건에 따라 값을 주고 싶을때는 clsx 라이브러리를 활용해보세요. 조건과 조건에 따른 값을 깔끔하게 볼 수 있어 좋답니다. 
 				onClick={handleOnClick}
 			>
 				{value}

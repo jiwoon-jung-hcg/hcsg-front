@@ -26,3 +26,7 @@ ReactDOM.render(
 	</Router>,
 	document.getElementById('root'),
 );
+
+// 궁금한것이 있습니다
+// 1. yarn 했을 때 왜 저는 yarn.lock 에 있는 패키지들과 버전이 조금씩 달라질까요?
+// 2. 인덴트를 띄어쓰기가 아니라 탭을 사용하시나요? 

@@ -19,7 +19,8 @@ import Loading from '../../components/LoadingComponent/Loading';
 import coverImage from '../../images/signup.jpg';
 
 import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/user/user';
-import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation';
+import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation'; 
+// 음 formik을 사용하는 것 같던데 validation 처리를 따로 만드신 이유가 있나요?
 import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../modules/user';

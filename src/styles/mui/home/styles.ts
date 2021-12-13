@@ -2,6 +2,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { url } from 'inspector';
 import Image from '../../../images/headerBackground.png';
 
+// 1. 각 컴포넌트마다 makeStyles 를 쓰지 않고 style 관련은 한군데에 다 모아두셨군요! 이렇게 작업하면 어떤 이점이 있나요?
+// 2. 불필요한 import 코드들은 그때그때 지워주시는게 나중에 좋을겁니다.. (_ _)
+
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		backgroundColor: 'white',

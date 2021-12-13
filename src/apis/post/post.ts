@@ -16,6 +16,7 @@ export async function getPostsRequest(postInfo: GetPostsPayload): Promise<Respon
 			return (acc += `&stacks[]=${cur}`);
 		}, '');
 	})();
+	// 쿼리스트링이 많을 때 관련 라이브러리를 사용해보시는 것도 좋습니다. 코드로 쫌쫌따리 처리하는 것 보다 코드가 깔끔해질 수 있고 이에 따라 개발자의 피로도가 줄어듭니다
 	try {
 		const response: AxiosResponse<ResponseGetPosts> = await axios.get(
 			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts?${qsSort + qsLimit + qsOffset + qsStacks}`,

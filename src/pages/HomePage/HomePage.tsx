@@ -106,6 +106,7 @@ const Home = () => {
 			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
 		) : (
 			<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
+			// `작성된` 보다는 `작성한` 이 더 좋을 것 같아요. 안내 문구에서는 수동적 문체 사용을 지양하고 있답니다.
 		);
 	}, [post]);
 	/** 로딩페이지 */
@@ -114,6 +115,7 @@ const Home = () => {
 	}
 	/** 에러페이지 */
 	if (isError) {
+		// 에러는 언제 발생하나요? setIsError를 쓰는 곳이 안 보여서...
 		return <ErrorPage />;
 	}
 	return (

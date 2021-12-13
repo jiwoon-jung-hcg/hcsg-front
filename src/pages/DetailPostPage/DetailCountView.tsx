@@ -18,7 +18,7 @@ export default function DetailCountView(props: Iprops) {
 	const { post } = props;
 	const dispatch = useDispatch();
 	const handleLikeClick = useCallback(() => {
-		auth.is_atuh && dispatch(likePostAction(post.id));
+		auth.is_atuh && dispatch(likePostAction(post.id)); // 아마 is_auth를 쓰려고 하셨던거겠죠..? 오타는 code spell checker 익스텐션을 활용해보세요
 	}, [auth]);
 	return (
 		<Grid container>
