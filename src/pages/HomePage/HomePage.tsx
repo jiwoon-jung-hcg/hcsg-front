@@ -129,7 +129,7 @@ const Home = () => {
 				<StackNavComponent stackRef={stackRef} updateStack={updateStack} feedbackFilter={feedbackFilter} />
 				<Container className={classes.cardGrid} maxWidth="md">
 					<SortComponent handleChangeSort={handleChangeSort} />
-					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw', minHeight: '600px' }}>
+					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw' }}>
 						{renderPosts()}
 					</Grid>
 					<div className={classes.loadingContainer}>{returnComponentThatisLoadingToClickButton()}</div>

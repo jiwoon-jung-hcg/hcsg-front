@@ -9,9 +9,9 @@ export interface HeaderConfig {
 
 export const headerConfig = (): HeaderConfig => {
 	const token = cookie.get('refresh_token');
-	const config = {
+	const config = token && {
 		headers: {
-			token: token ? token : '',
+			token: token,
 		},
 	};
 
