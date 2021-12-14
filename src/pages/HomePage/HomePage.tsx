@@ -105,7 +105,7 @@ const Home = () => {
 		return Array.isArray(data) && data.length ? (
 			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
 		) : (
-			<Typography variant="h3">작성된 컨텐츠가 없습니다</Typography>
+			<Typography variant="h3">작성하신 컨텐츠가 없습니다</Typography>
 		);
 	}, [post]);
 	/** 로딩페이지 */
