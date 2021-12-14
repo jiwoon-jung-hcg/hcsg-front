@@ -45,7 +45,7 @@ class EditorComponent extends Component<Iprops> {
 		return (
 			<ReactQuill
 				id="content"
-				style={{ height: '600px' }}
+				style={{ height: '50vw' }}
 				// theme=""
 				modules={this.modules}
 				formats={this.formats}

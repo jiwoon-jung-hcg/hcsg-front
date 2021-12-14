@@ -1,24 +1,20 @@
 import axios, { AxiosResponse } from 'axios';
+import qs from 'query-string';
+
 import { GetNewPostsResponse, GetPostsPayload } from '../../modules/post';
+
 import { Post, ResponseGetPosts } from '../../types/Home';
 import { GeneratePost, UpdatePost } from '../../types/Post';
+
 import { headerConfig } from '../../utils/axiosHeader';
 import { logger } from '../../utils/logger';
 
 /** Get Lists */
 export async function getPostsRequest(postInfo: GetPostsPayload): Promise<ResponseGetPosts> {
-	const { sort, limit, offset, stacks } = postInfo;
-	const qsSort = `sort=${sort}`;
-	const qsLimit = `&limit=${limit * offset}`;
-	const qsOffset = `&offset=${1}`;
-	const qsStacks = (() => {
-		return stacks?.reduce((acc, cur) => {
-			return (acc += `&stacks[]=${cur}`);
-		}, '');
-	})();
+	const query = qs.stringify(postInfo, { arrayFormat: 'bracket' });
 	try {
 		const response: AxiosResponse<ResponseGetPosts> = await axios.get(
-			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts?${qsSort + qsLimit + qsOffset + qsStacks}`,
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts?${query}`,
 			headerConfig(),
 		);
 		const postResponseData = response.data;
@@ -39,7 +35,7 @@ export async function getDetailPostRequest(postId: number): Promise<Post> {
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
 		const postResponseData = response.data;
 		return postResponseData;
-	} catch (err: any) {
+	} catch (err) {
 		logger(err);
 		throw null;
 	}
@@ -80,5 +76,23 @@ export async function deletePostRequest(postId: number) {
 	} catch (error) {
 		logger(error);
 		throw { successfullyDeleted: false };
+	}
+}
+
+export async function likePostRequest(postId: number) {
+	try {
+		const response: AxiosResponse = await axios.post(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}/likes`,
+			null,
+			headerConfig(),
+		);
+		if (response.status === 201) {
+			return { liked: true };
+		} else {
+			throw { liked: false };
+		}
+	} catch (error) {
+		logger(error);
+		throw error;
 	}
 }

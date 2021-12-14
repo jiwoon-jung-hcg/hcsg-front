@@ -1,12 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { url } from 'inspector';
-import Image from '../../../images/headerBackground.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		backgroundColor: 'white',
 		padding: theme.spacing(8, 0, 6),
-		// backgroundSize: '',
 		backgroundPosition: 'center',
 	},
 	navRoot: {

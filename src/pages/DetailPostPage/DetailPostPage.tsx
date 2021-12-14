@@ -16,7 +16,7 @@ import DetailCountView from './DetailCountView';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePost, getDetailPost, REFRESH_DELETE_POST_CHECK } from '../../modules/post';
+import { deletePost, getDetailPost, REFRESH_DETAIL_POST } from '../../modules/post';
 import { RootState } from '../../modules';
 import { headerConfig } from '../../utils/axiosHeader';
 
@@ -65,7 +65,7 @@ export default function DetailPostPage() {
 
 	useEffect(() => {
 		return () => {
-			dispatch({ type: REFRESH_DELETE_POST_CHECK });
+			dispatch({ type: REFRESH_DETAIL_POST });
 		};
 	}, []);
 
@@ -122,7 +122,7 @@ export default function DetailPostPage() {
 						<DetailStackContainer post={selectedPost} />
 						<DetailContent post={selectedPost} content={content} />
 						<DetailCountView post={selectedPost} />
-						{auth.is_atuh && <CommentForm post={selectedPost} />}
+						{auth.is_auth && <CommentForm post={selectedPost} />}
 					</main>
 					<footer>
 						<CommentList />

@@ -6,6 +6,7 @@ import { getAuth } from '../../modules/auth';
 import { RootState } from '../../modules';
 import HomePage from '../../pages/HomePage/HomePage';
 import { refreshList } from '../../utils/refreshList';
+import { LoadableClassComponent, LoadableComponent } from '@loadable/component';
 
 /** Autorization 체크 */
 /** 1. 로그인 유지 */
@@ -19,7 +20,7 @@ import { refreshList } from '../../utils/refreshList';
  *      -> -1 : 로그인된 유저는 갈 수없는 페이지
  * */
 interface iProps {
-	SpecificComponent: any;
+	SpecificComponent: LoadableComponent<any> | LoadableClassComponent<any>;
 	option: 1 | 0 | -1;
 }
 
@@ -27,24 +28,23 @@ export default function AuthCheck(props: iProps) {
 	const { SpecificComponent, option } = props;
 	const navigate = useNavigate();
 	const auth = useSelector((state: RootState) => state.auth);
-	const user = useSelector((state: RootState) => state.user);
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
 		setIsLoading(true);
 		dispatch(getAuth());
-	}, [SpecificComponent, user]);
+	}, [SpecificComponent, option]);
 
 	useEffect(() => {
-		if (auth.is_atuh && option === -1) {
+		if (auth.is_auth && option === -1) {
 			return navigate('/');
 		}
 		// 토큰이 정상적이지 않지만 로그인된 유저만 들어가야될때 => 로그인페이지로 리다이렉팅
-		else if (!auth.is_atuh && option === 1) {
-			return navigate('/signin');
+		else if (!auth.is_auth && option === 1) {
+			return navigate('/user/signin');
 		}
 		setIsLoading(false);
-	}, [auth, option]);
+	}, [SpecificComponent, auth, option]);
 
 	if (isLoading) {
 		return <Loading />;

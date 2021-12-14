@@ -1,12 +1,15 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
-	container: {},
+	container: {
+		background: 'white',
+		marginBottom: '100px',
+	},
 	form: {
 		display: 'flex',
 		flexDirection: 'column',
 		height: '100vh',
-		overflow: 'hidden',
+		// overflow: 'hidden',
 		paddingTop: 100,
 	},
 	select: {

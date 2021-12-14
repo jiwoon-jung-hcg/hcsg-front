@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		marginTop: '5vw',
-		bakgroundColor: '#fff',
+		backgroundColor: '#fff',
+		marginBottom: '10vh',
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -90,7 +91,7 @@ export default function SignUpPage() {
 	const [confirmPasswordCheckFeedback, setConfirmPasswordCheckFeedback] = useState('');
 
 	React.useEffect(() => {
-		auth.is_atuh && navigate('/');
+		auth.is_auth && navigate('/');
 	}, [auth]);
 
 	const handleChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,7 +250,7 @@ export default function SignUpPage() {
 							</Grid>
 						</Grid>
 						<Typography className={classes.textRight}>
-							<Link to="/signin" className={classes.link}>
+							<Link to="/user/signin" className={classes.link}>
 								계정이 이미 있으신가요?
 							</Link>
 						</Typography>

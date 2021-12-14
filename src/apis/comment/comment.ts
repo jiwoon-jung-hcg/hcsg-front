@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CreateCommentInfo, DeleteCommentInfo, UpdateCommentInfo } from '../../types/Comment';
+import { Comment, CommentResponse, CreateCommentInfo, DeleteCommentInfo, UpdateCommentInfo } from '../../types/Comment';
 import { headerConfig } from '../../utils/axiosHeader';
 
 export async function createCommentRequest(commentInfo: CreateCommentInfo) {
@@ -10,7 +10,7 @@ export async function createCommentRequest(commentInfo: CreateCommentInfo) {
 			headerConfig(),
 		);
 		return { successfullyCreated: true };
-	} catch (err) {
+	} catch (error) {
 		throw { successfullyCreated: false };
 	}
 }
@@ -21,8 +21,22 @@ export async function getCommentsRequest(post_id: number) {
 			`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${post_id}/comments`,
 			headerConfig(),
 		);
-		return { comments: [...response.data] };
-	} catch (err) {
+		const data: CommentResponse[] = response.data;
+		return {
+			comments: [
+				...data.map((comment) => {
+					return {
+						id: comment.id,
+						commenterId: comment.commenter_id,
+						commenterNickname: comment.commenter_nickname,
+						content: comment.content,
+						createdAt: comment.created_at,
+						updatedAt: comment.updated_at,
+					};
+				}),
+			],
+		};
+	} catch (error) {
 		throw { comments: [] };
 	}
 }

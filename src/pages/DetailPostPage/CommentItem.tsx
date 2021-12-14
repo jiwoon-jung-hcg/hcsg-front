@@ -48,7 +48,7 @@ export default function CommentItem(props: Iprops) {
 	/** render function */
 	const renderButton = useCallback(() => {
 		return (
-			comment.commenter_id === auth.userId && (
+			comment.commenterId === auth.userId && (
 				<>
 					{isUpdateClick ? (
 						<>
@@ -75,7 +75,7 @@ export default function CommentItem(props: Iprops) {
 				</>
 			)
 		);
-	}, [comment.commenter_id, auth.userId, isUpdateClick, content]);
+	}, [comment.commenterId, auth.userId, isUpdateClick, content]);
 	const renderContent = useCallback(() => {
 		return isUpdateClick ? (
 			<TextField
@@ -100,22 +100,22 @@ export default function CommentItem(props: Iprops) {
 				<div className={classes.commentHeader}>
 					<Avatar alt="author profile" src={profile} />
 					<div>
-						<Typography variant="h5">{comment.commenter_nickname}</Typography>
+						<Typography variant="h5">{comment.commenterNickname}</Typography>
 						<div style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
 							<Typography
 								variant="h6"
 								color="textPrimary"
 								style={{ fontWeight: 'bold', color: '#4c4c4c', marginRight: '3px' }}
 							>
-								{comment.created_at}
+								{comment.createdAt}
 							</Typography>
 							<Typography variant="h6" color="textSecondary" style={{ fontSize: '.8em' }}>
-								{comment.updated_at && ` ${comment.updated_at} 수정됨`}
+								{comment.updatedAt && ` ${comment.updatedAt} 수정됨`}
 							</Typography>
 						</div>
 					</div>
 				</div>
-				<div className={classes.buttonContainer}>{renderButton()}</div>
+				<div>{renderButton()}</div>
 			</div>
 			{renderContent()}
 		</Grid>
