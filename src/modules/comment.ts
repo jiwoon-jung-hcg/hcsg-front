@@ -15,7 +15,7 @@ import { Action } from './user';
 /** Type */
 //============================================================//
 export interface CommentInitialState {
-	commnets: Comment[];
+	comments: Comment[];
 	successfullyCreated: boolean;
 	successfullyUpdated: boolean;
 	successfullyDeleted: boolean;
@@ -38,7 +38,7 @@ export interface DeleteCommentResponse {
 /** Initial state */
 //============================================================//
 export const commentInitialState: CommentInitialState = {
-	commnets: [],
+	comments: [],
 	successfullyCreated: false,
 	successfullyUpdated: false,
 	successfullyDeleted: false,
@@ -135,11 +135,11 @@ export default function commentReducers(state = commentInitialState, action: Act
 	switch (action.type) {
 		case GET_COMMENTS_SUCCESS:
 			return produce(state, (draftState) => {
-				draftState.commnets = [...action.payload.comments];
+				draftState.comments = [...action.payload.comments];
 			});
 		case GET_COMMENTS_FAILURE:
 			return produce(state, (draftState) => {
-				draftState.commnets = [];
+				draftState.comments = [];
 			});
 		case NEW_COMMENT_SUCCESS:
 			return produce(state, (draftState) => {
@@ -171,7 +171,7 @@ export default function commentReducers(state = commentInitialState, action: Act
 			});
 		case REFRESH_COMMENT:
 			return produce(state, (draftState) => {
-				draftState.commnets = [];
+				draftState.comments = [];
 				draftState.successfullyCreated = false;
 				draftState.successfullyDeleted = false;
 				draftState.successfullyUpdated = false;

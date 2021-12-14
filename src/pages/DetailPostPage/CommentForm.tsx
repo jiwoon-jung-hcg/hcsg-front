@@ -36,7 +36,7 @@ export default function CommentForm(props: Iprops) {
 				<Grid item container justifyContent="space-between">
 					<Grid item>
 						<Typography variant="h4" className={classes.commentCount}>
-							{comment.commnets.length}개의 댓글이 있습니다.
+							{comment.comments.length}개의 댓글이 있습니다.
 						</Typography>
 					</Grid>
 					<Grid item>

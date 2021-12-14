@@ -1,16 +1,21 @@
-import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MainNav from '../../components/NavComponent/MainNav';
-import { RootState } from '../../modules';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
-import useStyles from '../../styles/mui/generatePost/styles';
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
-import GridChipComponent from '../../components/GridChipComponent/GridChipComponent';
-import { STACK_NAMES } from '../GeneratePostPage/GeneratePostPage';
+
+import MainNav from '../../components/NavComponent/MainNav';
+import TextEditorComponent from '../../components/TextEditorComponent/TextEditorComponent';
+
+import { RootState } from '../../modules';
 import { REFRESH_UPDATE_POST_CHECK, updatePost } from '../../modules/post';
+
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import GridChipComponent from '../../components/GridChipComponent/GridChipComponent';
+import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
+
+import { STACK_NAMES } from '../GeneratePostPage/GeneratePostPage';
+
+import useStyles from '../../styles/mui/generatePost/styles';
 
 export default function UpdatePostPage() {
 	const navigate = useNavigate();
@@ -37,6 +42,7 @@ export default function UpdatePostPage() {
 	useEffect(() => {
 		successfullyUpdated && navigate(`/post/${id}`);
 	}, [successfullyUpdated, id]);
+
 	useEffect(() => {
 		return () => {
 			dispatch({ type: REFRESH_UPDATE_POST_CHECK });

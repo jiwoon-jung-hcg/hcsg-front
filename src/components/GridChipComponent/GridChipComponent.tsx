@@ -1,5 +1,8 @@
-import { Grid, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
+import clsx from 'clsx';
+
+import { Grid, Typography } from '@material-ui/core';
+
 import useStyles from '../../styles/mui/generatePost/styles';
 
 interface Iprops {
@@ -23,7 +26,7 @@ export default function GridChipComponent(props: Iprops) {
 	return (
 		<Grid item>
 			<Typography
-				className={classes.chip + ' ' + (stacks.find((el) => el === value.toLowerCase()) && classes.active)}
+				className={clsx(classes.chip, stacks.find((el) => el === value.toLowerCase()) && classes.active)}
 				onClick={handleOnClick}
 			>
 				{value}

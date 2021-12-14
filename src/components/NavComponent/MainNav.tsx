@@ -25,11 +25,11 @@ export default function MainNav() {
 		return (
 			<Grid>
 				{auth.nickname ? (
-					<Typography variant="h6" style={{ color: 'black', cursor: 'pointer' }} onClick={handleLogout}>
+					<Link style={{ color: 'black', cursor: 'pointer' }} to={`/user/${auth.userId}`}>
 						{auth.nickname}님 환영합니다!
-					</Typography>
+					</Link>
 				) : (
-					<Link to="/signin" style={{ textDecoration: 'none', color: '#303f9f', fontWeight: '900' }}>
+					<Link to="/user/signin" style={{ textDecoration: 'none', color: '#303f9f', fontWeight: '900' }}>
 						로그인
 					</Link>
 				)}

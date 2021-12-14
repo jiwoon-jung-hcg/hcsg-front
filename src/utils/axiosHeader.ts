@@ -14,7 +14,5 @@ export const headerConfig = (): HeaderConfig => {
 			token: token,
 		},
 	};
-	console.log(':::::::::CONFIG::::::::::');
-	console.log(config);
 	return { ...config };
 };

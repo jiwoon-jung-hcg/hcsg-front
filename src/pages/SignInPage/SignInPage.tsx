@@ -10,15 +10,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-/** type */
-import { LogInSuccessResponse } from '../../types/UserType';
-
 /** validation 함수 */
-import { isNullCheck, checkLoginInfo } from '../../utils/validation';
+import { isNullCheck } from '../../utils/validation';
 
 /** component */
-import Loading from '../../components/LoadingComponent/Loading';
-import { userLogin } from '../../apis/user/user';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
 /** image */
@@ -26,8 +21,8 @@ import coverImage from '../../images/signin.jpg';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logger } from '../../utils/logger';
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
-import { getLogin, userInitialState } from '../../modules/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLogin } from '../../modules/user';
 import { RootState } from '../../modules';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		marginTop: '5vw',
 		backgroundColor: '#fff',
+		marginBottom: '10vh',
 	},
 	title: {
 		fontSize: '3.5em',
@@ -79,13 +75,9 @@ export default function SignInPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.user);
-	const [isError, setIsError] = useState(false);
+	const [isError, setIsError] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	const [emailCheck, setEmailCheck] = useState<boolean>(true);
-	const [passwordCheck, setPasswordCheck] = useState<boolean>(true);
-	const [emailCheckFeedBack, setEmailCheckFeedBack] = useState<string>('');
-	const [passwordCheckFeedBack, setpasswordCheckFeedBack] = useState<string>('');
 
 	useEffect(() => {
 		user.loginSuccess && navigate('/');
@@ -189,7 +181,7 @@ export default function SignInPage() {
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link to="/signup" className={classes.text}>
+								<Link to="/user/signup" className={classes.text}>
 									회원가입
 								</Link>
 							</Grid>

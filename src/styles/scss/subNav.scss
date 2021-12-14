@@ -1,0 +1,29 @@
+.subnav__container {
+	width: 220px;
+	height: 100vh;
+	padding: 20px 20px;
+}
+.subnav__home-button {
+	width: 100%;
+	border: none;
+	font-size: 1.5em;
+	padding: 8px 15px;
+	background-color: #338a3e;
+	border-radius: 10px;
+	color: #fff;
+	text-align: center;
+}
+.subnav__list {
+	list-style: none;
+	height: 100%;
+}
+.subnav__item {
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 20px;
+	color: #bdbdbd;
+	margin-left: 20px;
+}
+.active__item {
+	color: #6abf69;
+}

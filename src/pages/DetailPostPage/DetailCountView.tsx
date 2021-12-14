@@ -18,7 +18,7 @@ export default function DetailCountView(props: Iprops) {
 	const { post } = props;
 	const dispatch = useDispatch();
 	const handleLikeClick = useCallback(() => {
-		auth.is_atuh && dispatch(likePostAction(post.id));
+		auth.is_auth && dispatch(likePostAction(post.id));
 	}, [auth]);
 	return (
 		<Grid container>
