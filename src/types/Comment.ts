@@ -1,10 +1,18 @@
-export interface Comment {
+export interface CommentResponse {
 	id: number;
 	commenter_id: number;
 	commenter_nickname: string;
 	content: string;
 	created_at: string;
 	updated_at: string | null;
+}
+export interface Comment {
+	id: number;
+	commenterId: number;
+	commenterNickname: string;
+	content: string;
+	createdAt: string;
+	updatedAt: string | null;
 }
 
 export interface CreateCommentInfo {
