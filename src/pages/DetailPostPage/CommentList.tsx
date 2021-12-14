@@ -23,7 +23,7 @@ export default function CommentList() {
 
 	return (
 		<Grid container direction="column">
-			{comment.commnets?.map((comment) => (
+			{comment.comments?.map((comment) => (
 				<CommentItem key={comment.id} comment={comment} />
 			))}
 		</Grid>
