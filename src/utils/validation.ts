@@ -4,6 +4,7 @@ import { FeedbackAfterValid, IsCheckAfterValid } from '../types/UserType';
 
 /** 빈값 체크 */
 export function isNullCheck(email: string): boolean {
+	// " " <- 유저가 이런 스트링 값을 입력할때를 대비해서 trim을 하면 더 좋을 것 같아요!
 	return email.length === 0;
 }
 /** email validate */

@@ -14,6 +14,7 @@ enableMapSet();
 
 const App = () => {
 	const element = useRoutes([
+		// 아래 컴포넌트에 전달하는 props중 option은 string type으로 만들어놓으면 이해하기 편할 것 같아요 !
 		{ path: '/', element: <AuthCheck SpecificComponent={HomePage} option={0} /> },
 		{ path: '/signin', element: <AuthCheck SpecificComponent={SignInPage} option={-1} /> },
 		{ path: '/signup', element: <AuthCheck SpecificComponent={SignUpPage} option={-1} /> },

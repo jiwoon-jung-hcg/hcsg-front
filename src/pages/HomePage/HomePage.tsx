@@ -67,7 +67,7 @@ const Home = () => {
 	/** 필터 처리 로직 */
 	const feedbackFilter = useCallback(() => {
 		// 필터 스택 컨테이너 밑에있는 요소들을 다 가져온다.
-		const target = stackRef.current && stackRef.current.children;
+		const target = stackRef.current?.children; // optionalChaining 사용해봐도 좋겠어요!
 		if (target) {
 			// HTML 컬렉션을 배열로 변환
 			const children = Array.from(target);
@@ -121,6 +121,7 @@ const Home = () => {
 			<CssBaseline />
 			<nav>
 				<MainNave />
+				{/* Nave 네요 ㅋㅋ */}
 			</nav>
 			<main style={{ width: '100%', backgroundColor: 'white' }}>
 				<header>
