@@ -36,11 +36,11 @@ export default function AuthCheck(props: iProps) {
 	}, [SpecificComponent, option]);
 
 	useEffect(() => {
-		if (auth.is_atuh && option === -1) {
+		if (auth.is_auth && option === -1) {
 			return navigate('/');
 		}
 		// 토큰이 정상적이지 않지만 로그인된 유저만 들어가야될때 => 로그인페이지로 리다이렉팅
-		else if (!auth.is_atuh && option === 1) {
+		else if (!auth.is_auth && option === 1) {
 			return navigate('/user/signin');
 		}
 		setIsLoading(false);

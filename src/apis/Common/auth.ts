@@ -7,9 +7,9 @@ export async function isAuthCheck() {
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/auth_check`, headerConfig());
 		const data: { is_auth: boolean; nickname: string; id: number } = response.data;
 		if (data.is_auth) {
-			return { is_atuh: true, nickname: data.nickname, userId: data.id };
+			return { is_auth: true, nickname: data.nickname, userId: data.id };
 		}
-		throw { is_atuh: false, nickname: null, userId: null };
+		throw { is_auth: false, nickname: null, userId: null };
 	} catch (error) {
 		console.dir('Error 발생!!!');
 		logger(error);

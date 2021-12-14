@@ -91,7 +91,7 @@ export default function SignUpPage() {
 	const [confirmPasswordCheckFeedback, setConfirmPasswordCheckFeedback] = useState('');
 
 	React.useEffect(() => {
-		auth.is_atuh && navigate('/');
+		auth.is_auth && navigate('/');
 	}, [auth]);
 
 	const handleChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

@@ -122,7 +122,7 @@ export default function DetailPostPage() {
 						<DetailStackContainer post={selectedPost} />
 						<DetailContent post={selectedPost} content={content} />
 						<DetailCountView post={selectedPost} />
-						{auth.is_atuh && <CommentForm post={selectedPost} />}
+						{auth.is_auth && <CommentForm post={selectedPost} />}
 					</main>
 					<footer>
 						<CommentList />

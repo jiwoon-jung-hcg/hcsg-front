@@ -1,7 +1,8 @@
 import * as React from 'react';
-import loadable from '@loadable/component';
 import { useRoutes } from 'react-router-dom';
-import Loading from './components/LoadingComponent/Loading';
+import { enableMapSet } from 'immer';
+import loadable from '@loadable/component';
+
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
@@ -10,7 +11,7 @@ const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/Generat
 const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const UserProfilePage = loadable(() => import('./pages/UserProfilePage/UserProfilePage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
-import { enableMapSet } from 'immer';
+
 enableMapSet();
 
 const App = () => {
