@@ -1,12 +1,22 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import produce from 'immer';
 import Cookies from 'universal-cookie';
-import { LoginInfo, SignInFailResponse, SignupUserInfo, userLogin, userSignup } from '../apis/user/user';
+import {
+	LoginInfo,
+	SignInFailResponse,
+	SignupUserInfo,
+	updatePictureRequest,
+	userLogin,
+	userSignup,
+} from '../apis/user/user';
 import ErrorResponse from '../types/Error';
 
 export interface Action<T = any> {
 	type: string;
 	payload: T;
+}
+export interface UpdatePictureResponse {
+	avatar: string;
 }
 //============================================================//
 /** initial state */
@@ -25,14 +35,18 @@ export const userInitialState = {
 //============================================================//
 /** Action Type */
 //============================================================//
+export const LOGOUT = 'user/LOGOUT';
+export const DELETE_USER = 'user/DELETE_USER';
 export const LOGIN_REQUEST = 'user/USER_LOGIN';
 export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'user/LOGIN_FAILURE';
 export const SIGNUP_REQUEST = 'user/SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'user/SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'user/SIGNUP_FAILURE';
-export const LOGOUT = 'user/LOGOUT';
-export const DELETE_USER = 'user/DELETE_USER';
+
+export const UPDATE_PICTURE_REQUEST = 'user/UPDATE_PICTURE_REQUEST';
+export const UPDATE_PICTURE_SUCCESS = 'user/UPDATE_PICTURE_SUCCESS';
+export const UPDATE_PICTURE_FAILURE = 'user/UPDATE_PICTURE_FAILURE';
 
 //============================================================//
 /** 0️⃣ Create Action Function */
@@ -45,6 +59,7 @@ export const logout = () => {
 };
 export const signup = (userSignupInfo: SignupUserInfo) => ({ type: SIGNUP_REQUEST, payload: { ...userSignupInfo } });
 export const userDelete = (userId: number) => ({ type: DELETE_USER, payload: { userId } });
+export const updatePictureAction = (file: File) => ({ type: UPDATE_PICTURE_REQUEST, payload: { file } });
 
 //============================================================//
 /** 2️⃣ Saga function */
@@ -86,6 +101,13 @@ function* userSignupSaga(action: Action) {
 		});
 	}
 }
+function* updatePictureSaga(action: Action) {
+	try {
+		const response: UpdatePictureResponse = yield call(updatePictureRequest, action.payload);
+	} catch (error) {
+		console.dir(error);
+	}
+}
 
 //============================================================//
 /** 1️⃣ Take */
@@ -93,6 +115,7 @@ function* userSignupSaga(action: Action) {
 export function* watchUser() {
 	yield takeLatest(LOGIN_REQUEST, userLoginSaga);
 	yield takeLatest(SIGNUP_REQUEST, userSignupSaga);
+	yield takeLatest(UPDATE_PICTURE_REQUEST, updatePictureSaga);
 }
 
 //============================================================//

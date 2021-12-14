@@ -1,35 +1,53 @@
-import { Avatar, Card, CardHeader, Container, CssBaseline } from '@material-ui/core';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
+import { Avatar, Card, CardHeader, Container, CssBaseline } from '@material-ui/core';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 import SubNav from '../../components/NavComponent/SubNav';
+
 import { RootState } from '../../modules';
+
 import '../../styles/scss/userProfile.scss';
+import { updatePictureAction } from '../../modules/user';
+import Loading from '../../components/LoadingComponent/Loading';
+
+import DefaultImage from '../../images/defaultProfile.png';
 
 const mapStateToProps = (state: RootState) => ({
 	auth: state.auth,
-	post: state.post,
 	user: state.user,
 });
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	updatePictureDispatch: (file: File) => dispatch(updatePictureAction(file)),
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+class UserProfilePage extends Component<any, any> {
+	state = {
+		auth: this.props.auth,
+		user: this.props.user,
+		image: null,
+		nickname: '',
+		password: '',
+		isLoading: true,
+	};
 
-interface State {
-	image: File;
-	nickname: string;
-	password: string;
-}
+	componentDidMount() {
+		this.setState({
+			isLoading: false,
+		});
+	}
 
-class UserProfilePage extends Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		image: '',
-	// 	};
-	// }
+	handleChangePicture = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.currentTarget?.files && this.props.updatePictureDispatch(event.currentTarget.files[0]);
+	};
 
 	render() {
+		if (this.state.isLoading) {
+			return <Loading />;
+		}
+
 		return (
 			<div className="profile__container">
 				<CssBaseline />
@@ -37,8 +55,8 @@ class UserProfilePage extends Component {
 				<main className="profile__main">
 					<section className="profile__section profile__picture">
 						<div>
-							<img src="#" alt="my-profile" />
-							<input id="profile-picture" type="file" accept=".png, .jpg, .jpeg" />
+							<img src={this.state.image ? DefaultImage : DefaultImage} alt="my-profile" />
+							<input id="profile-picture" type="file" accept=".png, .jpg, .jpeg" onChange={this.handleChangePicture} />
 							<label htmlFor="profile-picture">변 경</label>
 						</div>
 						<div>

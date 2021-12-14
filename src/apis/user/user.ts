@@ -18,6 +18,9 @@ export interface SignInFailResponse {
 	keyword: string;
 	errorMessage: string;
 }
+export interface PictureInfo {
+	file: File;
+}
 
 /** 로그인 요청 */
 export async function userLogin({ email, password }: LoginInfo) {
@@ -83,5 +86,19 @@ export async function userSignup({ email, nickname, password, passwordCheck }: S
 	} catch (error) {
 		logger(error);
 		throw { success: false };
+	}
+}
+
+/** 이미지 변경 요청 */
+export async function updatePictureRequest({ file }: PictureInfo) {
+	try {
+		const header = headerConfig();
+		const formData = new FormData();
+		header.headers['Content-Type'] = 'multipart/form-data';
+		formData.append('avatar', file);
+		const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/avatar`, formData, header);
+		console.log(response);
+	} catch (error) {
+		logger(error);
 	}
 }
