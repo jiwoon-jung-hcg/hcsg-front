@@ -13,6 +13,7 @@ export const headerConfig = (contentType?: string): HeaderConfig => {
 	const config = token && {
 		headers: {
 			token: token,
+			'Content-Type': contentType || 'Application/json',
 		},
 	};
 	return { ...config };

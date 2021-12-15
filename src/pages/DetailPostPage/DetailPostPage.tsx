@@ -63,11 +63,11 @@ export default function DetailPostPage() {
 		successfullyDeleted && navigate('/');
 	}, [successfullyDeleted]);
 
-	useEffect(() => {
-		return () => {
-			dispatch({ type: REFRESH_DETAIL_POST });
-		};
-	}, []);
+	// useEffect(() => {
+	// 	return () => {
+	// 		dispatch({ type: REFRESH_DETAIL_POST });
+	// 	};
+	// }, []);
 
 	const handleBackClick = useCallback(() => navigate('/'), []);
 	const handleUpdateClick = useCallback(() => navigate('/post/update'), []);

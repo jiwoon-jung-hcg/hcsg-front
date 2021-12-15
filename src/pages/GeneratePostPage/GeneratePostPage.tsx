@@ -79,7 +79,9 @@ export default function GeneratePostPage() {
 		},
 		[stacks],
 	);
-	const handleChangeContent = useCallback((text: string) => setContent(text), []);
+	const handleChangeContent = useCallback((text: string) => {
+		setContent(!text.replaceAll('<p><br></p>', '').length ? '' : text);
+	}, []);
 	const handleCancelClick = useCallback(() => navigate('/'), []);
 	const renderChip = () => {
 		return STACK_NAMES.map((stack) => (

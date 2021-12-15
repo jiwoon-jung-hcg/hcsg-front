@@ -16,18 +16,22 @@ import { LoadableClassComponent, LoadableComponent } from '@loadable/component';
  * SpecificComponent -> 도달하고자하는 컴포넌트
  * option: 도달하고자 하는 컴포넌트에 로그인유무에 따른 필터 조건
  *      -> 1 : 로그인된유저만 갈 수 있는 페이지
- *      -> 0 : 모든 유저가 갈 수 있는 페이지
+ *      -> everyone : 모든 유저가 갈 수 있는 페이지
  *      -> -1 : 로그인된 유저는 갈 수없는 페이지
  * */
+export const USER = 'USER';
+export const GUEST = 'GUEST';
+export const EVERY_ONE = 'EVERY_ONE';
+
 interface iProps {
 	SpecificComponent: LoadableComponent<any> | LoadableClassComponent<any>;
-	option: 1 | 0 | -1;
+	option: 'USER' | 'GUEST' | 'EVERY_ONE';
 }
 
 export default function AuthCheck(props: iProps) {
 	const { SpecificComponent, option } = props;
 	const navigate = useNavigate();
-	const auth = useSelector((state: RootState) => state.auth);
+	const { auth, user } = useSelector((state: RootState) => state);
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
@@ -36,11 +40,9 @@ export default function AuthCheck(props: iProps) {
 	}, [SpecificComponent, option]);
 
 	useEffect(() => {
-		if (auth.is_auth && option === -1) {
+		if (auth.is_auth && option === GUEST) {
 			return navigate('/');
-		}
-		// 토큰이 정상적이지 않지만 로그인된 유저만 들어가야될때 => 로그인페이지로 리다이렉팅
-		else if (!auth.is_auth && option === 1) {
+		} else if (!auth.is_auth && option === USER) {
 			return navigate('/user/signin');
 		}
 		setIsLoading(false);

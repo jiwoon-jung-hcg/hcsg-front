@@ -11,6 +11,9 @@ $maxWidth: 50vw;
 	@include flexMaker(row);
 	// display: flex;
 	// flex-direction: row;
+	button {
+		cursor: pointer;
+	}
 }
 
 .profile__main {
@@ -31,6 +34,7 @@ $maxWidth: 50vw;
 	display: flex;
 	position: relative;
 	.logout-button {
+		cursor: pointer;
 		position: absolute;
 		font-weight: 700;
 		bottom: 30px;
@@ -41,6 +45,10 @@ $maxWidth: 50vw;
 		border-radius: 8px;
 		padding: 8px 16px;
 		border: none;
+		transition: transform 0.2s;
+		&:active {
+			transform: scale(0.95);
+		}
 	}
 	div:first-of-type {
 		display: flex;
@@ -90,9 +98,9 @@ $maxWidth: 50vw;
 
 .profile__info {
 	display: flex;
+	justify-content: space-between;
 }
 .profile__info > * {
-	flex-grow: 1;
 }
 .profile__info:nth-of-type(2) {
 	p {
@@ -103,7 +111,6 @@ $maxWidth: 50vw;
 .profile__info > div:last-of-type {
 	display: flex;
 	align-items: center;
-	flex-grow: 0;
 	button {
 		border: none;
 		background-color: transparent;
@@ -135,4 +142,14 @@ $maxWidth: 50vw;
 }
 .hidden__item {
 	display: none;
+}
+
+.cancel-button {
+	color: #f76a6a;
+	padding: 0 15px;
+	:hover {
+		background-color: #ff8787;
+	}
+}
+.update-button {
 }

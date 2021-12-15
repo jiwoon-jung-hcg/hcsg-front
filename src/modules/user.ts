@@ -17,25 +17,29 @@ export interface Action<T = any> {
 }
 export interface UpdatePictureResponse {
 	avatar: string;
+	updateImageSuccess: boolean;
 }
 //============================================================//
 /** initial state */
 //============================================================//
 export const userInitialState = {
-	user: null,
+	user: { avatar: '', postsCount: 0, likesCount: 0 },
 	loginSuccess: false,
 	signupSuccess: false,
 	logoutSuccess: false,
+	updateImageSuccess: false,
 	failure: {
 		keyword: null,
 		error: null,
 	},
+	loading: true,
 };
 
 //============================================================//
 /** Action Type */
 //============================================================//
-export const LOGOUT = 'user/LOGOUT';
+export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'user/LOGOUT_SUCCESS';
 export const DELETE_USER = 'user/DELETE_USER';
 export const LOGIN_REQUEST = 'user/USER_LOGIN';
 export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS';
@@ -52,11 +56,7 @@ export const UPDATE_PICTURE_FAILURE = 'user/UPDATE_PICTURE_FAILURE';
 /** 0️⃣ Create Action Function */
 //============================================================//
 export const getLogin = (userInfo: LoginInfo) => ({ type: LOGIN_REQUEST, payload: { ...userInfo } });
-export const logout = () => {
-	const cookie = new Cookies();
-	cookie.remove('refresh_token');
-	return { type: LOGOUT, payload: null };
-};
+export const logout = () => ({ type: LOGOUT_REQUEST, payload: null });
 export const signup = (userSignupInfo: SignupUserInfo) => ({ type: SIGNUP_REQUEST, payload: { ...userSignupInfo } });
 export const userDelete = (userId: number) => ({ type: DELETE_USER, payload: { userId } });
 export const updatePictureAction = (file: File) => ({ type: UPDATE_PICTURE_REQUEST, payload: { file } });
@@ -104,9 +104,16 @@ function* userSignupSaga(action: Action) {
 function* updatePictureSaga(action: Action) {
 	try {
 		const response: UpdatePictureResponse = yield call(updatePictureRequest, action.payload);
+		yield put({ type: UPDATE_PICTURE_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		console.dir(error);
+		yield put({ type: UPDATE_PICTURE_FAILURE, payload: { ...(error as ErrorResponse<UpdatePictureResponse>).error } });
 	}
+}
+
+function* logoutUser(action: Action) {
+	const cookie = new Cookies();
+	yield cookie.remove('refresh_token');
+	yield put({ type: LOGOUT_SUCCESS, payload: { logoutSuccess: true } });
 }
 
 //============================================================//
@@ -116,6 +123,7 @@ export function* watchUser() {
 	yield takeLatest(LOGIN_REQUEST, userLoginSaga);
 	yield takeLatest(SIGNUP_REQUEST, userSignupSaga);
 	yield takeLatest(UPDATE_PICTURE_REQUEST, updatePictureSaga);
+	yield takeLatest(LOGOUT_REQUEST, logoutUser);
 }
 
 //============================================================//
@@ -134,9 +142,14 @@ export default function userReducers(state = userInitialState, action: Action) {
 				draftState.loginSuccess = false;
 				draftState.failure = { keyword: action.payload.keyword, error: action.payload.error };
 			});
-		case LOGOUT:
+		case LOGOUT_SUCCESS:
 			return produce(state, (draftState) => {
 				draftState.logoutSuccess = true;
+			});
+		case UPDATE_PICTURE_SUCCESS:
+			return produce(state, (draftState) => {
+				draftState.updateImageSuccess = action.payload.updateImageSuccess;
+				draftState.user.avatar = action.payload.avatar;
 			});
 		default:
 			return state;

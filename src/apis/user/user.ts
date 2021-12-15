@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import ErrorResponse from '../../types/Error';
 import { headerConfig } from '../../utils/axiosHeader';
+import getFormData from '../../utils/getFormData';
 //type
 import { logger } from '../../utils/logger';
 const cookie = new Cookies();
@@ -38,7 +39,7 @@ export async function userLogin({ email, password }: LoginInfo) {
 	} catch (error) {
 		logger(error);
 		const { keyword, errorMessage } = (error as ErrorResponse<SignInFailResponse>).error;
-		throw { keyword: keyword, errorMessage: errorMessage };
+		throw { error: { keyword: keyword, errorMessage: errorMessage } };
 	}
 }
 
@@ -85,20 +86,22 @@ export async function userSignup({ email, nickname, password, passwordCheck }: S
 		};
 	} catch (error) {
 		logger(error);
-		throw { success: false };
+		throw { error: { success: false } };
 	}
 }
 
 /** 이미지 변경 요청 */
 export async function updatePictureRequest({ file }: PictureInfo) {
 	try {
-		const header = headerConfig();
-		const formData = new FormData();
-		header.headers['Content-Type'] = 'multipart/form-data';
-		formData.append('avatar', file);
-		const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/avatar`, formData, header);
-		console.log(response);
+		const formData = getFormData([['avatar', file]]);
+		const response = await axios.put(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/avatar`,
+			formData,
+			headerConfig('multipart/form-data'),
+		);
+		return { avatar: response.data.avatar_url, updateImageSuccess: true };
 	} catch (error) {
 		logger(error);
+		throw { error: { avatar: null, updateImageSuccess: false } };
 	}
 }

@@ -3,6 +3,8 @@ import { useRoutes } from 'react-router-dom';
 import { enableMapSet } from 'immer';
 import loadable from '@loadable/component';
 
+import { USER, GUEST, EVERY_ONE } from './components/hoc/authCheck';
+
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
 const HomePage = loadable(() => import('./pages/HomePage/HomePage'));
@@ -16,21 +18,21 @@ enableMapSet();
 
 const App = () => {
 	const element = useRoutes([
-		{ path: '/', element: <AuthCheck SpecificComponent={HomePage} option={0} /> },
+		{ path: '/', element: <AuthCheck SpecificComponent={HomePage} option={EVERY_ONE} /> },
 		{
 			path: '/user',
 			children: [
-				{ path: ':id', element: <AuthCheck SpecificComponent={UserProfilePage} option={1} /> },
-				{ path: 'signin', element: <AuthCheck SpecificComponent={SignInPage} option={-1} /> },
-				{ path: 'signup', element: <AuthCheck SpecificComponent={SignUpPage} option={-1} /> },
+				{ path: ':id', element: <AuthCheck SpecificComponent={UserProfilePage} option={USER} /> },
+				{ path: 'signin', element: <AuthCheck SpecificComponent={SignInPage} option={GUEST} /> },
+				{ path: 'signup', element: <AuthCheck SpecificComponent={SignUpPage} option={GUEST} /> },
 			],
 		},
 		{
 			path: '/post',
 			children: [
-				{ path: ':id', element: <AuthCheck SpecificComponent={DetailPostPage} option={0} /> },
-				{ path: 'new', element: <AuthCheck SpecificComponent={GeneratePostPage} option={1} /> },
-				{ path: 'update', element: <AuthCheck SpecificComponent={UpdatePostPage} option={1} /> },
+				{ path: ':id', element: <AuthCheck SpecificComponent={DetailPostPage} option={EVERY_ONE} /> },
+				{ path: 'new', element: <AuthCheck SpecificComponent={GeneratePostPage} option={USER} /> },
+				{ path: 'update', element: <AuthCheck SpecificComponent={UpdatePostPage} option={USER} /> },
 			],
 		},
 	]);
