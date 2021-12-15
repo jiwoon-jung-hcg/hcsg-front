@@ -147,12 +147,13 @@ export function* getFilterPostsSaga(action: Action) {
 		yield put({ type: GET_FILTER_POSTS_FAILURE, payload: { ...(error as ErrorResponse<GetPostsResponse>).error } });
 	}
 }
+// ! 수정
 export function* getDetailPostSaga(action: Action) {
 	try {
 		const response: DetailPost = yield call(getDetailPostRequest, action.payload.postId);
 		yield put({ type: GET_DETAIL_POST_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: GET_DETAIL_POST_FAILURE });
+		yield put({ type: GET_DETAIL_POST_FAILURE, payload: { ...(error as { error: { selected: null } }).error } });
 	}
 }
 export function* newPostSaga(action: Action) {

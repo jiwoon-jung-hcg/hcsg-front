@@ -23,9 +23,9 @@ export async function getPostsRequest(postInfo: GetPostsPayload): Promise<Respon
 		} else {
 			throw new Error('No Posts');
 		}
-	} catch (err) {
-		logger(err);
-		throw { posts: [], last_page: true };
+	} catch (error) {
+		logger(error);
+		throw { error: { posts: [], last_page: true } };
 	}
 }
 
@@ -35,9 +35,9 @@ export async function getDetailPostRequest(postId: number): Promise<Post> {
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
 		const postResponseData = response.data;
 		return postResponseData;
-	} catch (err) {
-		logger(err);
-		throw null;
+	} catch (error) {
+		logger(error);
+		throw { error: { selectedPost: null } };
 	}
 }
 
@@ -48,7 +48,7 @@ export async function createPostRequest(postInfo: GeneratePost): Promise<GetNewP
 		return { successfullyCreated: true, postId: response.data.id };
 	} catch (error) {
 		logger(error);
-		throw { successfullyCreated: false, postId: null };
+		throw { error: { successfullyCreated: false, postId: null } };
 	}
 }
 
@@ -64,7 +64,7 @@ export async function updatePostRequest(postInfo: UpdatePost) {
 		return { successfullyUpdated: true, postId: response.data.id };
 	} catch (error) {
 		logger(error);
-		throw { successfullyUpdated: false, postId: null };
+		throw { error: { successfullyUpdated: false, postId: null } };
 	}
 }
 
@@ -75,7 +75,7 @@ export async function deletePostRequest(postId: number) {
 		return { successfullyDeleted: true };
 	} catch (error) {
 		logger(error);
-		throw { successfullyDeleted: false };
+		throw { error: { successfullyDeleted: false } };
 	}
 }
 
@@ -89,7 +89,7 @@ export async function likePostRequest(postId: number) {
 		if (response.status === 201) {
 			return { liked: true };
 		} else {
-			throw { liked: false };
+			throw { error: { liked: false } };
 		}
 	} catch (error) {
 		logger(error);

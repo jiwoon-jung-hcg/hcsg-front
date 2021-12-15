@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './styles/scss/index.scss';
-import axios from 'axios';
-import createSagaMiddleware from '@redux-saga/core';
-import logger from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from '@redux-saga/core';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import logger from 'redux-logger';
+import axios from 'axios';
+
+import App from './App';
+
 import rootSaga, { RootReducer } from './modules';
+import './styles/scss/index.scss';
 
 axios.defaults.withCredentials = true;
 
