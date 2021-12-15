@@ -88,6 +88,7 @@ export default function SignInPage() {
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setEmail(event.currentTarget.value);
 		},
+		// useCallback을 사용하셨지만 해당 함수는 email을 변경하고 디펜던시엔 email을 넣어주셔서 계속 다시 생성되기 때문에 useCallback을 사용하는 의미가 없는 것 처럼 보입니다!
 		[email],
 	);
 

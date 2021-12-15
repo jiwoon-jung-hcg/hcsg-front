@@ -5,6 +5,7 @@ import { FeedbackAfterValid, IsCheckAfterValid } from '../types/UserType';
 /** 빈값 체크 */
 export function isNullCheck(email: string): boolean {
 	return email.length === 0;
+	// trim 체크해주시면 좋을 것 같습니다!
 }
 /** email validate */
 export function checkEmail(email: string): boolean {
@@ -13,6 +14,7 @@ export function checkEmail(email: string): boolean {
 }
 /** password validate */
 export function checkPassword(password: string): { success: boolean; message?: string } {
+	// return 값에서 message는 무조건 있는 값인 것 같은데 옵셔널 체크 안해주셔도 될 것 같아요!
 	const isLength = password.length > 5;
 	const findNum = password.search(/[0-9]/g);
 	const findStr = password.search(/[a-z]/gi);

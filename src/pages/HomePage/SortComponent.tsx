@@ -16,6 +16,7 @@ export default function SortComponent(props: Iprops) {
 		const content: string | undefined = event.currentTarget.textContent?.trim();
 		if (recent.current && hot.current) {
 			if (content === '최신') {
+				// 코드 확인해보니까 JSX 안에서 해당 태그의 클래스를 바꿔주는게 아니라 함수 내에서 직접 DOM에 접근하셔서 클래스 바꿔주시는 형태가 많은 것 같은데 혹시 특별한 이유가 있으신지 궁금합니다!
 				recent.current.classList.add(classes.activeFilter);
 				hot.current.classList.remove(classes.activeFilter);
 			} else {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+// react 17 버전 이후로는 해당 import 안해오셔도 괜찮습니다!
 import { useRoutes } from 'react-router-dom';
 import { enableMapSet } from 'immer';
 import loadable from '@loadable/component';
@@ -11,6 +12,8 @@ const GeneratePostPage = loadable(() => import('./pages/GeneratePostPage/Generat
 const UpdatePostPage = loadable(() => import('./pages/UpdatePostPage/UpdatePostPage'));
 const UserProfilePage = loadable(() => import('./pages/UserProfilePage/UserProfilePage'));
 const AuthCheck = loadable(() => import('./components/hoc/authCheck'));
+// 이렇게 코드 스플리팅 할수 있군요! 좋은 것 같습니다!
+// 궁금한게 있는데 CRA인 경우도 잘 적용되는 건가요?
 
 enableMapSet();
 

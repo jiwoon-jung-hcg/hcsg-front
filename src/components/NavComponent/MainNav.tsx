@@ -25,6 +25,7 @@ export default function MainNav() {
 		return (
 			<Grid>
 				{auth.nickname ? (
+					// cookie import 하시고 안쓰셨는데 이건 나중에 cookie 값으로 처리하시는건가요??
 					<Link style={{ color: 'black', cursor: 'pointer' }} to={`/user/${auth.userId}`}>
 						{auth.nickname}님 환영합니다!
 					</Link>

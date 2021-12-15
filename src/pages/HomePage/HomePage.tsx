@@ -25,7 +25,7 @@ const Home = () => {
 	const [isError, setIsError] = useState(false);
 	const [sort, setSort] = useState<Sort>('descending');
 	const [offset, setOffset] = useState(1);
-	const [limit] = useState(6);
+	const [limit] = useState(6); // 변하는 값 아니라면 변수 선언해주시면 좋을 것 같습니다!
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -127,6 +127,7 @@ const Home = () => {
 					<HeaderComponent />
 				</header>
 				<StackNavComponent stackRef={stackRef} updateStack={updateStack} feedbackFilter={feedbackFilter} />
+				{/* updateStack과 feedbackFilter를 나눠서 쓰신 이유는 값의 경우와 뷰의 경우를 나눠서 쓰려고 함수를 나누신건지 궁금합니다! */}
 				<Container className={classes.cardGrid} maxWidth="md">
 					<SortComponent handleChangeSort={handleChangeSort} />
 					<Grid container spacing={4} style={{ backgroundColor: 'white', marginTop: '1vw' }}>
