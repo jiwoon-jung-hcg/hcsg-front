@@ -105,3 +105,30 @@ export async function updatePictureRequest({ file }: PictureInfo) {
 		throw { error: { avatar: null, updateImageSuccess: false } };
 	}
 }
+
+export async function updateNicknameRequest(nickname: string) {
+	try {
+		const response = await axios.put(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/nickname`,
+			{ new_nickname: nickname },
+			headerConfig(),
+		);
+		return { updateNicknameSuccess: true, nickname: response.nickname };
+	} catch (error) {
+		logger(error);
+		throw { error: { updateNicknameSuccess: false, nickname: '' } };
+	}
+}
+
+export async function updatePasswordRequest(password: string) {
+	try {
+		const response = await axios.put(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/password`,
+			{ new_password: password, new_password_check: password },
+			headerConfig(),
+		);
+		return { updatePasswordSuccess: true };
+	} catch (error) {
+		throw { error: { updatePasswordSuccess: false } };
+	}
+}

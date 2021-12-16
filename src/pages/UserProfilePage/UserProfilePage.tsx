@@ -13,7 +13,15 @@ import SubNav from '../../components/NavComponent/SubNav';
 import { RootState } from '../../modules';
 
 import '../../styles/scss/userProfile.scss';
-import { logout, updatePictureAction } from '../../modules/user';
+import {
+	logout,
+	REFRESH_ALL_CHECK,
+	REFRESH_NICKNAME_CHECK,
+	REFRESH_PASSWORD_CHECK,
+	REFRESH_PICTURE_CHECK,
+	updateNicknameAction,
+	updatePictureAction,
+} from '../../modules/user';
 import Loading from '../../components/LoadingComponent/Loading';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +36,11 @@ const mapStateToProps = (state: RootState) => ({
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	updatePictureDispatch: (file: File) => dispatch(updatePictureAction(file)),
+	updateNicknameDispatch: (nickname: string) => dispatch(updateNicknameAction(nickname)),
+	refreshPictureDispatch: () => dispatch({ type: REFRESH_PICTURE_CHECK }),
+	refreshNicknameDispatch: () => dispatch({ type: REFRESH_NICKNAME_CHECK }),
+	refreshPasswordDispatch: () => dispatch({ type: REFRESH_PASSWORD_CHECK }),
+	refreshAllDispatch: () => dispatch({ type: REFRESH_ALL_CHECK }),
 	logoutDispatch: () => dispatch(logout()),
 });
 
@@ -70,6 +83,16 @@ class UserProfilePage extends Component<Props, State> {
 		if (this.props.user.logoutSuccess) {
 			window.location.href = 'http://localhost:3000';
 		}
+		if (this.props.user.updateNicknameSuccess) {
+			this.setState({
+				isUpdateNicknameClick: false,
+			});
+			this.props.refreshNicknameDispatch();
+		}
+	}
+
+	componentWillUnmount() {
+		this.props.refreshAllDispatch();
 	}
 
 	handleUpdateNicknameClick = () => {
@@ -83,6 +106,10 @@ class UserProfilePage extends Component<Props, State> {
 			nicknameValidCheck: null,
 			isUpdateNicknameClick: false,
 		});
+	};
+
+	handleUpdateNicknameRequest = () => {
+		this.props.updateNicknameDispatch(this.state.nickname);
 	};
 
 	handleUpdatePasswordClick = () => {
@@ -214,7 +241,7 @@ class UserProfilePage extends Component<Props, State> {
 										onBlur={this.handleBlurNickname}
 									/>
 								) : (
-									<p className="slideIn">{this.props.auth.nickname || '닉네임 없음'}</p>
+									<p className="slideIn">{this.state.nickname || this.props.auth.nickname}</p>
 								)}
 							</div>
 						</div>
@@ -224,7 +251,7 @@ class UserProfilePage extends Component<Props, State> {
 									<button type="button" className="cancel-button" onClick={this.handleUpdateNicknameCancel}>
 										취소
 									</button>
-									<button type="button" className="update-button">
+									<button type="button" className="update-button" onClick={this.handleUpdateNicknameRequest}>
 										변경
 									</button>
 								</>
