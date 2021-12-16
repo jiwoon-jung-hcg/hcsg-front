@@ -80,7 +80,7 @@ export default function GeneratePostPage() {
 		[stacks],
 	);
 	const handleChangeContent = useCallback((text: string) => {
-		setContent(!text.replaceAll('<p><br></p>', '').length ? '' : text);
+		setContent(text);
 	}, []);
 	const handleCancelClick = useCallback(() => navigate('/'), []);
 	const renderChip = () => {
@@ -114,7 +114,7 @@ export default function GeneratePostPage() {
 								color="primary"
 								type="submit"
 								size="large"
-								disabled={!formik.values.title || !stacks.length || !content}
+								disabled={!formik.values.title || !stacks.length || !content.replaceAll('<p><br></p>', '').length}
 								style={{ fontWeight: 'bold' }}
 							>
 								작성
