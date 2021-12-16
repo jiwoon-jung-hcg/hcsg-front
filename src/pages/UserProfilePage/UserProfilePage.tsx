@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { returntypeof } from 'react-redux-typescript';
 import { Navigator } from 'react-router';
@@ -18,6 +18,9 @@ import Loading from '../../components/LoadingComponent/Loading';
 
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultImage from '../../images/defaultProfile.png';
+import { checkUsingNickname } from '../../apis/user/user';
+import clsx from 'clsx';
+import { checkPassword } from '../../utils/validation';
 
 const mapStateToProps = (state: RootState) => ({
 	auth: state.auth,
@@ -37,6 +40,8 @@ type State = {
 	isLoading: boolean;
 	nickname: string;
 	password: string;
+	nicknameValidCheck: boolean | null;
+	passwordValidCheck: boolean | null;
 	isUpdateNicknameClick: boolean;
 	isUpdatePasswordClick: boolean;
 };
@@ -48,6 +53,8 @@ class UserProfilePage extends Component<Props, State> {
 			isLoading: true,
 			nickname: '',
 			password: '',
+			nicknameValidCheck: null,
+			passwordValidCheck: null,
 			isUpdateNicknameClick: false,
 			isUpdatePasswordClick: false,
 		};
@@ -73,6 +80,7 @@ class UserProfilePage extends Component<Props, State> {
 
 	handleUpdateNicknameCancel = () => {
 		this.setState({
+			nicknameValidCheck: null,
 			isUpdateNicknameClick: false,
 		});
 	};
@@ -85,14 +93,61 @@ class UserProfilePage extends Component<Props, State> {
 
 	handleUpdatePasswordCancel = () => {
 		this.setState({
+			passwordValidCheck: null,
 			isUpdatePasswordClick: false,
+		});
+	};
+
+	handleBlurNickname = async () => {
+		const response = await checkUsingNickname(this.state.nickname);
+		!response &&
+			toast.error('🥸 이미 존재하는 닉네임 입니다', {
+				position: 'top-right',
+				autoClose: 2500,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		this.setState({
+			nicknameValidCheck: response,
+		});
+	};
+
+	handleBlurPassword = () => {
+		const response = checkPassword(this.state.password);
+		!response.success &&
+			toast.error(`${response.message} 🥲`, {
+				position: 'top-right',
+				autoClose: 2500,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		this.setState({
+			passwordValidCheck: response.success,
+		});
+	};
+
+	handleChangeNickname = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({
+			nickname: event.currentTarget.value,
+		});
+	};
+
+	handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({
+			password: event.currentTarget.value,
 		});
 	};
 
 	handleChangePicture = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.currentTarget.files && event.currentTarget.files[0];
-		if (file && file.size > 20971520) {
-			return toast.error('🧐  흠... 첨부하신 사진이 너무 거대 합니다. 🙆🏻‍♂️  크기가 2MB까지 적용 가능해요!', {
+		if (file && file.size > 2097152) {
+			return toast.error('🧐  흠... 첨부하신 사진이 너무 거대 합니다. 크기가 2MB까지 적용 가능해요 🙆🏻‍♂️', {
 				position: 'top-right',
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -143,13 +198,25 @@ class UserProfilePage extends Component<Props, State> {
 						</button>
 					</section>
 					<section className="profile__section profile__info">
-						<h3>닉네임</h3>
 						<div>
-							{this.state.isUpdateNicknameClick ? (
-								<input type="text" />
-							) : (
-								<p style={{ textAlign: 'left' }}>{this.props.auth.nickname || '닉네임 없음'}</p>
-							)}
+							<h3>닉네임</h3>
+							<div>
+								{this.state.isUpdateNicknameClick ? (
+									<input
+										type="text"
+										value={this.state.nickname}
+										className={clsx(
+											'profile__section__input',
+											'slideIn',
+											this.state.nicknameValidCheck === false && 'valid_fail',
+										)}
+										onChange={this.handleChangeNickname}
+										onBlur={this.handleBlurNickname}
+									/>
+								) : (
+									<p className="slideIn">{this.props.auth.nickname || '닉네임 없음'}</p>
+								)}
+							</div>
 						</div>
 						<div>
 							{this.state.isUpdateNicknameClick ? (
@@ -169,28 +236,42 @@ class UserProfilePage extends Component<Props, State> {
 						</div>
 					</section>
 					<section className="profile__section profile__info">
-						<h3>비밀번호</h3>
 						<div>
-							{this.state.isUpdatePasswordClick ? (
-								<input type="text" />
-							) : (
-								<p>
-									<FiberManualRecordIcon />
-									<FiberManualRecordIcon />
-									<FiberManualRecordIcon />
-									<FiberManualRecordIcon />
-									<FiberManualRecordIcon />
-									<FiberManualRecordIcon />
-								</p>
-							)}
+							<h3>비밀번호</h3>
+							<div>
+								{this.state.isUpdatePasswordClick ? (
+									<input
+										type="password"
+										value={this.state.password}
+										className={clsx(
+											'profile__section__input',
+											'slideIn',
+											this.state.passwordValidCheck === false && 'valid_fail',
+										)}
+										onChange={this.handleChangePassword}
+										onBlur={this.handleBlurPassword}
+									/>
+								) : (
+									<p className="slideIn">
+										<FiberManualRecordIcon />
+										<FiberManualRecordIcon />
+										<FiberManualRecordIcon />
+										<FiberManualRecordIcon />
+										<FiberManualRecordIcon />
+										<FiberManualRecordIcon />
+									</p>
+								)}
+							</div>
 						</div>
 						<div>
 							{this.state.isUpdatePasswordClick ? (
 								<>
-									<button type="button" onClick={this.handleUpdatePasswordCancel}>
+									<button type="button" className="cancel-button" onClick={this.handleUpdatePasswordCancel}>
 										취소
 									</button>
-									<button type="button">변경</button>
+									<button type="button" className="update-button">
+										변경
+									</button>
 								</>
 							) : (
 								<button type="button" onClick={this.handleUpdatePasswordClick}>
