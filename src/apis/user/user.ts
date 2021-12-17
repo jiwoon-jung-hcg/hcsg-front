@@ -22,6 +22,9 @@ export interface SignInFailResponse {
 export interface PictureInfo {
 	file: File;
 }
+export interface UpdateNicknameResponse {
+	nickname: string;
+}
 
 /** 로그인 요청 */
 export async function userLogin({ email, password }: LoginInfo) {
@@ -113,7 +116,7 @@ export async function updateNicknameRequest(nickname: string) {
 			{ new_nickname: nickname },
 			headerConfig(),
 		);
-		return { updateNicknameSuccess: true, nickname: response.nickname };
+		return { updateNicknameSuccess: true, nickname: response.data.nickname };
 	} catch (error) {
 		logger(error);
 		throw { error: { updateNicknameSuccess: false, nickname: '' } };

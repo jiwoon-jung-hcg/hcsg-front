@@ -20,6 +20,7 @@ import {
 	REFRESH_PASSWORD_CHECK,
 	REFRESH_PICTURE_CHECK,
 	updateNicknameAction,
+	updatePasswordAction,
 	updatePictureAction,
 } from '../../modules/user';
 import Loading from '../../components/LoadingComponent/Loading';
@@ -37,6 +38,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	updatePictureDispatch: (file: File) => dispatch(updatePictureAction(file)),
 	updateNicknameDispatch: (nickname: string) => dispatch(updateNicknameAction(nickname)),
+	updatePasswordDispatch: (password: string) => dispatch(updatePasswordAction(password)),
 	refreshPictureDispatch: () => dispatch({ type: REFRESH_PICTURE_CHECK }),
 	refreshNicknameDispatch: () => dispatch({ type: REFRESH_NICKNAME_CHECK }),
 	refreshPasswordDispatch: () => dispatch({ type: REFRESH_PASSWORD_CHECK }),
@@ -85,9 +87,19 @@ class UserProfilePage extends Component<Props, State> {
 		}
 		if (this.props.user.updateNicknameSuccess) {
 			this.setState({
+				nickname: '',
+				nicknameValidCheck: false,
 				isUpdateNicknameClick: false,
 			});
 			this.props.refreshNicknameDispatch();
+		}
+		if (this.props.user.updatePasswordSuccess) {
+			this.setState({
+				password: '',
+				passwordValidCheck: false,
+				isUpdatePasswordClick: false,
+			});
+			this.props.refreshPasswordDispatch();
 		}
 	}
 
@@ -110,6 +122,10 @@ class UserProfilePage extends Component<Props, State> {
 
 	handleUpdateNicknameRequest = () => {
 		this.props.updateNicknameDispatch(this.state.nickname);
+	};
+
+	handleUpdatePasswordRequest = () => {
+		this.props.updatePasswordDispatch(this.state.password);
 	};
 
 	handleUpdatePasswordClick = () => {
@@ -208,7 +224,7 @@ class UserProfilePage extends Component<Props, State> {
 							<label htmlFor="profile-picture">변 경</label>
 						</div>
 						<div>
-							<h2>{this.props.auth.nickname || '닉네임없음'}님 반갑습니다.</h2>
+							<h2>{this.props.user.user.nickname || this.props.auth.nickname || '닉네임없음'}님 반갑습니다.</h2>
 							<ul>
 								<li>
 									<span>작성글</span>
@@ -241,7 +257,7 @@ class UserProfilePage extends Component<Props, State> {
 										onBlur={this.handleBlurNickname}
 									/>
 								) : (
-									<p className="slideIn">{this.state.nickname || this.props.auth.nickname}</p>
+									<p className="slideIn">{this.props.user.user.nickname || this.props.auth.nickname}</p>
 								)}
 							</div>
 						</div>
@@ -251,7 +267,12 @@ class UserProfilePage extends Component<Props, State> {
 									<button type="button" className="cancel-button" onClick={this.handleUpdateNicknameCancel}>
 										취소
 									</button>
-									<button type="button" className="update-button" onClick={this.handleUpdateNicknameRequest}>
+									<button
+										type="button"
+										disabled={!this.state.nicknameValidCheck}
+										className="update-button"
+										onClick={this.handleUpdateNicknameRequest}
+									>
 										변경
 									</button>
 								</>
@@ -296,7 +317,12 @@ class UserProfilePage extends Component<Props, State> {
 									<button type="button" className="cancel-button" onClick={this.handleUpdatePasswordCancel}>
 										취소
 									</button>
-									<button type="button" className="update-button">
+									<button
+										type="button"
+										disabled={!this.state.passwordValidCheck}
+										className="update-button"
+										onClick={this.handleUpdatePasswordRequest}
+									>
 										변경
 									</button>
 								</>

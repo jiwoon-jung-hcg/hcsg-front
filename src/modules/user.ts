@@ -27,6 +27,7 @@ export interface UpdateNicknameResponse {
 }
 export interface UpdatePasswordResponse {
 	updatePasswordSuccess: boolean;
+	nickname: string;
 }
 //============================================================//
 /** initial state */
@@ -155,9 +156,12 @@ function* updateNicknameSaga(action: Action<{ nickname: string }>) {
 function* updatePasswordSaga(action: Action<{ password: string }>) {
 	try {
 		const response: UpdatePasswordResponse = yield call(updatePasswordRequest, action.payload.password);
-		yield put({ type: UPDATE_PASSWORD_SUCCESS, payload: { updatePasswordSuccess: true } });
+		yield put({ type: UPDATE_PASSWORD_SUCCESS, payload: { ...response } });
 	} catch (error) {
-		yield put({ type: UPDATE_PASSWORD_FAILURE, payload: { updatePasswordSuccess: false } });
+		yield put({
+			type: UPDATE_PASSWORD_FAILURE,
+			payload: { ...(error as ErrorResponse<UpdatePasswordResponse>).error },
+		});
 	}
 }
 
@@ -201,10 +205,12 @@ export default function userReducers(state = userInitialState, action: Action) {
 		case UPDATE_NICKNAME_SUCCESS:
 			return produce(state, (draftState) => {
 				draftState.updateNicknameSuccess = action.payload.updateNicknameSuccess;
+				draftState.user.nickname = action.payload.nickname;
 			});
 		case UPDATE_NICKNAME_FAILURE:
 			return produce(state, (draftState) => {
 				draftState.updateNicknameSuccess = action.payload.updateNicknameSuccess;
+				draftState.user.nickname = action.payload.nickname;
 			});
 		case UPDATE_PASSWORD_SUCCESS:
 			return produce(state, (draftState) => {
@@ -229,6 +235,10 @@ export default function userReducers(state = userInitialState, action: Action) {
 		case REFRESH_ALL_CHECK:
 			return produce(state, (draftState) => {
 				draftState.logoutSuccess = false;
+				draftState.user.avatar = '';
+				draftState.user.nickname = '';
+				draftState.user.likesCount = 0;
+				draftState.user.postsCount = 0;
 			});
 		default:
 			return state;
