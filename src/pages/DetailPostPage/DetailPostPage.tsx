@@ -48,7 +48,7 @@ export default function DetailPostPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { selectedPost, successfullyDeleted } = useSelector((state: RootState) => state.post);
-	const { auth, post } = useSelector((state: RootState) => state);
+	const { auth } = useSelector((state: RootState) => state);
 	const content = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);

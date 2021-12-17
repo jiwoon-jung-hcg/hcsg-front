@@ -19,7 +19,7 @@ export default function DetailCountView(props: Iprops) {
 	const dispatch = useDispatch();
 	const handleLikeClick = useCallback(() => {
 		auth.is_auth && dispatch(likePostAction(post.id));
-	}, [auth]);
+	}, [auth, post]);
 	return (
 		<Grid container>
 			<Grid item style={{ flexGrow: 1 }}></Grid>

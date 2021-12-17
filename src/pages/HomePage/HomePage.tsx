@@ -24,8 +24,8 @@ const Home = () => {
 	const [postLoading, setPostLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [sort, setSort] = useState<Sort>('descending');
-	const [offset, setOffset] = useState(1);
-	const [limit] = useState(6);
+	const [offset, setOffset] = useState<number>(1);
+	const [limit] = useState<number>(6);
 	const [selectStacks, setSelectStacks] = useState<string[]>([]);
 	const stackRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -39,7 +39,7 @@ const Home = () => {
 	/** 더보기, 스택, 정렬 버튼 포스트 추가호출 */
 	useEffect(() => {
 		setPostListLoading(true);
-		dispatch(getPosts({ sort, limit, offset, stacks: selectStacks }));
+		dispatch(getPosts({ sort, limit: limit * offset, offset: 1, stacks: selectStacks }));
 		setIsLoading(false);
 		setPostLoading(false);
 	}, [offset, selectStacks, sort]);
