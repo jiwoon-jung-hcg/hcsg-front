@@ -4,14 +4,16 @@ const cookie = new Cookies();
 export interface HeaderConfig {
 	headers: {
 		token: string;
+		'Content-Type'?: string;
 	};
 }
 
-export const headerConfig = (): HeaderConfig => {
+export const headerConfig = (contentType?: string): HeaderConfig => {
 	const token = cookie.get('refresh_token');
 	const config = token && {
 		headers: {
 			token: token,
+			'Content-Type': contentType || 'Application/json',
 		},
 	};
 	return { ...config };

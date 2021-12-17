@@ -4,6 +4,7 @@
 	padding: 20px 20px;
 }
 .subnav__home-button {
+	display: block;
 	width: 100%;
 	border: none;
 	font-size: 1.5em;
@@ -12,6 +13,7 @@
 	border-radius: 10px;
 	color: #fff;
 	text-align: center;
+	text-decoration: none;
 }
 .subnav__list {
 	list-style: none;

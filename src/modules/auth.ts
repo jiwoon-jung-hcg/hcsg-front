@@ -5,14 +5,16 @@ import { Action } from './user';
 
 export interface AuthResponse {
 	is_auth: boolean;
-	userId?: number;
-	nickname?: string;
+	userId: number;
+	nickname: string;
+	avatar: string;
 }
 
 export const authInitialState = {
 	is_auth: false,
 	nickname: null,
 	userId: null,
+	avatar: null,
 };
 
 export const AUTH_REQUEST = 'auth/AUTH_REQUEST';
@@ -31,10 +33,10 @@ export function* authCheckSaga() {
 		const response: AuthResponse = yield call(isAuthCheck);
 		yield put({
 			type: AUTH_SUSCCESS,
-			payload: { is_auth: true, nickname: response.nickname, userId: response.userId },
+			payload: { is_auth: true, nickname: response.nickname, userId: response.userId, avatar: response.avatar },
 		});
 	} catch (error) {
-		yield put({ type: AUTH_FAILURE, payload: { is_auth: false, nickname: null, userId: null } });
+		yield put({ type: AUTH_FAILURE, payload: { is_auth: false, nickname: null, userId: null, avatar: null } });
 	}
 }
 
@@ -49,12 +51,14 @@ export default function authReducers(state = authInitialState, action: Action) {
 				prevState.is_auth = true;
 				prevState.nickname = action.payload.nickname;
 				prevState.userId = action.payload.userId;
+				prevState.avatar = action.payload.avatar;
 			});
 		case AUTH_FAILURE:
 			return produce(state, (prevState) => {
 				prevState.is_auth = false;
 				prevState.nickname = null;
 				prevState.userId = null;
+				prevState.avatar = null;
 			});
 		default:
 			return state;

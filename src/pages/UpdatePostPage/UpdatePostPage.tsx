@@ -47,7 +47,7 @@ export default function UpdatePostPage() {
 		return () => {
 			dispatch({ type: REFRESH_UPDATE_POST_CHECK });
 		};
-	});
+	}, []);
 
 	/** 상태에서 입력받은 스택 찾기 */
 	const findStack = (stack: string) => {
@@ -65,7 +65,9 @@ export default function UpdatePostPage() {
 		},
 		[stacks],
 	);
-	const handleChangeContent = useCallback((text: string) => setContent(text), []);
+	const handleChangeContent = useCallback((text: string) => {
+		setContent(text);
+	}, []);
 	const handleCancelClick = useCallback(() => navigate('/'), []);
 	const renderChip = () => {
 		return STACK_NAMES.map((stack) => (
@@ -95,7 +97,7 @@ export default function UpdatePostPage() {
 								color="primary"
 								type="submit"
 								size="large"
-								disabled={!formik.values.title || !stacks.length || !content}
+								disabled={!formik.values.title || !stacks.length || !content.replaceAll('<p><br></p>', '').length}
 								style={{ fontWeight: 'bold' }}
 							>
 								수정
