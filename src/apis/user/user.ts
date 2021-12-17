@@ -144,3 +144,12 @@ export async function getWritePostCountAndLikePostCountRequest() {
 		throw new Error('not exist user or not exist token');
 	}
 }
+
+export async function currentPasswordCheck(password: string) {
+	try {
+		await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/password-check`, { password }, headerConfig());
+		return true;
+	} catch (error) {
+		return false;
+	}
+}

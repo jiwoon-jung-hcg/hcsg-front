@@ -31,7 +31,11 @@ import Loading from '../../components/LoadingComponent/Loading';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultImage from '../../images/defaultProfile.png';
 
-import { checkUsingNickname, getWritePostCountAndLikePostCountRequest } from '../../apis/user/user';
+import {
+	checkUsingNickname,
+	currentPasswordCheck,
+	getWritePostCountAndLikePostCountRequest,
+} from '../../apis/user/user';
 import { checkPassword } from '../../utils/validation';
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
@@ -60,11 +64,13 @@ type State = {
 	isError: boolean;
 	isLoading: boolean;
 	nickname: string;
-	password: string;
+	currentPassword: string;
+	newPassword: string;
 	postsCount: number;
 	likesCount: number;
 	nicknameValidCheck: boolean | null;
 	passwordValidCheck: boolean | null;
+	isCurrentPasswordCheck: boolean | null;
 	isUpdateNicknameClick: boolean;
 	isUpdatePasswordClick: boolean;
 };
@@ -76,11 +82,13 @@ class UserProfilePage extends Component<Props, State> {
 			isError: false,
 			isLoading: true,
 			nickname: '',
-			password: '',
+			currentPassword: '',
+			newPassword: '',
 			postsCount: 0,
 			likesCount: 0,
 			nicknameValidCheck: null,
 			passwordValidCheck: null,
+			isCurrentPasswordCheck: null,
 			isUpdateNicknameClick: false,
 			isUpdatePasswordClick: false,
 		};
@@ -118,9 +126,11 @@ class UserProfilePage extends Component<Props, State> {
 		}
 		if (user.updatePasswordSuccess) {
 			this.setState({
-				password: '',
+				newPassword: '',
+				currentPassword: '',
 				passwordValidCheck: false,
 				isUpdatePasswordClick: false,
+				isCurrentPasswordCheck: null,
 			});
 			this.props.refreshPasswordDispatch();
 		}
@@ -148,7 +158,7 @@ class UserProfilePage extends Component<Props, State> {
 	};
 
 	handleUpdatePasswordRequest = () => {
-		this.props.updatePasswordDispatch(this.state.password);
+		this.props.updatePasswordDispatch(this.state.newPassword);
 	};
 
 	handleUpdatePasswordClick = () => {
@@ -181,8 +191,22 @@ class UserProfilePage extends Component<Props, State> {
 		});
 	};
 
+	handleBlurCurrentPassword = () => {
+		currentPasswordCheck(this.state.currentPassword)
+			.then((response) => {
+				this.setState({
+					isCurrentPasswordCheck: true,
+				});
+			})
+			.catch(() => {
+				this.setState({
+					isCurrentPasswordCheck: false,
+				});
+			});
+	};
+
 	handleBlurPassword = () => {
-		const response = checkPassword(this.state.password);
+		const response = checkPassword(this.state.newPassword);
 		!response.success &&
 			toast.error(`${response.message} 🥲`, {
 				position: 'top-right',
@@ -204,9 +228,15 @@ class UserProfilePage extends Component<Props, State> {
 		});
 	};
 
+	handleChangeCurrentPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({
+			currentPassword: event.currentTarget.value,
+		});
+	};
+
 	handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			password: event.currentTarget.value,
+			newPassword: event.currentTarget.value,
 		});
 	};
 
@@ -321,17 +351,33 @@ class UserProfilePage extends Component<Props, State> {
 							<h3>비밀번호</h3>
 							<div>
 								{this.state.isUpdatePasswordClick ? (
-									<input
-										type="password"
-										value={this.state.password}
-										className={clsx(
-											'profile__section__input',
-											'slideIn',
-											this.state.passwordValidCheck === false && 'valid_fail',
-										)}
-										onChange={this.handleChangePassword}
-										onBlur={this.handleBlurPassword}
-									/>
+									this.state.isCurrentPasswordCheck ? (
+										<input
+											type="password"
+											value={this.state.newPassword}
+											className={clsx(
+												'profile__section__input',
+												'slideIn',
+												this.state.passwordValidCheck === false && 'valid_fail',
+											)}
+											placeholder="변경할 비밀번호 입력"
+											onChange={this.handleChangePassword}
+											onBlur={this.handleBlurPassword}
+										/>
+									) : (
+										<input
+											type="password"
+											className={clsx(
+												'profile__section__input',
+												'slideIn',
+												this.state.isCurrentPasswordCheck === false && 'valid_fail',
+											)}
+											placeholder="현재 비밀번호를 입력"
+											value={this.state.currentPassword}
+											onChange={this.handleChangeCurrentPassword}
+											onBlur={this.handleBlurCurrentPassword}
+										/>
+									)
 								) : (
 									<p className="slideIn">
 										<FiberManualRecordIcon />
