@@ -35,16 +35,12 @@ export default function AuthCheck(props: iProps) {
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 	useLayoutEffect(() => {
-		console.log(':::::::::::::::CHANGE COMPONENT');
-		console.log(SpecificComponent);
+		console.log('라우팅');
 		setIsLoading(true);
 		dispatch(getAuth());
-	}, [SpecificComponent]);
+	}, [SpecificComponent, user.logoutSuccess]);
 
 	useEffect(() => {
-		console.log(':::::::::::::::OPTION CHECK');
-		console.log(auth.is_auth);
-		console.log(option);
 		if (auth.is_auth && option === GUEST) {
 			return navigate('/');
 		} else if (!auth.is_auth && option === USER) {

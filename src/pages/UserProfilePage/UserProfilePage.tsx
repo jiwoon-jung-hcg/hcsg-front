@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
-import { returntypeof } from 'react-redux-typescript';
 import { Dispatch } from 'redux';
-import { instanceOf } from 'prop-types';
+import { returntypeof } from 'react-redux-typescript';
+import { ToastContainer, toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 import clsx from 'clsx';
 
-import { Avatar, Card, CardHeader, Container, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 import SubNav from '../../components/NavComponent/SubNav';
@@ -30,6 +29,7 @@ import Loading from '../../components/LoadingComponent/Loading';
 
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultImage from '../../images/defaultProfile.png';
+
 import { checkUsingNickname } from '../../apis/user/user';
 import { checkPassword } from '../../utils/validation';
 
@@ -84,9 +84,6 @@ class UserProfilePage extends Component<Props, State> {
 	}
 
 	componentDidUpdate() {
-		if (this.props.user.logoutSuccess) {
-			return <Navigate to="/" replace={true} />;
-		}
 		if (this.props.user.updateNicknameSuccess) {
 			this.setState({
 				nickname: '',

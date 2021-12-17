@@ -52,7 +52,6 @@ const Home = () => {
 	}, [offset]);
 	/** 정렬 방식 변경 */
 	const handleChangeSort = useCallback((event: React.MouseEvent<HTMLHeadingElement>) => {
-		console.log(event.currentTarget.textContent);
 		setSort(event.currentTarget.textContent?.trim() === '인기' ? 'hit' : 'descending');
 	}, []);
 	/** 스택 필터링 */
