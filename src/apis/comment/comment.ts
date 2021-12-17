@@ -11,7 +11,7 @@ export async function createCommentRequest(commentInfo: CreateCommentInfo) {
 		);
 		return { successfullyCreated: true };
 	} catch (error) {
-		throw { successfullyCreated: false };
+		throw { error: { successfullyCreated: false } };
 	}
 }
 
@@ -37,7 +37,7 @@ export async function getCommentsRequest(post_id: number) {
 			],
 		};
 	} catch (error) {
-		throw { comments: [] };
+		throw { error: { comments: [] } };
 	}
 }
 
@@ -50,7 +50,7 @@ export async function updateCommentRequest(commentInfo: UpdateCommentInfo) {
 		);
 		return { successfullyUpdated: true };
 	} catch (error) {
-		throw { successfullyUpdated: false };
+		throw { error: { successfullyUpdated: false } };
 	}
 }
 
@@ -62,6 +62,6 @@ export async function deleteCommentRequest(commentInfo: DeleteCommentInfo) {
 		);
 		return { successfullyDeleted: true };
 	} catch (error) {
-		throw { successfullyDeleted: false };
+		throw { error: { successfullyDeleted: false } };
 	}
 }

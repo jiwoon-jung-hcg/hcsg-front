@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import Cookies from 'universal-cookie';
-import { logout, LOGOUT } from '../../modules/user';
 
 export default function MainNav() {
 	const cookie = new Cookies();
@@ -16,10 +15,6 @@ export default function MainNav() {
 	const navigate = useNavigate();
 	const [, updateState] = useState({});
 	const { auth, user } = useSelector((state: RootState) => state);
-
-	const handleLogout = useCallback(() => {
-		dispatch(logout());
-	}, []);
 
 	const renderUserLogin = useCallback(() => {
 		return (

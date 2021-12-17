@@ -108,8 +108,8 @@ export default function SignInPage() {
 				if (email && password) {
 					dispatch(getLogin({ email: email.value, password: password.value }));
 				}
-			} catch (err) {
-				logger(err);
+			} catch (error) {
+				logger(error);
 				setIsError(true);
 			}
 		},
