@@ -24,14 +24,23 @@ import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLogin, REFRESH_LOGIN_SUCCESS } from '../../modules/user';
 import { RootState } from '../../modules';
+import MainNav from '../../components/NavComponent/MainNav';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		display: 'flex',
 		justifyContent: 'center',
-		marginTop: '5vw',
 		backgroundColor: '#fff',
 		marginBottom: '10vh',
+		animation: '$myEffect 500ms',
+	},
+	'@keyframes myEffect': {
+		'0%': {
+			opacity: 0,
+		},
+		'100%': {
+			opacity: 1,
+		},
 	},
 	title: {
 		fontSize: '3.5em',
@@ -127,74 +136,78 @@ export default function SignInPage() {
 	}
 
 	return (
-		<div className={classes.container}>
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<div className={classes.paper}>
-					<Typography variant="h1" component="h1" className={classes.title}>
-						Login
-					</Typography>
-					<Typography component="h1" variant="h5">
-						<img src={coverImage} alt="logo" className={classes.mainImage} />
-					</Typography>
-					<form className={classes.form} onSubmit={handleFormSubmit} noValidate>
-						<TextField
-							error={user.failure.keyword === 'email'}
-							type="email"
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label="이메일"
-							name="email"
-							value={email}
-							autoComplete="email"
-							autoFocus
-							onChange={handleInputEmail}
-						/>
-						<span className={classes.errorText}>
-							{user.failure.keyword === 'email' && '존재하지 않는 이메일입니다'}
-						</span>
-						<TextField
-							error={user.failure.keyword === 'password'}
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="비밀번호"
-							type="password"
-							id="password"
-							value={password}
-							autoComplete="current-password"
-							onChange={handleInputPassword}
-						/>
-						<span className={classes.errorText}>{user.failure.keyword === 'password' && '비밀번호가 틀립니다'}</span>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							className={classes.submit}
-							disabled={isNullCheck(email) || isNullCheck(password)}
-						>
-							로그인
-						</Button>
-						<Grid container>
-							<Grid item xs>
-								<Link to="#" className={classes.text}>
-									패스워드 찾기
-								</Link>
+		<>
+			<MainNav />
+			<div className={classes.container}>
+				<Container component="main" maxWidth="xs">
+					<CssBaseline />
+
+					<div className={classes.paper}>
+						<Typography variant="h1" component="h1" className={classes.title}>
+							Login
+						</Typography>
+						<Typography component="h1" variant="h5">
+							<img src={coverImage} alt="logo" className={classes.mainImage} />
+						</Typography>
+						<form className={classes.form} onSubmit={handleFormSubmit} noValidate>
+							<TextField
+								error={user.failure.keyword === 'email'}
+								type="email"
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								id="email"
+								label="이메일"
+								name="email"
+								value={email}
+								autoComplete="email"
+								autoFocus
+								onChange={handleInputEmail}
+							/>
+							<span className={classes.errorText}>
+								{user.failure.keyword === 'email' && '존재하지 않는 이메일입니다'}
+							</span>
+							<TextField
+								error={user.failure.keyword === 'password'}
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								name="password"
+								label="비밀번호"
+								type="password"
+								id="password"
+								value={password}
+								autoComplete="current-password"
+								onChange={handleInputPassword}
+							/>
+							<span className={classes.errorText}>{user.failure.keyword === 'password' && '비밀번호가 틀립니다'}</span>
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								className={classes.submit}
+								disabled={isNullCheck(email) || isNullCheck(password)}
+							>
+								로그인
+							</Button>
+							<Grid container>
+								<Grid item xs>
+									<Link to="#" className={classes.text}>
+										패스워드 찾기
+									</Link>
+								</Grid>
+								<Grid item>
+									<Link to="/user/signup" className={classes.text}>
+										회원가입
+									</Link>
+								</Grid>
 							</Grid>
-							<Grid item>
-								<Link to="/user/signup" className={classes.text}>
-									회원가입
-								</Link>
-							</Grid>
-						</Grid>
-					</form>
-				</div>
-			</Container>
-		</div>
+						</form>
+					</div>
+				</Container>
+			</div>
+		</>
 	);
 }

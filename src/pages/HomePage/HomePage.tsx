@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, RefObject } from 'react';
+import React, { useState, useCallback, useEffect, useRef, RefObject, useLayoutEffect } from 'react';
 import { Typography, Button, CssBaseline, Grid, Container, CircularProgress } from '@material-ui/core';
 
 import ErrorPage from '../../components/ErrorComponent/ErrorPage';
@@ -37,11 +37,12 @@ const Home = () => {
 		};
 	}, []);
 	/** 더보기, 스택, 정렬 버튼 포스트 추가호출 */
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setPostListLoading(true);
 		dispatch(getPosts({ sort, limit: limit * offset, offset: 1, stacks: selectStacks }));
 		setIsLoading(false);
 		setPostLoading(false);
+		setPostListLoading(false);
 	}, [offset, selectStacks, sort]);
 
 	/** Event Handler */
@@ -101,12 +102,11 @@ const Home = () => {
 	/** 게시글 리스트 리턴 함수 */
 	const renderPosts = useCallback(() => {
 		const data = post?.posts;
-		return Array.isArray(data) && data.length ? (
-			data.map((post: Post) => <PostComponent key={post.id} post={post} />)
-		) : (
-			<Typography variant="h3">작성하신 컨텐츠가 없습니다</Typography>
-		);
-	}, [post]);
+		if (postListLoading) {
+			return <CircularProgress />;
+		}
+		return Array.isArray(data) && data.length && data.map((post: Post) => <PostComponent key={post.id} post={post} />);
+	}, [post, postListLoading]);
 	/** 로딩페이지 */
 	if (isLoading) {
 		return <Loading />;

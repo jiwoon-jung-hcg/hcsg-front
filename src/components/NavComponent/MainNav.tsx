@@ -38,12 +38,16 @@ export default function MainNav() {
 				<Toolbar>
 					<Grid container alignItems="center">
 						<Grid item style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-							<img src={mainLogo} alt="main logo" style={{ marginRight: '8px', width: 100, cursor: 'pointer' }} />
+							<Link to="/">
+								<img src={mainLogo} alt="main logo" style={{ marginRight: '8px', width: 100, cursor: 'pointer' }} />
+							</Link>
 						</Grid>
 						<Grid style={{ marginRight: '20px' }}>
-							<Link to="/post/new" style={{ color: 'black', textDecoration: 'none', fontWeight: 'bold' }}>
-								새 글 쓰기
-							</Link>
+							{auth.is_auth && (
+								<Link to="/post/new" style={{ color: 'black', textDecoration: 'none', fontWeight: 'bold' }}>
+									새 글 쓰기
+								</Link>
+							)}
 						</Grid>
 						{renderUserLogin()}
 						<Typography variant="h5" color="textPrimary" className={classes.menu}></Typography>

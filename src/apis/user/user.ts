@@ -147,9 +147,15 @@ export async function getWritePostCountAndLikePostCountRequest() {
 
 export async function currentPasswordCheck(password: string) {
 	try {
-		await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/password-check`, { password }, headerConfig());
+		const response = await axios.post(
+			`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages/password-check`,
+			{ password },
+			headerConfig(),
+		);
+		console.log(response);
 		return true;
 	} catch (error) {
-		return false;
+		console.dir(error);
+		throw false;
 	}
 }

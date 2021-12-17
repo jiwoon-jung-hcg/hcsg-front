@@ -44,10 +44,11 @@ export default function AuthCheck(props: iProps) {
 			return navigate('/user/signin');
 		}
 		setIsLoading(false);
-	}, [auth, option]);
+	}, [SpecificComponent, auth, option]);
 
 	if (isLoading) {
 		return <Loading />;
+		// return <h1>asv</h1>;
 	}
 
 	return <SpecificComponent />;

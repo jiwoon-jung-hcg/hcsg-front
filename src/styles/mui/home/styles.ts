@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	cardGrid: {
 		padding: '20px 0',
 		backgroundColor: 'white',
+		animation: '$myEffect 500ms',
 	},
 	card: {
 		height: '100%',
@@ -86,6 +87,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 		transition: 'all 0.1s linear',
 		'&:hover': {
 			transform: 'scale(1.01)',
+		},
+		animation: '$myEffect 500ms',
+	},
+	'@keyframes myEffect': {
+		'0%': {
+			opacity: 0,
+		},
+		'100%': {
+			opacity: 1,
 		},
 	},
 	cardContent: {

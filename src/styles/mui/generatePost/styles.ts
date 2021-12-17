@@ -4,6 +4,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		background: 'white',
 		marginBottom: '100px',
+		animation: '$myEffect 500ms',
+	},
+	'@keyframes myEffect': {
+		'0%': {
+			opacity: 0,
+		},
+		'100%': {
+			opacity: 1,
+		},
 	},
 	form: {
 		display: 'flex',

@@ -25,14 +25,23 @@ import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
 import { REFRESH_SIGNUP_SUCCESS, signup } from '../../modules/user';
 import { RootState } from '../../modules';
+import MainNav from '../../components/NavComponent/MainNav';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		display: 'flex',
 		justifyContent: 'center',
-		marginTop: '5vw',
 		backgroundColor: '#fff',
 		marginBottom: '10vh',
+		animation: '$myEffect 500ms',
+	},
+	'@keyframes myEffect': {
+		'0%': {
+			opacity: 0,
+		},
+		'100%': {
+			opacity: 1,
+		},
 	},
 	paper: {
 		marginTop: theme.spacing(8),
@@ -179,109 +188,113 @@ export default function SignUpPage() {
 	);
 
 	return (
-		<div className={classes.container}>
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<div className={classes.paper}>
-					<Typography variant="h1" component="h1" className={classes.title}>
-						Sign Up
-					</Typography>
-					<img src={coverImage} alt="signup-image" className={classes.mainImage} />
-					<form className={classes.form} noValidate onSubmit={handleSignupSubmit}>
-						<Grid container spacing={2}>
-							<Grid item xs={12}>
-								<TextField
-									error={!emailCheck}
-									variant="outlined"
-									required
-									fullWidth
-									id="Email"
-									label="이메일"
-									name="Email"
-									autoComplete="lname"
-									value={email}
-									onChange={handleChangeEmail}
-									onBlur={handleEmailBlur}
-								/>
-								<span>{emailCheckFeedback}</span>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									error={!nicknameCheck}
-									variant="outlined"
-									required
-									fullWidth
-									id="nickname"
-									label="닉네임"
-									name="nickname"
-									autoComplete="nickname"
-									value={nickname}
-									onChange={handleChangeNickname}
-									onBlur={handleNicknameBlur}
-								/>
-								<span>{nicknameCheckFeedback}</span>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									error={!passwordCheck}
-									variant="outlined"
-									required
-									fullWidth
-									name="password"
-									label="비밀번호"
-									type="password"
-									id="password"
-									autoComplete="password"
-									value={password}
-									onChange={handleChangePassword}
-									onBlur={handlePasswordBlur}
-								/>
-								<span>{passwordCheckFeedback}</span>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									error={!confirmPasswordCheck}
-									variant="outlined"
-									required
-									fullWidth
-									name="confirm-password"
-									label="비밀번호 확인"
-									type="password"
-									id="confirm-password"
-									autoComplete="confirm-password"
-									value={confirmPassword}
-									onChange={handleChangeConfirmPassword}
-									onBlur={handleComfirmPasswordBlur}
-								/>
-								<span>{confirmPasswordCheckFeedback}</span>
-							</Grid>
-						</Grid>
-						<Typography className={classes.textRight}>
-							<Link to="/user/signin" className={classes.link}>
-								계정이 이미 있으신가요?
-							</Link>
+		<>
+			<MainNav />
+			<div className={classes.container}>
+				<Container component="main" maxWidth="xs">
+					<CssBaseline />
+					<div className={classes.paper}>
+						<Typography variant="h1" component="h1" className={classes.title}>
+							Sign Up
 						</Typography>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-							className={classes.submit}
-							disabled={
-								!emailCheck ||
-								!passwordCheck ||
-								!nicknameCheck ||
-								!confirmPasswordCheck ||
-								!email.length ||
-								!nickname.length
-							}
-						>
-							회원가입
-						</Button>
-						<Grid container justifyContent="flex-end"></Grid>
-					</form>
-				</div>
-			</Container>
-		</div>
+						<img src={coverImage} alt="signup-image" className={classes.mainImage} />
+						<form className={classes.form} noValidate onSubmit={handleSignupSubmit}>
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<TextField
+										error={!emailCheck}
+										variant="outlined"
+										required
+										fullWidth
+										id="Email"
+										label="이메일"
+										name="Email"
+										autoComplete="lname"
+										value={email}
+										onChange={handleChangeEmail}
+										onBlur={handleEmailBlur}
+									/>
+									<span>{emailCheckFeedback}</span>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										error={!nicknameCheck}
+										variant="outlined"
+										required
+										fullWidth
+										id="nickname"
+										label="닉네임"
+										name="nickname"
+										autoComplete="nickname"
+										value={nickname}
+										onChange={handleChangeNickname}
+										onBlur={handleNicknameBlur}
+									/>
+									<span>{nicknameCheckFeedback}</span>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										error={!passwordCheck}
+										variant="outlined"
+										required
+										fullWidth
+										name="password"
+										label="비밀번호"
+										type="password"
+										id="password"
+										autoComplete="password"
+										value={password}
+										onChange={handleChangePassword}
+										onBlur={handlePasswordBlur}
+									/>
+									<span>{passwordCheckFeedback}</span>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										error={!confirmPasswordCheck}
+										variant="outlined"
+										required
+										fullWidth
+										name="confirm-password"
+										label="비밀번호 확인"
+										type="password"
+										id="confirm-password"
+										autoComplete="confirm-password"
+										value={confirmPassword}
+										onChange={handleChangeConfirmPassword}
+										onBlur={handleComfirmPasswordBlur}
+									/>
+									<span>{confirmPasswordCheckFeedback}</span>
+								</Grid>
+							</Grid>
+
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								color="primary"
+								className={classes.submit}
+								disabled={
+									!emailCheck ||
+									!passwordCheck ||
+									!nicknameCheck ||
+									!confirmPasswordCheck ||
+									!email.length ||
+									!nickname.length
+								}
+							>
+								회원가입
+							</Button>
+							<Typography className={classes.textRight}>
+								<Link to="/user/signin" className={classes.link}>
+									계정이 이미 있으신가요?
+								</Link>
+							</Typography>
+							<Grid container justifyContent="flex-end"></Grid>
+						</form>
+					</div>
+				</Container>
+			</div>
+		</>
 	);
 }

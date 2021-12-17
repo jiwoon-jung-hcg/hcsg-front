@@ -3,6 +3,15 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		backgroundColor: '#fff',
+		animation: '$myEffect 500ms',
+	},
+	'@keyframes myEffect': {
+		'0%': {
+			opacity: 0,
+		},
+		'100%': {
+			opacity: 1,
+		},
 	},
 	main: {
 		padding: '24px 0',

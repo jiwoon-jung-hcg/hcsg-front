@@ -199,6 +199,15 @@ class UserProfilePage extends Component<Props, State> {
 				});
 			})
 			.catch(() => {
+				toast.error('🧐 현재 비밀번호와 일치하지 않아요...', {
+					position: 'top-right',
+					autoClose: 2500,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
 				this.setState({
 					isCurrentPasswordCheck: false,
 				});
@@ -261,6 +270,8 @@ class UserProfilePage extends Component<Props, State> {
 		await cookies.remove('refresh_token');
 		this.props.logoutDispatch();
 	};
+
+	// handleDeleteUserClick = ()
 
 	render() {
 		if (this.state.isLoading) {
