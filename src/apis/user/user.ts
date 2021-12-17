@@ -135,3 +135,12 @@ export async function updatePasswordRequest(password: string) {
 		throw { error: { updatePasswordSuccess: false } };
 	}
 }
+
+export async function getWritePostCountAndLikePostCountRequest() {
+	try {
+		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/mypages`, headerConfig());
+		return response.data;
+	} catch (error) {
+		throw new Error('not exist user or not exist token');
+	}
+}

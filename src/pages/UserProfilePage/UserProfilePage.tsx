@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { returntypeof } from 'react-redux-typescript';
 import { ToastContainer, toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
+import camelcaseKeys from 'camelcase-keys';
 import clsx from 'clsx';
 
 import { CssBaseline } from '@material-ui/core';
@@ -30,8 +31,9 @@ import Loading from '../../components/LoadingComponent/Loading';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultImage from '../../images/defaultProfile.png';
 
-import { checkUsingNickname } from '../../apis/user/user';
+import { checkUsingNickname, getWritePostCountAndLikePostCountRequest } from '../../apis/user/user';
 import { checkPassword } from '../../utils/validation';
+import ErrorPage from '../../components/ErrorComponent/ErrorPage';
 
 const mapStateToProps = (state: RootState) => ({
 	auth: state.auth,
@@ -55,9 +57,12 @@ const actionPropTypes = returntypeof(mapDispatchToProps);
 
 type Props = typeof statePropTypes & typeof actionPropTypes;
 type State = {
+	isError: boolean;
 	isLoading: boolean;
 	nickname: string;
 	password: string;
+	postsCount: number;
+	likesCount: number;
 	nicknameValidCheck: boolean | null;
 	passwordValidCheck: boolean | null;
 	isUpdateNicknameClick: boolean;
@@ -68,9 +73,12 @@ class UserProfilePage extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
+			isError: false,
 			isLoading: true,
 			nickname: '',
 			password: '',
+			postsCount: 0,
+			likesCount: 0,
 			nicknameValidCheck: null,
 			passwordValidCheck: null,
 			isUpdateNicknameClick: false,
@@ -79,9 +87,23 @@ class UserProfilePage extends Component<Props, State> {
 	}
 
 	componentDidMount() {
-		this.setState({
-			isLoading: false,
-		});
+		getWritePostCountAndLikePostCountRequest()
+			.then((response) => {
+				const countData = camelcaseKeys(response);
+				this.setState({
+					...countData,
+				});
+			})
+			.catch((error) => {
+				this.setState({
+					isError: true,
+				});
+			})
+			.finally(() => {
+				this.setState({
+					isLoading: false,
+				});
+			});
 	}
 
 	componentDidUpdate() {
@@ -211,11 +233,16 @@ class UserProfilePage extends Component<Props, State> {
 	};
 
 	render() {
-		if (this.props.user.logoutSuccess) {
-			return <Navigate to={'/'} replace={true} />;
-		}
 		if (this.state.isLoading) {
 			return <Loading />;
+		}
+
+		if (this.state.isError) {
+			return <ErrorPage />;
+		}
+
+		if (this.props.user.logoutSuccess) {
+			return <Navigate to={'/'} replace={true} />;
 		}
 
 		return (
@@ -234,11 +261,11 @@ class UserProfilePage extends Component<Props, State> {
 							<ul>
 								<li>
 									<span>작성글</span>
-									<span>0</span>
+									<span>{this.state.postsCount}</span>
 								</li>
 								<li>
 									<span>찜 글</span>
-									<span>0</span>
+									<span>{this.state.likesCount}</span>
 								</li>
 							</ul>
 						</div>
