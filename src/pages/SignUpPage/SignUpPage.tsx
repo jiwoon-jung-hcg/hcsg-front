@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ import { checkUsingEmail, checkUsingNickname, userSignup } from '../../apis/user
 import { checkPassword, checkSignupEmail, isNullCheck } from '../../utils/validation';
 import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../../modules/user';
+import { REFRESH_SIGNUP_SUCCESS, signup } from '../../modules/user';
 import { RootState } from '../../modules';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +76,7 @@ export default function SignUpPage() {
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const auth = useSelector((state: RootState) => state.auth);
+	const user = useSelector((state: RootState) => state.user);
 	const [isError, setIsError] = useState(true);
 	const [email, setEmail] = useState<string>('');
 	const [emailCheck, setEmailCheck] = useState(true);
@@ -90,9 +91,15 @@ export default function SignUpPage() {
 	const [confirmPasswordCheck, setConfirmPasswordCheck] = useState(true);
 	const [confirmPasswordCheckFeedback, setConfirmPasswordCheckFeedback] = useState('');
 
-	React.useEffect(() => {
-		auth.is_auth && navigate('/');
-	}, [auth]);
+	useEffect(() => {
+		user.signupSuccess && navigate('/');
+	}, [user]);
+
+	useEffect(() => {
+		return () => {
+			dispatch({ type: REFRESH_SIGNUP_SUCCESS });
+		};
+	}, []);
 
 	const handleChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(event.currentTarget.value);

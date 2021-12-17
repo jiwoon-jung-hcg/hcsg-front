@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { returntypeof } from 'react-redux-typescript';
-import { Navigator } from 'react-router';
 import { Dispatch } from 'redux';
+import { instanceOf } from 'prop-types';
+import Cookies from 'universal-cookie';
+import clsx from 'clsx';
 
 import { Avatar, Card, CardHeader, Container, CssBaseline } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -28,7 +31,6 @@ import Loading from '../../components/LoadingComponent/Loading';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultImage from '../../images/defaultProfile.png';
 import { checkUsingNickname } from '../../apis/user/user';
-import clsx from 'clsx';
 import { checkPassword } from '../../utils/validation';
 
 const mapStateToProps = (state: RootState) => ({
@@ -50,7 +52,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const statePropTypes = returntypeof(mapStateToProps);
 const actionPropTypes = returntypeof(mapDispatchToProps);
 
-type Props = typeof statePropTypes & typeof actionPropTypes & Navigator;
+type Props = typeof statePropTypes & typeof actionPropTypes;
 type State = {
 	isLoading: boolean;
 	nickname: string;
@@ -83,7 +85,7 @@ class UserProfilePage extends Component<Props, State> {
 
 	componentDidUpdate() {
 		if (this.props.user.logoutSuccess) {
-			window.location.href = 'http://localhost:3000';
+			return <Navigate to="/" replace={true} />;
 		}
 		if (this.props.user.updateNicknameSuccess) {
 			this.setState({
@@ -203,7 +205,9 @@ class UserProfilePage extends Component<Props, State> {
 		event.currentTarget?.files && this.props.updatePictureDispatch(event.currentTarget.files[0]);
 	};
 
-	handleLogoutButton = () => {
+	handleLogoutButton = async () => {
+		const cookies = new Cookies();
+		await cookies.remove('refresh_token');
 		this.props.logoutDispatch();
 	};
 

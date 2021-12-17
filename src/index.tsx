@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from '@redux-saga/core';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { CookiesProvider } from 'react-cookie';
 import logger from 'redux-logger';
 import axios from 'axios';
 
@@ -23,7 +24,9 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
 	<Router>
 		<Provider store={store}>
-			<App />
+			<CookiesProvider>
+				<App />
+			</CookiesProvider>
 		</Provider>
 	</Router>,
 	document.getElementById('root'),
