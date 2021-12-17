@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logger } from '../../utils/logger';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLogin } from '../../modules/user';
+import { getLogin, REFRESH_LOGIN_SUCCESS } from '../../modules/user';
 import { RootState } from '../../modules';
 
 const useStyles = makeStyles((theme) => ({
@@ -82,6 +82,12 @@ export default function SignInPage() {
 	useEffect(() => {
 		user.loginSuccess && navigate('/');
 	}, [user]);
+
+	useEffect(() => {
+		return () => {
+			dispatch({ type: REFRESH_LOGIN_SUCCESS });
+		};
+	}, []);
 
 	/** 이메일 입력 */
 	const handleInputEmail = useCallback(

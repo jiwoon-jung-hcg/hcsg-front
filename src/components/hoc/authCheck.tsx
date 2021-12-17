@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../LoadingComponent/Loading';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,19 +34,24 @@ export default function AuthCheck(props: iProps) {
 	const { auth, user } = useSelector((state: RootState) => state);
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
-	useEffect(() => {
+	useLayoutEffect(() => {
+		console.log(':::::::::::::::CHANGE COMPONENT');
+		console.log(SpecificComponent);
 		setIsLoading(true);
 		dispatch(getAuth());
-	}, [SpecificComponent, option]);
+	}, [SpecificComponent]);
 
 	useEffect(() => {
+		console.log(':::::::::::::::OPTION CHECK');
+		console.log(auth.is_auth);
+		console.log(option);
 		if (auth.is_auth && option === GUEST) {
 			return navigate('/');
 		} else if (!auth.is_auth && option === USER) {
 			return navigate('/user/signin');
 		}
 		setIsLoading(false);
-	}, [SpecificComponent, auth, option]);
+	}, [auth, option]);
 
 	if (isLoading) {
 		return <Loading />;

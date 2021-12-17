@@ -73,6 +73,7 @@ export const UPDATE_PASSWORD_FAILURE = 'user/UPDATE_PASSWORD_FAILURE';
 export const REFRESH_NICKNAME_CHECK = 'user/REFRESH_NICKNAME_CHECK';
 export const REFRESH_PASSWORD_CHECK = 'user/REFRESH_PASSWORD_CHECK';
 export const REFRESH_PICTURE_CHECK = 'user/REFRESH_PICTURE_CHECK';
+export const REFRESH_LOGIN_SUCCESS = 'user/REFRESH_LOGIN_SUCCESS';
 export const REFRESH_SIGNUP_SUCCESS = 'user/REFRESH_SIGNUP_SUCCESS';
 export const REFRESH_ALL_CHECK = 'user/REFRESH_ALL_CHECK';
 
@@ -242,6 +243,10 @@ export default function userReducers(state = userInitialState, action: Action) {
 		case REFRESH_SIGNUP_SUCCESS:
 			return produce(state, (draftState) => {
 				draftState.signupSuccess = false;
+			});
+		case REFRESH_LOGIN_SUCCESS:
+			return produce(state, (draftState) => {
+				draftState.loginSuccess = false;
 			});
 		case REFRESH_ALL_CHECK:
 			return produce(state, (draftState) => {
