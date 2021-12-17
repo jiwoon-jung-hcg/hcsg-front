@@ -4,8 +4,6 @@ import Loading from '../LoadingComponent/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from '../../modules/auth';
 import { RootState } from '../../modules';
-import HomePage from '../../pages/HomePage/HomePage';
-import { refreshList } from '../../utils/refreshList';
 import { LoadableClassComponent, LoadableComponent } from '@loadable/component';
 
 /** Autorization 체크 */
@@ -35,10 +33,9 @@ export default function AuthCheck(props: iProps) {
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 	useLayoutEffect(() => {
-		console.log('라우팅');
 		setIsLoading(true);
 		dispatch(getAuth());
-	}, [SpecificComponent, user.logoutSuccess]);
+	}, [SpecificComponent]);
 
 	useEffect(() => {
 		if (auth.is_auth && option === GUEST) {

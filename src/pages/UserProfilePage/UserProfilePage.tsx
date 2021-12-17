@@ -37,6 +37,7 @@ const mapStateToProps = (state: RootState) => ({
 	auth: state.auth,
 	user: state.user,
 });
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	updatePictureDispatch: (file: File) => dispatch(updatePictureAction(file)),
 	updateNicknameDispatch: (nickname: string) => dispatch(updateNicknameAction(nickname)),
@@ -84,7 +85,8 @@ class UserProfilePage extends Component<Props, State> {
 	}
 
 	componentDidUpdate() {
-		if (this.props.user.updateNicknameSuccess) {
+		const { user } = this.props;
+		if (user.updateNicknameSuccess) {
 			this.setState({
 				nickname: '',
 				nicknameValidCheck: false,
@@ -92,7 +94,7 @@ class UserProfilePage extends Component<Props, State> {
 			});
 			this.props.refreshNicknameDispatch();
 		}
-		if (this.props.user.updatePasswordSuccess) {
+		if (user.updatePasswordSuccess) {
 			this.setState({
 				password: '',
 				passwordValidCheck: false,
@@ -209,6 +211,9 @@ class UserProfilePage extends Component<Props, State> {
 	};
 
 	render() {
+		if (this.props.user.logoutSuccess) {
+			return <Navigate to={'/'} replace={true} />;
+		}
 		if (this.state.isLoading) {
 			return <Loading />;
 		}
