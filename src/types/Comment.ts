@@ -10,6 +10,7 @@ export interface Comment {
 	id: number;
 	commenterId: number;
 	commenterNickname: string;
+	commenterAvatarUrl: string;
 	content: string;
 	createdAt: string;
 	updatedAt: string | null;

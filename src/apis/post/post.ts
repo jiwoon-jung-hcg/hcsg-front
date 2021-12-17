@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import qs from 'query-string';
+import camelcaseKeys from 'camelcase-keys';
 
 import { GetNewPostsResponse, GetPostsPayload } from '../../modules/post';
+import { DetailPost } from '../../pages/DetailPostPage/DetailPostPage';
 
 import { Post, ResponseGetPosts } from '../../types/Home';
 import { GeneratePost, UpdatePost } from '../../types/Post';
@@ -33,7 +35,7 @@ export async function getPostsRequest(postInfo: GetPostsPayload): Promise<Respon
 export async function getDetailPostRequest(postId: number): Promise<Post> {
 	try {
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/v1/posts/${postId}`, headerConfig());
-		const postResponseData = response.data;
+		const postResponseData = camelcaseKeys(response.data);
 		return postResponseData;
 	} catch (error) {
 		logger(error);

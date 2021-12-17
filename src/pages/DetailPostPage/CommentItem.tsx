@@ -98,7 +98,7 @@ export default function CommentItem(props: Iprops) {
 		<Grid key={comment.id} item className={classes.commentContainer}>
 			<div className={classes.headerContainer}>
 				<div className={classes.commentHeader}>
-					<Avatar alt="author profile" src={profile} />
+					<Avatar alt="author profile" src={comment.commenterAvatarUrl || profile} />
 					<div>
 						<Typography variant="h5">{comment.commenterNickname}</Typography>
 						<div style={{ display: 'flex', alignItems: 'center', margin: 0 }}>

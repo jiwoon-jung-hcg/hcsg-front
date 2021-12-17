@@ -30,7 +30,7 @@ export default function DetailCountView(props: Iprops) {
 					style={{ color: post.liked ? '#ee4343' : '' }}
 				/>
 				<Typography variant="caption" component="span">
-					{post.likes_count}
+					{post.likesCount}
 				</Typography>
 			</Grid>
 			<Grid item className={classes.count}>

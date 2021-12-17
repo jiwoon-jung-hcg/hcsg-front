@@ -25,21 +25,14 @@ export interface DetailPost {
 	title: string;
 	stacks: string[];
 	content: string;
-	created_at: string;
-	updated_at: string;
-	hit: number;
-	likes_count: number;
-	comments_count: number;
-	author_nickname: string;
-	liked: boolean;
-}
-
-export interface Comment {
-	id: number;
-	commenterId: number;
-	commenterNickname: string;
-	content: string;
+	createdAt: string;
 	updatedAt: string;
+	hit: number;
+	likesCount: number;
+	commentsCount: number;
+	authorNickname: string;
+	authorAvatarUrl: string;
+	liked: boolean;
 }
 
 export default function DetailPostPage() {
@@ -89,7 +82,7 @@ export default function DetailPostPage() {
 									<KeyboardBackspaceIcon className={classes.back} onClick={handleBackClick} />
 								</Typography>
 							</Grid>
-							{selectedPost.author_nickname === nickname && (
+							{selectedPost.authorNickname === nickname && (
 								<Grid>
 									<Grid container alignItems="center" spacing={4}>
 										<Grid item>

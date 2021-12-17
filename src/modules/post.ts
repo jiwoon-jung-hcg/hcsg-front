@@ -57,19 +57,7 @@ export interface LikePostResponse {
 //============================================================//
 export const postInitialState: PostInitialState = {
 	posts: [],
-	selectedPost: {
-		id: 0,
-		title: '',
-		stacks: [],
-		content: '',
-		created_at: '',
-		updated_at: '',
-		hit: 0,
-		likes_count: 0,
-		comments_count: 0,
-		author_nickname: '',
-		liked: false,
-	},
+	selectedPost: null,
 	lastPage: false,
 	id: null,
 	successfullyCreated: false,
@@ -304,12 +292,12 @@ export default function postReducers(state = postInitialState, action: Action) {
 		case LIKE_ACTIVE:
 			return produce(state, (draftState) => {
 				draftState.selectedPost!.liked = true;
-				draftState.selectedPost!.likes_count++;
+				draftState.selectedPost!.likesCount++;
 			});
 		case LIKE_INACTIVE:
 			return produce(state, (draftState) => {
 				draftState.selectedPost!.liked = false;
-				draftState.selectedPost!.likes_count--;
+				draftState.selectedPost!.likesCount--;
 			});
 		default:
 			return state;
