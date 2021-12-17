@@ -1,7 +1,7 @@
 import axios from 'axios';
 import camelcaseKeys from 'camelcase-keys';
 
-import { Comment, CommentResponse, CreateCommentInfo, DeleteCommentInfo, UpdateCommentInfo } from '../../types/Comment';
+import { CreateCommentInfo, DeleteCommentInfo, UpdateCommentInfo } from '../../types/Comment';
 import { headerConfig } from '../../utils/axiosHeader';
 
 export async function createCommentRequest(commentInfo: CreateCommentInfo) {

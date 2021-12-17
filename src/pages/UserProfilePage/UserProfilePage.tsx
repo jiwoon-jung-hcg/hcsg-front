@@ -63,6 +63,7 @@ type Props = typeof statePropTypes & typeof actionPropTypes;
 type State = {
 	isError: boolean;
 	isLoading: boolean;
+	isPictureLoading: boolean;
 	nickname: string;
 	currentPassword: string;
 	newPassword: string;
@@ -81,6 +82,7 @@ class UserProfilePage extends Component<Props, State> {
 		this.state = {
 			isError: false,
 			isLoading: true,
+			isPictureLoading: false,
 			nickname: '',
 			currentPassword: '',
 			newPassword: '',
@@ -293,7 +295,12 @@ class UserProfilePage extends Component<Props, State> {
 				<main className="profile__main">
 					<section className="profile__section profile__picture">
 						<div>
-							<img src={this.props.user.user.avatar || this.props.auth.avatar || DefaultImage} alt="my-profile" />
+							{!this.state.isPictureLoading ? (
+								<img src={this.props.user.user.avatar || this.props.auth.avatar || DefaultImage} alt="my-profile" />
+							) : (
+								<div>로딩요</div>
+							)}
+
 							<input id="profile-picture" type="file" accept=".png, .jpg, .jpeg" onChange={this.handleChangePicture} />
 							<label htmlFor="profile-picture">변 경</label>
 						</div>
