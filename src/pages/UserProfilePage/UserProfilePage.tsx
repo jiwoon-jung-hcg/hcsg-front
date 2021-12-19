@@ -25,6 +25,7 @@ import {
 	updateNicknameAction,
 	updatePasswordAction,
 	updatePictureAction,
+	userDelete,
 } from '../../modules/user';
 import Loading from '../../components/LoadingComponent/Loading';
 
@@ -48,6 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 	updatePictureDispatch: (file: File) => dispatch(updatePictureAction(file)),
 	updateNicknameDispatch: (nickname: string) => dispatch(updateNicknameAction(nickname)),
 	updatePasswordDispatch: (password: string) => dispatch(updatePasswordAction(password)),
+	deleteUserDispatch: () => dispatch(userDelete()),
 	refreshPictureDispatch: () => dispatch({ type: REFRESH_PICTURE_CHECK }),
 	refreshNicknameDispatch: () => dispatch({ type: REFRESH_NICKNAME_CHECK }),
 	refreshPasswordDispatch: () => dispatch({ type: REFRESH_PASSWORD_CHECK }),
@@ -273,7 +275,11 @@ class UserProfilePage extends Component<Props, State> {
 		this.props.logoutDispatch();
 	};
 
-	// handleDeleteUserClick = ()
+	handleDeleteUserClick = async () => {
+		await this.props.deleteUserDispatch();
+		const cookies = new Cookies();
+		await cookies.remove('refresh_token');
+	};
 
 	render() {
 		if (this.state.isLoading) {
@@ -284,7 +290,7 @@ class UserProfilePage extends Component<Props, State> {
 			return <ErrorPage />;
 		}
 
-		if (this.props.user.logoutSuccess) {
+		if (this.props.user.logoutSuccess || this.props.user.deleteSuccess) {
 			return <Navigate to={'/'} replace={true} />;
 		}
 
@@ -431,7 +437,7 @@ class UserProfilePage extends Component<Props, State> {
 						</div>
 					</section>
 					<section className="profile__button-container">
-						<button>회원탈퇴</button>
+						<button onClick={this.handleDeleteUserClick}>회원탈퇴</button>
 					</section>
 				</main>
 				<ToastContainer />

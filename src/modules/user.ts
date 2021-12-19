@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import produce from 'immer';
-import Cookies from 'universal-cookie';
 import {
+	deleteUserReuqest,
 	LoginInfo,
 	SignInFailResponse,
 	SignupUserInfo,
@@ -40,6 +40,7 @@ export const userInitialState = {
 	updateImageSuccess: false,
 	updateNicknameSuccess: false,
 	updatePasswordSuccess: false,
+	deleteSuccess: false,
 	failure: {
 		keyword: null,
 		error: null,
@@ -52,7 +53,9 @@ export const userInitialState = {
 //============================================================//
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'user/LOGOUT_SUCCESS';
-export const DELETE_USER = 'user/DELETE_USER';
+export const DELETE_USER_REQUEST = 'user/DELETE_USER';
+export const DELETE_USER_SUCCESS = 'user/DELETE_USER_SUCCESS';
+export const DELETE_USER_FAILURE = 'user/DELETE_USER_FAILURE';
 export const LOGIN_REQUEST = 'user/USER_LOGIN';
 export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'user/LOGIN_FAILURE';
@@ -83,7 +86,7 @@ export const REFRESH_ALL_CHECK = 'user/REFRESH_ALL_CHECK';
 export const getLogin = (userInfo: LoginInfo) => ({ type: LOGIN_REQUEST, payload: { ...userInfo } });
 export const logout = () => ({ type: LOGOUT_REQUEST, payload: null });
 export const signup = (userSignupInfo: SignupUserInfo) => ({ type: SIGNUP_REQUEST, payload: { ...userSignupInfo } });
-export const userDelete = (userId: number) => ({ type: DELETE_USER, payload: { userId } });
+export const userDelete = () => ({ type: DELETE_USER_REQUEST });
 export const updatePictureAction = (file: File) => ({ type: UPDATE_PICTURE_REQUEST, payload: { file } });
 export const updateNicknameAction = (nickname: string) => ({ type: UPDATE_NICKNAME_REQUEST, payload: { nickname } });
 export const updatePasswordAction = (password: string) => ({ type: UPDATE_PASSWORD_REQUEST, payload: { password } });
@@ -165,6 +168,15 @@ function* updatePasswordSaga(action: Action<{ password: string }>) {
 	}
 }
 
+function* deleteUserSaga(action: Action) {
+	try {
+		yield call(deleteUserReuqest);
+		yield put({ type: DELETE_USER_SUCCESS });
+	} catch (error) {
+		yield put({ type: DELETE_USER_FAILURE });
+	}
+}
+
 //============================================================//
 /** 1️⃣ Take */
 //============================================================//
@@ -175,6 +187,7 @@ export function* watchUser() {
 	yield takeLatest(LOGOUT_REQUEST, logoutUser);
 	yield takeLatest(UPDATE_NICKNAME_REQUEST, updateNicknameSaga);
 	yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
+	yield takeLatest(DELETE_USER_REQUEST, deleteUserSaga);
 }
 
 //============================================================//
@@ -228,6 +241,14 @@ export default function userReducers(state = userInitialState, action: Action) {
 			return produce(state, (draftState) => {
 				draftState.updatePasswordSuccess = action.payload.updatePasswordSuccess;
 			});
+		case DELETE_USER_SUCCESS:
+			return produce(state, (draftState) => {
+				draftState.deleteSuccess = true;
+			});
+		case DELETE_USER_FAILURE:
+			return produce(state, (draftState) => {
+				draftState.deleteSuccess = false;
+			});
 		case REFRESH_NICKNAME_CHECK:
 			return produce(state, (draftState) => {
 				draftState.updateNicknameSuccess = false;
@@ -251,6 +272,7 @@ export default function userReducers(state = userInitialState, action: Action) {
 		case REFRESH_ALL_CHECK:
 			return produce(state, (draftState) => {
 				draftState.logoutSuccess = false;
+				draftState.deleteSuccess = false;
 				draftState.user.avatar = '';
 				draftState.user.nickname = '';
 				draftState.user.likesCount = 0;

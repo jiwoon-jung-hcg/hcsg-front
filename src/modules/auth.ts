@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import produce from 'immer';
-import { isAuthCheck } from '../apis/common/auth';
+import { isAuthCheck } from '../apis/Common/auth';
 import { Action } from './user';
 
 export interface AuthResponse {

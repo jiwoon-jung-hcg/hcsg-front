@@ -159,3 +159,12 @@ export async function currentPasswordCheck(password: string) {
 		throw false;
 	}
 }
+
+export async function deleteUserReuqest() {
+	try {
+		await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/v1/users/withdraw`, headerConfig());
+		return { deleteSuccess: true };
+	} catch (error) {
+		throw false;
+	}
+}

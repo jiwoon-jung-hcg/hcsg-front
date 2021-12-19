@@ -10,9 +10,18 @@ export default function SubNav() {
 			</Link>
 			<ul className="subnav__list">
 				<li className="subnav__item active__item">회원 정보</li>
-				<li className="subnav__item">작성 포스트</li>
-				<li className="subnav__item">찜 포스트</li>
-				<li className="subnav__item">문의하기</li>
+				<li className="subnav__item" style={{ textDecoration: 'line-through' }}>
+					작성 포스트
+					<div style={{ textDecoration: 'none', fontSize: '14px' }}> 개발 중 </div>
+				</li>
+				<li className="subnav__item" style={{ textDecoration: 'line-through' }}>
+					찜 포스트
+					<div style={{ textDecoration: 'none', fontSize: '14px' }}> 개발 중 </div>
+				</li>
+				<li className="subnav__item" style={{ textDecoration: 'line-through' }}>
+					문의하기
+					<div style={{ textDecoration: 'none', fontSize: '14px' }}> 개발 중 </div>
+				</li>
 			</ul>
 		</section>
 	);
