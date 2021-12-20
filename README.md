@@ -8,6 +8,7 @@ It is a service that recruits study groups and side project members.
 
 ```bash
 npm install
+npm start
 ```
 
 you can start project after npm install.
