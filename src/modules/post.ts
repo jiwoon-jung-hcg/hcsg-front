@@ -286,7 +286,6 @@ export default function postReducers(state = postInitialState, action: Action) {
 			});
 		case REFRESH_DETAIL_POST:
 			return produce(state, (draftState) => {
-				draftState.selectedPost = null;
 				draftState.successfullyDeleted = false;
 			});
 		case LIKE_ACTIVE:

@@ -269,6 +269,8 @@ export default function userReducers(state = userInitialState, action: Action) {
 		case REFRESH_LOGIN_SUCCESS:
 			return produce(state, (draftState) => {
 				draftState.loginSuccess = false;
+				draftState.failure.keyword = null;
+				draftState.failure.error = null;
 			});
 		case REFRESH_ALL_CHECK:
 			return produce(state, (draftState) => {

@@ -1,17 +1,20 @@
 import React from 'react';
 import '../../styles/scss/loading.scss';
 
-export default function Loading() {
+function Loading() {
 	return (
-		<div className="loading__container">
-			<div>
-				<span>x</span>
-				<span>x</span>
-			</div>
-			<div>
-				<span>x</span>
-				<span>x</span>
+		<div className="container">
+			<div className="wrapper">
+				<div className="circle" />
+				<div className="circle" />
+				<div className="circle" />
+				<div className="shadow" />
+				<div className="shadow" />
+				<div className="shadow" />
+				<span>Loading</span>
 			</div>
 		</div>
 	);
 }
+
+export default Loading;

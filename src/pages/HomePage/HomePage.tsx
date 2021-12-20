@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { getFilterPosts, getPosts, REFRESH_LIST } from '../../modules/post';
 import SortComponent from './SortComponent';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 	const classes = useStyles();

@@ -4,6 +4,7 @@ import { enableMapSet } from 'immer';
 import loadable from '@loadable/component';
 
 import { USER, GUEST, EVERY_ONE } from './components/hoc/authCheck';
+import Loading from './components/LoadingComponent/Loading';
 
 const SignInPage = loadable(() => import('./pages/SignInPage/SignInPage'));
 const SignUpPage = loadable(() => import('./pages/SignUpPage/SignUpPage'));
