@@ -166,7 +166,7 @@ export default function SignInPage() {
 								onChange={handleInputEmail}
 							/>
 							<span className={classes.errorText}>
-								{user.failure.keyword === 'email' && '존재하지 않는 이메일입니다'}
+								{user.failure.keyword === 'Email' && '존재하지 않는 이메일입니다'}
 							</span>
 							<TextField
 								error={user.failure.keyword === 'password'}
@@ -182,7 +182,7 @@ export default function SignInPage() {
 								autoComplete="current-password"
 								onChange={handleInputPassword}
 							/>
-							<span className={classes.errorText}>{user.failure.keyword === 'password' && '비밀번호가 틀립니다'}</span>
+							<span className={classes.errorText}>{user.failure.keyword === 'Password' && '비밀번호가 틀립니다'}</span>
 							<Button
 								type="submit"
 								fullWidth

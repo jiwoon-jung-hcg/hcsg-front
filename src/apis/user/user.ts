@@ -39,10 +39,9 @@ export async function userLogin({ email, password }: LoginInfo) {
 		);
 		response.data.token && cookie.set('refresh_token', response.data.token);
 		return { userId: response.data.userId, nickname: response.data.nickname };
-	} catch (error) {
-		logger(error);
-		const { keyword, errorMessage } = (error as ErrorResponse<SignInFailResponse>).error;
-		throw { error: { keyword: keyword, errorMessage: errorMessage } };
+	} catch (err: any) {
+		const { keyword, error } = err.response.data;
+		throw { error: { keyword, errorMessage: error } };
 	}
 }
 

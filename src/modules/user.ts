@@ -104,11 +104,12 @@ function* userLoginSaga(action: Action) {
 			},
 		});
 	} catch (error) {
+		console.dir(error);
 		yield put({
 			type: LOGIN_FAILURE,
 			payload: {
-				keyword: (error as SignInFailResponse).keyword,
-				error: (error as SignInFailResponse).errorMessage,
+				keyword: (error as ErrorResponse<SignInFailResponse>).error.keyword,
+				error: (error as ErrorResponse<SignInFailResponse>).error.errorMessage,
 			},
 		});
 	}
