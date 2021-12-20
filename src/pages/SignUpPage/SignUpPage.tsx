@@ -153,7 +153,7 @@ export default function SignUpPage() {
 				setNicknameCheckFeedback('이미 존재하는 닉네임 입니다');
 			}
 		} else {
-			setNicknameCheck(true);
+			setNicknameCheck(false);
 			setNicknameCheckFeedback('닉네임을 입력해 주세요');
 		}
 	}, [nickname]);
